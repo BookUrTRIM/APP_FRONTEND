@@ -27,7 +27,8 @@ export const routes: Routes = [
     path: 'pro',
     component: ProviderLayout,
     canActivate: [authGuard, providerGuard],
-    children: [],
+    loadChildren: () =>
+      import('./features/provider/provider.routes').then(m => m.PROVIDER_ROUTES),
   },
   {
     path: '**',

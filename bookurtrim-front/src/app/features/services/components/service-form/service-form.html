@@ -1,0 +1,108 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5" novalidate>
+
+  <!-- Nom -->
+  <div>
+    <label for="svc-name" class="block text-sm font-medium text-gray-700 mb-1">
+      Nom de la prestation <span class="text-red-500">*</span>
+    </label>
+    <input
+      id="svc-name"
+      type="text"
+      formControlName="name"
+      placeholder="ex : Coupe homme, Soin barbe..."
+      [class.border-red-400]="name.invalid && name.touched"
+      [class.border-gray-300]="!(name.invalid && name.touched)"
+      class="block w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+    />
+    @if (name.touched && name.hasError('required')) {
+      <p class="mt-1 text-xs text-red-600">Le nom est requis.</p>
+    } @else if (name.touched && name.hasError('maxlength')) {
+      <p class="mt-1 text-xs text-red-600">100 caractères maximum.</p>
+    }
+  </div>
+
+  <!-- Description -->
+  <div>
+    <label for="svc-desc" class="block text-sm font-medium text-gray-700 mb-1">
+      Description <span class="text-gray-400 font-normal">(optionnelle)</span>
+    </label>
+    <textarea
+      id="svc-desc"
+      formControlName="description"
+      rows="3"
+      placeholder="Décrivez votre prestation..."
+      class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none"
+    ></textarea>
+  </div>
+
+  <!-- Prix + Durée côte à côte -->
+  <div class="grid grid-cols-2 gap-4">
+
+    <div>
+      <label for="svc-price" class="block text-sm font-medium text-gray-700 mb-1">
+        Prix (€) <span class="text-red-500">*</span>
+      </label>
+      <input
+        id="svc-price"
+        type="number"
+        formControlName="base_price"
+        min="0.01"
+        step="0.01"
+        placeholder="0.00"
+        [class.border-red-400]="basePrice.invalid && basePrice.touched"
+        [class.border-gray-300]="!(basePrice.invalid && basePrice.touched)"
+        class="block w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+      />
+      @if (basePrice.touched && (basePrice.hasError('required') || basePrice.hasError('min'))) {
+        <p class="mt-1 text-xs text-red-600">Prix invalide (min 0.01 €).</p>
+      }
+    </div>
+
+    <div>
+      <label for="svc-duration" class="block text-sm font-medium text-gray-700 mb-1">
+        Durée (min) <span class="text-red-500">*</span>
+      </label>
+      <input
+        id="svc-duration"
+        type="number"
+        formControlName="default_duration"
+        min="1"
+        max="480"
+        step="5"
+        placeholder="30"
+        [class.border-red-400]="defaultDuration.invalid && defaultDuration.touched"
+        [class.border-gray-300]="!(defaultDuration.invalid && defaultDuration.touched)"
+        class="block w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+      />
+      @if (defaultDuration.touched && (defaultDuration.hasError('required') || defaultDuration.hasError('min'))) {
+        <p class="mt-1 text-xs text-red-600">Durée invalide (min 1 min).</p>
+      }
+    </div>
+
+  </div>
+
+  <!-- Actions -->
+  <div class="flex gap-3 pt-2">
+    <button
+      type="button"
+      (click)="cancelled.emit()"
+      class="flex-1 py-2.5 px-4 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+    >
+      Annuler
+    </button>
+    <button
+      type="submit"
+      [disabled]="isLoading()"
+      class="flex-1 flex justify-center items-center gap-2 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+    >
+      @if (isLoading()) {
+        <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+        </svg>
+      }
+      {{ isEdit ? 'Enregistrer' : 'Créer la prestation' }}
+    </button>
+  </div>
+
+</form>

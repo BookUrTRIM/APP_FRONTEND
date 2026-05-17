@@ -15,7 +15,17 @@
       </div>
     </div>
     <h3 class="text-lg font-bold text-slate-800 capitalize">
-      {{ currentWeekStart | date:'MMMM yyyy' }}
+      @if (weekDays.length > 0) {
+        @if ((weekDays[0] | date:'M') === (weekDays[6] | date:'M')) {
+          {{ weekDays[0] | date:'MMMM yyyy' }}
+        }
+        @else if ((weekDays[0] | date:'yyyy') === (weekDays[6] | date:'yyyy')) {
+          {{ weekDays[0] | date:'MMMM' }} - {{ weekDays[6] | date:'MMMM yyyy' }}
+        }
+        @else {
+          {{ weekDays[0] | date:'MMMM yyyy' }} - {{ weekDays[6] | date:'MMMM yyyy' }}
+        }
+      }
     </h3>
   </div>
   <div class="flex-1 overflow-auto bg-slate-50/50 p-4">
@@ -29,7 +39,7 @@
             </p>
           </div>
           <div class="flex-1 min-h-[300px] flex flex-col gap-2 pt-2">
-            @for (slot of getSlotsForDay(day); track slot.id) {
+            @for (slot of getVisualTimelineForDay(day); track slot.id) {
               <div class="relative group p-2.5 rounded-lg border shadow-sm text-sm"
                    [ngClass]="slot.slot_type === 'work' ? 'bg-indigo-50 border-indigo-200' : 'bg-red-50 border-red-200'">
                 <div class="font-bold flex items-center justify-between"
@@ -45,7 +55,7 @@
                 </div>
               </div>
             }
-            @if (getSlotsForDay(day).length === 0) {
+            @if (getVisualTimelineForDay(day).length === 0) {
               <div class="text-center py-4 text-xs font-medium text-slate-400 border-2 border-dashed border-slate-200 rounded-lg">
                 Aucun créneau
               </div>

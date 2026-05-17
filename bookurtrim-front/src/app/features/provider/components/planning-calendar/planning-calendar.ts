@@ -54,11 +54,29 @@ export class PlanningCalendarComponent implements OnInit {
     }
   }
 
-  getSlotsForDay(date: Date): AvailabilityResponseDTO[] {
+  getVisualTimelineForDay(date: Date): any[] {
     const dateStr = date.toISOString().split('T')[0];
-
-    return this.availabilities
-      .filter(slot => slot.day_date === dateStr)
-      .sort((a, b) => a.start_time.localeCompare(b.start_time));
+    const daySlots = this.availabilities.filter(slot => slot.day_date === dateStr);
+    if (daySlots.length === 0) return [];
+    const works = daySlots.filter(s => s.slot_type === 'work');
+    const breaks = daySlots.filter(s => s.slot_type === 'break');
+    let timeline: any[] = [];
+    works.forEach(work => {
+      let currentStart = work.start_time;
+      const overlappingBreaks = breaks
+        .filter(b => b.start_time < work.end_time && b.end_time > currentStart)
+        .sort((a, b) => a.start_time.localeCompare(b.start_time));
+      overlappingBreaks.forEach(b => {
+        if (b.start_time > currentStart) {
+          timeline.push({ ...work, start_time: currentStart, end_time: b.start_time });
+        }
+        currentStart = b.end_time > currentStart ? b.end_time : currentStart;
+      });
+      if (currentStart < work.end_time) {
+        timeline.push({ ...work, start_time: currentStart, end_time: work.end_time });
+      }
+    });
+    breaks.forEach(b => timeline.push({ ...b }));
+    return timeline.sort((a, b) => a.start_time.localeCompare(b.start_time));
   }
 }

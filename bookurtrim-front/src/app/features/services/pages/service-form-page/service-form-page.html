@@ -1,0 +1,51 @@
+<div class="max-w-xl mx-auto space-y-6">
+
+  <!-- En-tête -->
+  <div class="flex items-center gap-3">
+    <button
+      type="button"
+      (click)="onCancel()"
+      class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+      aria-label="Retour"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <div>
+      <h2 class="text-2xl font-bold text-gray-900">
+        {{ isEdit ? 'Modifier la prestation' : 'Nouvelle prestation' }}
+      </h2>
+      <p class="text-sm text-gray-500">
+        {{ isEdit ? 'Mettez à jour les informations de votre prestation.' : 'Renseignez les détails de votre nouvelle prestation.' }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Erreur globale -->
+  @if (errorMessage()) {
+    <div role="alert" class="bg-red-50 text-red-700 p-3 rounded-lg text-sm">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <!-- Formulaire dans une carte -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+    @if (isEdit && isLoading() && !service()) {
+      <div class="space-y-4 animate-pulse">
+        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+        <div class="h-10 bg-gray-100 rounded"></div>
+        <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+        <div class="h-24 bg-gray-100 rounded"></div>
+      </div>
+    } @else {
+      <app-service-form
+        [service]="service()"
+        [isLoading]="isLoading()"
+        (submitted)="onSubmit($event)"
+        (cancelled)="onCancel()"
+      />
+    }
+  </div>
+
+</div>

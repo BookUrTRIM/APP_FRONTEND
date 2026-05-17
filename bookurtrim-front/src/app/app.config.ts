@@ -6,6 +6,8 @@ import { routes } from './app.routes';
 import { apiInterceptor } from './core/interceptors/api.interceptor';
 import { AuthApiContract } from './features/auth/services/auth.api.contract';
 import { AuthApiService } from './features/auth/services/auth.api.service';
+import { ServiceApiContract } from './features/services/services/service.api.contract';
+import { ServiceApiService } from './features/services/services/service.api.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,5 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([apiInterceptor])),
     { provide: AuthApiContract, useClass: AuthApiService },
+    { provide: ServiceApiContract, useClass: ServiceApiService },
   ],
 };

@@ -8,6 +8,10 @@ import { AuthApiContract } from './features/auth/services/auth.api.contract';
 import { AuthApiService } from './features/auth/services/auth.api.service';
 import { ServiceApiContract } from './features/services/services/service.api.contract';
 import { ServiceApiService } from './features/services/services/service.api.service';
+import { ProviderApiContract } from './features/providers/services/provider.api.contract';
+import { ProviderApiService } from './features/providers/services/provider.api.service';
+import { ClientProfileApiContract } from './features/client-profile/services/client-profile.api.contract';
+import { ClientProfileApiService } from './features/client-profile/services/client-profile.api.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,5 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([apiInterceptor])),
     { provide: AuthApiContract, useClass: AuthApiService },
     { provide: ServiceApiContract, useClass: ServiceApiService },
+    { provide: ProviderApiContract, useClass: ProviderApiService },
+    { provide: ClientProfileApiContract, useClass: ClientProfileApiService },
   ],
 };

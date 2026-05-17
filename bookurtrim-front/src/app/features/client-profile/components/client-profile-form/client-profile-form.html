@@ -1,0 +1,88 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6" novalidate>
+
+  <!-- Identité -->
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <label for="cp-first-name" class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+      <input id="cp-first-name" type="text" formControlName="first_name"
+        class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"/>
+    </div>
+    <div>
+      <label for="cp-last-name" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+      <input id="cp-last-name" type="text" formControlName="last_name"
+        class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"/>
+    </div>
+  </div>
+
+  <div>
+    <label for="cp-phone" class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+    <input id="cp-phone" type="tel" formControlName="phone" placeholder="+33 6 12 34 56 78"
+      class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"/>
+  </div>
+
+  <div>
+    <label for="cp-gender" class="block text-sm font-medium text-gray-700 mb-1">Genre</label>
+    <select id="cp-gender" formControlName="gender"
+      class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all bg-white">
+      <option value="">— Non renseigné —</option>
+      @for (opt of genderOptions; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Cheveux -->
+  <div class="pt-2 border-t border-gray-100">
+    <p class="text-sm font-semibold text-gray-700 mb-4">Profil capillaire</p>
+    <div class="grid grid-cols-2 gap-4">
+
+      <div>
+        <label for="cp-hair-length" class="block text-sm font-medium text-gray-700 mb-1">Longueur</label>
+        <select id="cp-hair-length" formControlName="hair_length"
+          class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all bg-white">
+          <option value="">— Non renseigné —</option>
+          @for (opt of hairLengthOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label for="cp-hair-type" class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+        <select id="cp-hair-type" formControlName="hair_type"
+          class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all bg-white">
+          <option value="">— Non renseigné —</option>
+          @for (opt of hairTypeOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Préférences -->
+  <div>
+    <label for="cp-prefs" class="block text-sm font-medium text-gray-700 mb-1">
+      Préférences & habitudes
+      <span class="text-gray-400 font-normal">(optionnel)</span>
+    </label>
+    <textarea id="cp-prefs" formControlName="history_preferences" rows="3"
+      placeholder="Ex : Toujours couper à sec, allergie aux colorants..."
+      class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none">
+    </textarea>
+  </div>
+
+  <!-- Bouton -->
+  <button type="submit" [disabled]="isLoading()"
+    class="w-full flex justify-center items-center gap-2 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg disabled:opacity-60 disabled:cursor-not-allowed transition-colors">
+    @if (isLoading()) {
+      <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+      </svg>
+    }
+    Enregistrer les modifications
+  </button>
+
+</form>

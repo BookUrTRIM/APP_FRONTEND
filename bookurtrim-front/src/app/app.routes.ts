@@ -21,7 +21,20 @@ export const routes: Routes = [
     path: 'client',
     component: ClientLayout,
     canActivate: [authGuard, clientGuard],
-    children: [],
+    children: [
+      {
+        path: 'providers',
+        loadChildren: () =>
+          import('./features/providers/provider.routes').then(m => m.PROVIDER_ROUTES),
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/client-profile/pages/client-profile-page/client-profile-page')
+            .then(m => m.ClientProfilePage),
+      },
+      { path: '', redirectTo: 'providers', pathMatch: 'full' },
+    ],
   },
   {
     path: 'pro',

@@ -2,9 +2,9 @@ import { Routes } from '@angular/router';
 import { LandingPage } from './features/landing/pages/landing-page/landing-page';
 import { ProviderLayout } from './core/layouts/provider-layout/provider-layout';
 import { ClientLayout } from './core/layouts/client-layout/client-layout';
-import { authGuard } from './features/auth/guard/auth.guard';
-import { clientGuard } from './features/auth/guard/client.guard';
-import { providerGuard } from './features/auth/guard/provider.guard';
+import { authGuard } from './features/auth/guard';
+import { clientGuard } from './features/auth/guard';
+import { providerGuard } from './features/auth/guard';
 
 export const routes: Routes = [
   {
@@ -27,14 +27,6 @@ export const routes: Routes = [
     path: 'pro',
     component: ProviderLayout,
     canActivate: [authGuard, providerGuard],
-    children: [
-      {
-        path: 'services',
-        loadChildren: () =>
-          import('./features/services/service.routes').then(m => m.SERVICE_ROUTES),
-      },
-      { path: '', redirectTo: 'services', pathMatch: 'full' },
-    ],
     loadChildren: () =>
       import('./features/provider/provider.routes').then(m => m.PROVIDER_ROUTES),
   },

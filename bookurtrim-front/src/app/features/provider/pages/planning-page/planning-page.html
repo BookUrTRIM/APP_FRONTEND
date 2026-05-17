@@ -1,0 +1,53 @@
+<div class="space-y-6 animate-fade-in">
+
+  <div class="flex items-center justify-between">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Planning & disponibilités</h2>
+      <p class="mt-1 text-sm text-slate-500">Configurez vos horaires d'ouverture et gérez vos périodes de congé.</p>
+    </div>
+
+    <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
+      <button (click)="viewMode = 'calendar'"
+              [class.bg-white]="viewMode === 'calendar'" [class.shadow-sm]="viewMode === 'calendar'"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md text-slate-700 transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        Agenda
+      </button>
+      <button (click)="viewMode = 'list'"
+              [class.bg-white]="viewMode === 'list'" [class.shadow-sm]="viewMode === 'list'"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md text-slate-700 transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+        Liste
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+
+    <div class="lg:col-span-1">
+      <app-planning-form
+        [isLoading]="isLoading"
+        (onSubmit)="handleFormSubmit($event)"
+        (onAbsence)="handleAbsenceSubmit($event)">
+      </app-planning-form>
+    </div>
+
+    <div class="lg:col-span-2 h-[750px]"> @if (viewMode === 'calendar') {
+      <app-planning-calendar
+        [availabilities]="availabilities"
+        (deleteSlot)="handleDelete($event)">
+      </app-planning-calendar>
+    } @else {
+      <app-planning-list
+        [availabilities]="availabilities"
+        [currentPage]="currentPage"
+        [itemsPerPage]="10"
+        (pageChange)="handlePageChange($event)"
+        (deleteSlot)="handleDelete($event)">
+      </app-planning-list>
+    }
+
+    </div>
+
+  </div>
+</div>

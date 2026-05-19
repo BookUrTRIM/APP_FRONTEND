@@ -2,6 +2,12 @@ import { Routes } from '@angular/router';
 
 export const PROVIDER_ROUTES: Routes = [
   {
+    path: 'appointments',
+    loadComponent: () =>
+      import('../appointments/pages/provider-appointment-list-page/provider-appointment-list-page')
+        .then(m => m.ProviderAppointmentListPage),
+  },
+  {
     path: 'planning',
     loadComponent: () =>
       import('./pages/planning-page/planning-page').then(m => m.PlanningPage),

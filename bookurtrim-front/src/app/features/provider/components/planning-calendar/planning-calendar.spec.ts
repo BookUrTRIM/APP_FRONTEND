@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlanningCalendar } from './planning-calendar';
+import { PlanningCalendarComponent as PlanningCalendar } from './planning-calendar';
 
 describe('PlanningCalendar', () => {
   let component: PlanningCalendar;

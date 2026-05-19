@@ -1,0 +1,99 @@
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+
+  <!-- En-tête -->
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Mes rendez-vous</h1>
+    <p class="text-sm text-gray-500 mt-1">Retrouvez et gérez l'ensemble de vos réservations.</p>
+  </div>
+
+  @if (errorMessage()) {
+    <div role="alert" class="bg-red-50 text-red-700 p-3 rounded-xl text-sm">{{ errorMessage() }}</div>
+  }
+
+  <!-- Onglets -->
+  <div class="flex gap-1 bg-gray-100 p-1 rounded-xl w-fit">
+    <button type="button"
+      (click)="activeTab = 'upcoming'"
+      class="px-4 py-2 text-sm font-medium rounded-lg transition-all"
+      [class.bg-white]="activeTab === 'upcoming'"
+      [class.shadow-sm]="activeTab === 'upcoming'"
+      [class.text-gray-900]="activeTab === 'upcoming'"
+      [class.text-gray-500]="activeTab !== 'upcoming'">
+      À venir
+      @if (upcoming().length > 0) {
+        <span class="ml-1.5 bg-indigo-600 text-white text-xs rounded-full px-1.5 py-0.5">
+          {{ upcoming().length }}
+        </span>
+      }
+    </button>
+    <button type="button"
+      (click)="activeTab = 'past'"
+      class="px-4 py-2 text-sm font-medium rounded-lg transition-all"
+      [class.bg-white]="activeTab === 'past'"
+      [class.shadow-sm]="activeTab === 'past'"
+      [class.text-gray-900]="activeTab === 'past'"
+      [class.text-gray-500]="activeTab !== 'past'">
+      Historique
+    </button>
+  </div>
+
+  <!-- Skeleton -->
+  @if (isLoading()) {
+    <div class="space-y-4">
+      @for (_ of [1,2,3]; track $index) {
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 animate-pulse space-y-3">
+          <div class="flex justify-between">
+            <div class="space-y-2">
+              <div class="h-4 bg-gray-200 rounded w-48"></div>
+              <div class="h-5 bg-gray-100 rounded w-32"></div>
+            </div>
+            <div class="h-6 bg-gray-200 rounded-full w-20"></div>
+          </div>
+          <div class="h-9 bg-gray-100 rounded-xl"></div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- À venir -->
+  @if (!isLoading() && activeTab === 'upcoming') {
+    @if (upcoming().length === 0) {
+      <div class="flex flex-col items-center justify-center py-20 text-center">
+        <svg class="w-14 h-14 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+        <p class="text-gray-500 font-medium">Aucun rendez-vous à venir.</p>
+        <p class="text-gray-400 text-sm mt-1">Réservez une prestation auprès d'un prestataire.</p>
+      </div>
+    } @else {
+      <div class="space-y-4">
+        @for (appt of upcoming(); track appt.id) {
+          <app-appointment-card
+            [appointment]="appt"
+            (onCancel)="onCancel($event)"
+          />
+        }
+      </div>
+    }
+  }
+
+  <!-- Historique -->
+  @if (!isLoading() && activeTab === 'past') {
+    @if (past().length === 0) {
+      <div class="py-16 text-center text-gray-400 text-sm">
+        Aucun historique de rendez-vous.
+      </div>
+    } @else {
+      <div class="space-y-4">
+        @for (appt of past(); track appt.id) {
+          <app-appointment-card
+            [appointment]="appt"
+            (onCancel)="onCancel($event)"
+          />
+        }
+      </div>
+    }
+  }
+
+</div>

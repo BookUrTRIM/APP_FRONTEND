@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AppointmentApiContract } from './appointment.api.contract';
 import type { AppointmentCreateDTO, AppointmentResponseDTO } from '../dtos';
@@ -10,5 +10,15 @@ export class AppointmentApiService extends AppointmentApiContract {
 
   create(dto: AppointmentCreateDTO): Observable<AppointmentResponseDTO> {
     return this.http.post<AppointmentResponseDTO>('/appointments/', dto);
+  }
+
+  listByClient(status?: string): Observable<AppointmentResponseDTO[]> {
+    let params = new HttpParams();
+    if (status) params = params.set('status', status);
+    return this.http.get<AppointmentResponseDTO[]>('/appointments/client', { params });
+  }
+
+  cancel(id: number): Observable<AppointmentResponseDTO> {
+    return this.http.post<AppointmentResponseDTO>(`/appointments/${id}/cancel`, {});
   }
 }

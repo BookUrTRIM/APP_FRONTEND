@@ -1,0 +1,222 @@
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+
+  <!-- Retour -->
+  <button type="button" (click)="goBack()"
+    class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-indigo-600 transition-colors">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+    </svg>
+    Retour aux prestations
+  </button>
+
+  @if (errorMessage()) {
+    <div role="alert" class="bg-red-50 text-red-700 p-4 rounded-xl text-sm">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div role="status" class="bg-green-50 text-green-700 p-4 rounded-xl text-sm font-medium">{{ successMessage() }}</div>
+  }
+
+  @if (isLoading()) {
+    <div class="flex items-center justify-center py-20">
+      <svg class="animate-spin h-8 w-8 text-indigo-500" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+      </svg>
+    </div>
+  }
+
+  @if (!isLoading() && provider() && service()) {
+
+    <!-- En-tête -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center justify-between">
+      <div>
+        <p class="text-sm text-gray-400">Réservation chez</p>
+        <h1 class="text-xl font-bold text-gray-900">{{ getFullName(provider()!) }}</h1>
+      </div>
+      <div class="text-right">
+        <p class="font-semibold text-gray-900">{{ service()!.name }}</p>
+        <p class="text-sm text-indigo-600 font-bold">{{ service()!.defaultDuration }} min · {{ service()!.basePrice }} €</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+
+      <!-- ── Calendrier (2/3) ── -->
+      <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+        <!-- Nav semaine -->
+        <div class="px-5 py-4 border-b border-gray-100 bg-slate-50 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <button (click)="resetWeek()"
+              class="px-3 py-1.5 text-sm font-medium bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+              Aujourd'hui
+            </button>
+            <div class="flex items-center gap-1 bg-white border border-slate-300 rounded-lg p-1">
+              <button (click)="previousWeek()" class="p-1 hover:bg-slate-100 rounded-md">
+                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </button>
+              <button (click)="nextWeek()" class="p-1 hover:bg-slate-100 rounded-md">
+                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <h3 class="text-base font-bold text-slate-800 capitalize">
+            @if (weekDays.length > 0) {
+              {{ weekDays[0] | date:'MMMM yyyy' }}
+            }
+          </h3>
+        </div>
+
+        <!-- Jours -->
+        <div class="p-4 overflow-x-auto">
+          <div class="grid grid-cols-7 gap-3 min-w-[600px]">
+            @for (day of weekDays; track day.toISOString()) {
+              <div class="flex flex-col gap-2"
+                [class.opacity-40]="!isAvailable(day) && !isToday(day)">
+
+                <!-- Header jour -->
+                <button type="button"
+                  (click)="selectDate(day)"
+                  [disabled]="!isAvailable(day)"
+                  class="text-center pb-2 border-b-2 transition-colors w-full"
+                  [ngClass]="{
+                    'border-indigo-500': isSelected(day),
+                    'border-indigo-200': isToday(day) && !isSelected(day),
+                    'border-slate-200': !isToday(day) && !isSelected(day),
+                    'cursor-pointer hover:border-indigo-400': isAvailable(day),
+                    'cursor-default': !isAvailable(day)
+                  }">
+                  <p class="text-xs font-bold text-slate-500 uppercase">{{ day | date:'EEE' }}</p>
+                  <p class="text-lg font-black"
+                    [ngClass]="{
+                      'text-indigo-600': isSelected(day),
+                      'text-indigo-400': isToday(day) && !isSelected(day),
+                      'text-slate-800': !isToday(day) && !isSelected(day)
+                    }">
+                    {{ day | date:'dd' }}
+                  </p>
+                </button>
+
+                <!-- Créneaux du jour -->
+                <div class="flex flex-col gap-1.5 min-h-[160px]">
+                  @for (slot of getSlotsForCalendar(day); track slot.id) {
+                    <div class="p-2 rounded-lg border text-xs font-medium"
+                      [ngClass]="{
+                        'bg-indigo-50 border-indigo-200 text-indigo-800': slot.slot_type === 'work',
+                        'bg-red-50 border-red-200 text-red-700': slot.slot_type === 'break'
+                      }">
+                      {{ slot.start_time.slice(0,5) }}–{{ slot.end_time.slice(0,5) }}
+                      <span class="block text-xs opacity-70">{{ slot.slot_type === 'work' ? 'Ouvert' : 'Pause' }}</span>
+                    </div>
+                  }
+                  @if (getSlotsForCalendar(day).length === 0) {
+                    <div class="text-center py-3 text-xs text-slate-300 border-2 border-dashed border-slate-100 rounded-lg">
+                      Indisponible
+                    </div>
+                  }
+                </div>
+
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Panneau de sélection (1/3) ── -->
+      <div class="space-y-4">
+
+        @if (!selectedDate()) {
+          <div class="bg-white rounded-2xl border border-dashed border-indigo-200 p-6 text-center">
+            <svg class="w-10 h-10 text-indigo-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <p class="text-sm text-indigo-500 font-medium">Sélectionnez un jour disponible</p>
+            <p class="text-xs text-gray-400 mt-1">Les jours avec des créneaux bleus sont disponibles</p>
+          </div>
+        } @else {
+
+          <!-- Date sélectionnée -->
+          <div class="bg-indigo-600 text-white rounded-2xl p-4">
+            <p class="text-xs opacity-75">Date sélectionnée</p>
+            <p class="font-bold text-lg capitalize">{{ selectedDate() | date:'EEEE d MMMM yyyy' }}</p>
+          </div>
+
+          <!-- Créneaux horaires -->
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+            <p class="text-sm font-semibold text-gray-700">Choisissez un créneau</p>
+
+            @if (slotsForDay().length === 0) {
+              <p class="text-sm text-gray-400 text-center py-4">Aucun créneau disponible ce jour.</p>
+            } @else {
+              <div class="grid grid-cols-3 gap-2">
+                @for (slot of slotsForDay(); track slot) {
+                  <button type="button"
+                    (click)="selectSlot(slot)"
+                    class="py-2 px-1 text-sm font-medium rounded-xl border transition-all"
+                    [ngClass]="{
+                      'bg-indigo-600 border-indigo-600 text-white shadow-md': selectedSlot() === slot,
+                      'bg-white border-gray-200 text-gray-700 hover:border-indigo-400 hover:text-indigo-600': selectedSlot() !== slot
+                    }">
+                    {{ slot }}
+                  </button>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Demande spécifique -->
+          @if (selectedSlot()) {
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-2">
+              <label for="specific-request" class="block text-sm font-semibold text-gray-700">
+                Demande particulière
+                <span class="text-gray-400 font-normal">(optionnelle)</span>
+              </label>
+              <textarea
+                id="specific-request"
+                rows="3"
+                [value]="specificRequest()"
+                (input)="specificRequest.set($any($event.target).value)"
+                placeholder="Ex : allergie aux colorants, coupe spécifique..."
+                class="block w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none"
+              ></textarea>
+            </div>
+          }
+
+          <!-- Récap + confirmation -->
+          @if (selectedSlot()) {
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+              <p class="text-sm font-semibold text-gray-700">Récapitulatif</p>
+              <div class="text-sm text-gray-600 space-y-1">
+                <p>📅 {{ selectedDate() | date:'dd/MM/yyyy' }} à {{ selectedSlot() }}</p>
+                <p>✂️ {{ service()!.name }} ({{ service()!.defaultDuration }} min)</p>
+                <p>💶 {{ service()!.basePrice }} €</p>
+                @if (specificRequest()) {
+                  <p>💬 {{ specificRequest() }}</p>
+                }
+              </div>
+              <button type="button"
+                (click)="confirmBooking()"
+                [disabled]="isBooking()"
+                class="w-full flex justify-center items-center gap-2 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl disabled:opacity-60 transition-colors">
+                @if (isBooking()) {
+                  <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                  </svg>
+                }
+                Confirmer le rendez-vous
+              </button>
+            </div>
+          }
+        }
+      </div>
+
+    </div>
+  }
+
+</div>

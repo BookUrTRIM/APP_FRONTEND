@@ -12,6 +12,8 @@ import { ProviderApiContract } from './features/providers/services/provider.api.
 import { ProviderApiService } from './features/providers/services/provider.api.service';
 import { ClientProfileApiContract } from './features/client-profile/services/client-profile.api.contract';
 import { ClientProfileApiService } from './features/client-profile/services/client-profile.api.service';
+import { AppointmentApiContract } from './features/appointments/services/appointment.api.contract';
+import { AppointmentApiService } from './features/appointments/services/appointment.api.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,5 +25,6 @@ export const appConfig: ApplicationConfig = {
     { provide: ServiceApiContract, useClass: ServiceApiService },
     { provide: ProviderApiContract, useClass: ProviderApiService },
     { provide: ClientProfileApiContract, useClass: ClientProfileApiService },
+    { provide: AppointmentApiContract, useClass: AppointmentApiService },
   ],
 };

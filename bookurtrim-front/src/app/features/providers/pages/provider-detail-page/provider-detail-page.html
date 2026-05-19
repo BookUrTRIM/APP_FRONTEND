@@ -1,0 +1,78 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+
+  <button type="button" (click)="goBack()"
+    class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-indigo-600 transition-colors">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+    </svg>
+    Retour aux prestataires
+  </button>
+
+  @if (errorMessage()) {
+    <div role="alert" class="bg-red-50 text-red-700 p-4 rounded-xl text-sm">{{ errorMessage() }}</div>
+  }
+
+  @if (isLoading()) {
+    <div class="animate-pulse space-y-6">
+      <div class="bg-white rounded-2xl p-6 flex items-center gap-4">
+        <div class="h-16 w-16 rounded-full bg-gray-200"></div>
+        <div class="space-y-2">
+          <div class="h-5 bg-gray-200 rounded w-40"></div>
+          <div class="h-4 bg-gray-100 rounded w-24"></div>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!isLoading() && provider()) {
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex items-center gap-5">
+      <div class="h-16 w-16 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 text-2xl font-bold border border-indigo-200 shrink-0">
+        {{ getInitials(provider()!) }}
+      </div>
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">{{ getFullName(provider()!) }}</h1>
+        @if (provider()!.phone) {
+          <p class="text-sm text-gray-400 mt-1">{{ provider()!.phone }}</p>
+        }
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <h2 class="text-lg font-semibold text-gray-900">Prestations proposées</h2>
+
+      @if (services().length === 0) {
+        <div class="bg-white rounded-2xl border border-gray-100 p-10 text-center">
+          <p class="text-gray-400">Ce prestataire n'a pas encore ajouté de prestations.</p>
+        </div>
+      } @else {
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          @for (service of services(); track service.id) {
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col gap-3">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="font-semibold text-gray-900">{{ service.name }}</h3>
+                <span class="shrink-0 font-bold text-indigo-600">{{ service.basePrice | number:'1.2-2' }} €</span>
+              </div>
+              @if (service.description) {
+                <p class="text-sm text-gray-500">{{ service.description }}</p>
+              }
+              <div class="flex items-center gap-1.5 text-sm text-gray-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                {{ formatDuration(service.defaultDuration) }}
+              </div>
+              <button type="button"
+                (click)="book(service)"
+                class="mt-auto w-full py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-colors">
+                Réserver
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+</div>

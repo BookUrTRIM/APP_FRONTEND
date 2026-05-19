@@ -8,9 +8,11 @@ import { BookingPage } from './booking-page';
 import { AppointmentApiContract } from '../../../appointments/services/appointment.api.contract';
 
 class MockAppointmentApi extends AppointmentApiContract {
-  create    = vi.fn().mockReturnValue(of({}));
-  listByClient = vi.fn().mockReturnValue(of([]));
-  cancel    = vi.fn().mockReturnValue(of({}));
+  create          = vi.fn().mockReturnValue(of({}));
+  listByClient    = vi.fn().mockReturnValue(of([]));
+  listByProvider  = vi.fn().mockReturnValue(of([]));
+  cancel          = vi.fn().mockReturnValue(of({}));
+  complete        = vi.fn().mockReturnValue(of({}));
 }
 
 describe('BookingPage — génération des créneaux', () => {

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlanningForm } from './planning-form';
+import { PlanningFormComponent as PlanningForm } from './planning-form';
 
 describe('PlanningForm', () => {
   let component: PlanningForm;

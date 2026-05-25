@@ -1,6 +1,10 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, LOCALE_ID } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr);
 
 import { routes } from './app.routes';
 import { apiInterceptor } from './core/interceptors/api.interceptor';
@@ -14,6 +18,8 @@ import { ClientProfileApiContract } from './features/client-profile/services/cli
 import { ClientProfileApiService } from './features/client-profile/services/client-profile.api.service';
 import { AppointmentApiContract } from './features/appointments/services/appointment.api.contract';
 import { AppointmentApiService } from './features/appointments/services/appointment.api.service';
+import { PaymentApiContract } from './features/payments/services/payment.api.contract';
+import { PaymentApiService } from './features/payments/services/payment.api.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,5 +32,7 @@ export const appConfig: ApplicationConfig = {
     { provide: ProviderApiContract, useClass: ProviderApiService },
     { provide: ClientProfileApiContract, useClass: ClientProfileApiService },
     { provide: AppointmentApiContract, useClass: AppointmentApiService },
+    { provide: PaymentApiContract, useClass: PaymentApiService },
+    { provide: LOCALE_ID, useValue: 'fr' },
   ],
 };

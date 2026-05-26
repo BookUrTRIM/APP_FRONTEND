@@ -137,10 +137,11 @@ export class BookingPage implements OnInit {
       end_at:         endISO,
       specific_request: this.specificRequest() || null,
     }).subscribe({
-      next: () => {
+      next: (appointment) => {
         this.isBooking.set(false);
-        this.successMessage.set('Rendez-vous réservé avec succès !');
-        setTimeout(() => this.router.navigate(['/client/appointments']), 1500);
+        this.router.navigate(['/client/payments', appointment.id], {
+          queryParams: { amount: this.service()!.basePrice },
+        });
       },
       error: (err) => {
         this.isBooking.set(false);

@@ -14,6 +14,7 @@ export class AppointmentProviderCardComponent {
   readonly isActing    = input(false);
   readonly onComplete  = output<number>();
   readonly onCancel    = output<number>();
+  readonly onRefund    = output<number>();
 
   readonly AppointmentStatus = AppointmentStatus;
   readonly formatDate = formatAppointmentDate;
@@ -24,6 +25,7 @@ export class AppointmentProviderCardComponent {
     [AppointmentStatus.CONFIRMED]: 'Confirmé',
     [AppointmentStatus.COMPLETED]: 'Terminé',
     [AppointmentStatus.CANCELLED]: 'Annulé',
+    [AppointmentStatus.EXPIRED]:   'Expiré',
   };
 
   readonly statusClass: Record<AppointmentStatus, string> = {
@@ -31,5 +33,6 @@ export class AppointmentProviderCardComponent {
     [AppointmentStatus.CONFIRMED]: 'bg-blue-100 text-blue-800',
     [AppointmentStatus.COMPLETED]: 'bg-green-100 text-green-800',
     [AppointmentStatus.CANCELLED]: 'bg-red-100 text-red-700',
+    [AppointmentStatus.EXPIRED]:   'bg-orange-100 text-orange-700',
   };
 }

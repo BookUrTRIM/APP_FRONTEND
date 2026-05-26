@@ -23,4 +23,8 @@ export class PaymentApiService extends PaymentApiContract {
   prepare(paymentId: number): Observable<PaymentIntentResponseDTO> {
     return this.http.post<PaymentIntentResponseDTO>(`/payments/${paymentId}/prepare`, {});
   }
+
+  refundByAppointment(appointmentId: number): Observable<PaymentResponseDTO> {
+    return this.http.post<PaymentResponseDTO>(`/payments/appointment/${appointmentId}/refund`, {});
+  }
 }

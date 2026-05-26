@@ -63,8 +63,8 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
               d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
           </svg>
-          <p class="text-gray-500 font-medium">Aucun rendez-vous à venir.</p>
-          <p class="text-gray-400 text-sm mt-1">Les réservations confirmées apparaîtront ici.</p>
+          <p class="text-gray-500 font-medium">Aucun rendez-vous confirmé.</p>
+          <p class="text-gray-400 text-sm mt-1">Les rendez-vous apparaissent ici une fois l'acompte payé par le client.</p>
         </div>
       } @else {
         <div class="space-y-4">
@@ -74,6 +74,7 @@
               [isActing]="actingId() === appt.id"
               (onComplete)="onComplete($event)"
               (onCancel)="onCancel($event)"
+              (onRefund)="onRefund($event)"
             />
           }
         </div>

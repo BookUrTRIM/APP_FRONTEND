@@ -1,5 +1,5 @@
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-4"
-  [class.opacity-60]="appointment().status === AppointmentStatus.CANCELLED">
+  [class.opacity-60]="appointment().status === AppointmentStatus.CANCELLED || appointment().status === AppointmentStatus.EXPIRED">
 
   <!-- Status + date -->
   <div class="flex items-start justify-between gap-3">
@@ -18,6 +18,26 @@
     </span>
   </div>
 
+  <!-- Badge paiement reçu -->
+  @if (appointment().status === AppointmentStatus.CONFIRMED) {
+    <div class="flex items-center gap-2 bg-green-50 rounded-xl px-3 py-2 text-sm text-green-700">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      Acompte reçu — rendez-vous confirmé
+    </div>
+  }
+
+  <!-- Badge expiré -->
+  @if (appointment().status === AppointmentStatus.EXPIRED) {
+    <div class="flex items-center gap-2 bg-orange-50 rounded-xl px-3 py-2 text-sm text-orange-700">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      Réservation expirée — le paiement n'a pas été effectué à temps
+    </div>
+  }
+
   <!-- Demande spécifique -->
   @if (appointment().specificRequest) {
     <div class="bg-slate-50 rounded-xl px-3 py-2 text-sm text-gray-600 flex items-start gap-2">
@@ -29,13 +49,27 @@
     </div>
   }
 
-  <!-- Annulation -->
-  @if (isCancellable(appointment().status)) {
-    <button type="button"
-      (click)="onCancel.emit(appointment().id)"
-      class="w-full py-2 rounded-xl border border-red-200 text-red-600 text-sm font-medium hover:bg-red-50 transition-colors">
-      Annuler ce rendez-vous
-    </button>
-  }
+  <!-- Actions -->
+  <div class="flex gap-2">
+
+    <!-- Bouton payer — RDV en attente de paiement -->
+    @if (appointment().status === AppointmentStatus.PENDING) {
+      <button type="button"
+        (click)="onPay.emit(appointment().id)"
+        class="flex-1 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition-colors">
+        Payer l'acompte
+      </button>
+    }
+
+    <!-- Bouton annuler -->
+    @if (isCancellable(appointment().status)) {
+      <button type="button"
+        (click)="onCancel.emit(appointment().id)"
+        class="py-2 px-3 rounded-xl border border-red-200 text-red-600 text-sm font-medium hover:bg-red-50 transition-colors">
+        Annuler
+      </button>
+    }
+
+  </div>
 
 </div>

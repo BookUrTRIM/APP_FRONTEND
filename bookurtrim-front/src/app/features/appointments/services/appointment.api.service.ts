@@ -24,8 +24,12 @@ export class AppointmentApiService extends AppointmentApiContract {
     return this.http.get<AppointmentResponseDTO[]>('/appointments/provider', { params });
   }
 
-  cancel(id: number): Observable<AppointmentResponseDTO> {
-    return this.http.post<AppointmentResponseDTO>(`/appointments/${id}/cancel`, {});
+  cancelByClient(id: number): Observable<AppointmentResponseDTO> {
+    return this.http.post<AppointmentResponseDTO>(`/appointments/${id}/cancel-by-client`, {});
+  }
+
+  cancelByProvider(id: number): Observable<AppointmentResponseDTO> {
+    return this.http.post<AppointmentResponseDTO>(`/appointments/${id}/cancel-by-provider`, {});
   }
 
   complete(id: number): Observable<AppointmentResponseDTO> {

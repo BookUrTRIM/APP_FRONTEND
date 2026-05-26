@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentCardComponent } from '../../components/appointment-card/appointment-card';
 
@@ -10,10 +11,12 @@ import { AppointmentCardComponent } from '../../components/appointment-card/appo
 })
 export class AppointmentListPage implements OnInit {
   private readonly appointmentService = inject(AppointmentService);
+  private readonly router             = inject(Router);
 
-  readonly isLoading   = this.appointmentService.isLoading;
-  readonly upcoming    = this.appointmentService.upcoming;
-  readonly past        = this.appointmentService.past;
+  readonly isLoading       = this.appointmentService.isLoading;
+  readonly awaitingPayment = this.appointmentService.awaitingPayment;
+  readonly upcoming        = this.appointmentService.upcoming;
+  readonly past            = this.appointmentService.past;
   readonly errorMessage  = signal('');
   readonly cancellingId  = signal<number | null>(null);
 
@@ -26,6 +29,10 @@ export class AppointmentListPage implements OnInit {
         this.errorMessage.set(`Impossible de charger les rendez-vous. (${err?.status ?? ''} ${detail})`);
       },
     });
+  }
+
+  onPay(id: number): void {
+    this.router.navigate(['/client/payments', id]);
   }
 
   onCancel(id: number): void {

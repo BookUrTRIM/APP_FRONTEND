@@ -16,11 +16,16 @@ export class AppointmentService {
 
   readonly appointments = computed(() => this._clientAppointments());
   readonly isLoading    = computed(() => this._clientLoading());
+  readonly awaitingPayment = computed(() => this._clientAppointments().filter(a =>
+    a.status === AppointmentStatus.PENDING
+  ));
   readonly upcoming     = computed(() => this._clientAppointments().filter(a =>
-    a.status === AppointmentStatus.PENDING || a.status === AppointmentStatus.CONFIRMED
+    a.status === AppointmentStatus.CONFIRMED
   ));
   readonly past         = computed(() => this._clientAppointments().filter(a =>
-    a.status === AppointmentStatus.COMPLETED || a.status === AppointmentStatus.CANCELLED
+    a.status === AppointmentStatus.COMPLETED ||
+    a.status === AppointmentStatus.CANCELLED  ||
+    a.status === AppointmentStatus.EXPIRED
   ));
 
   // ── Provider ─────────────────────────────────────────
@@ -44,10 +49,25 @@ export class AppointmentService {
   }
 
   cancel(id: number): Observable<AppointmentModel> {
-    return this.api.cancel(id).pipe(
+    return this.api.cancelByClient(id).pipe(
       map(mapAppointmentDTOToModel),
       tap(updated =>
         this._clientAppointments.update(list => list.map(a => a.id === id ? updated : a))
+      )
+    );
+  }
+
+  patchProviderStatus(id: number, status: AppointmentStatus): void {
+    this._providerAppointments.update(list =>
+      list.map(a => a.id === id ? { ...a, status } : a)
+    );
+  }
+
+  cancelAsProvider(id: number): Observable<AppointmentModel> {
+    return this.api.cancelByProvider(id).pipe(
+      map(mapAppointmentDTOToModel),
+      tap(updated =>
+        this._providerAppointments.update(list => list.map(a => a.id === id ? updated : a))
       )
     );
   }

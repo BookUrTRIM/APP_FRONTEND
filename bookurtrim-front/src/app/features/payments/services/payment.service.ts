@@ -42,6 +42,15 @@ export class PaymentService {
     return this.api.getById(paymentId).pipe(map(mapPaymentDTOToModel));
   }
 
+  refundByAppointment(appointmentId: number): Observable<PaymentModel> {
+    return this.api.refundByAppointment(appointmentId).pipe(
+      map(mapPaymentDTOToModel),
+      tap(refunded =>
+        this._payments.update(list => list.map(p => p.appointmentId === appointmentId ? refunded : p))
+      )
+    );
+  }
+
   pollUntilResolved(paymentId: number): Observable<PaymentModel> {
     return interval(1500).pipe(
       switchMap(() => this.api.getById(paymentId)),

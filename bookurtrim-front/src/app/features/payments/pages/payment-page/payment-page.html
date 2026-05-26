@@ -54,13 +54,27 @@
 
       <div class="flex items-center justify-between bg-gray-50 rounded-xl px-4 py-3">
         <span class="text-sm text-gray-500">Montant</span>
-        <span class="text-xl font-bold text-indigo-600">
-          {{ amount | currency:'EUR':'symbol':'1.2-2':'fr' }}
-        </span>
+        @if (amount > 0) {
+          <span class="text-xl font-bold text-indigo-600">
+            {{ amount | currency:'EUR':'symbol':'1.2-2':'fr' }}
+          </span>
+        } @else {
+          <span class="text-sm text-gray-400 italic">Non disponible</span>
+        }
       </div>
 
+      @if (amount <= 0) {
+        <div class="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-700">
+          <svg class="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+          </svg>
+          Le montant n'est pas disponible depuis cette page. Veuillez relancer la réservation depuis la fiche prestataire.
+        </div>
+      }
+
       <button type="button" (click)="onInitiate()"
-        [disabled]="submitting()"
+        [disabled]="submitting() || amount <= 0"
         class="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold text-sm hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
         @if (submitting()) { Préparation en cours… } @else { Procéder au paiement }
       </button>

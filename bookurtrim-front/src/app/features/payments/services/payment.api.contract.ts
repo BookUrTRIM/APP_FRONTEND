@@ -6,4 +6,5 @@ export abstract class PaymentApiContract {
   abstract getById(paymentId: number): Observable<PaymentResponseDTO>;
   abstract listByAppointment(appointmentId: number): Observable<PaymentResponseDTO[]>;
   abstract prepare(paymentId: number): Observable<PaymentIntentResponseDTO>;
+  abstract refundByAppointment(appointmentId: number): Observable<PaymentResponseDTO>;
 }

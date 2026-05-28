@@ -48,4 +48,11 @@
     }
   </div>
 
+  <!-- Questions de réservation — uniquement en mode édition -->
+  @if (isEdit && service()) {
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <app-service-questions [serviceId]="serviceId!" />
+    </div>
+  }
+
 </div>

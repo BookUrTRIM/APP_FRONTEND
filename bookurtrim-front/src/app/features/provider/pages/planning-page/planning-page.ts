@@ -41,7 +41,14 @@ export class PlanningPage implements OnInit {
   }
 
   handleFormSubmit(formValue: PlanningFormValue): void {
-    const dtos = AvailabilityMapper.toBulkCreateDTOs(formValue);
+    const all = AvailabilityMapper.toBulkCreateDTOs(formValue);
+    const dtos = all.filter(dto => !this.availabilities.some(
+      a => a.day_date === dto.day_date &&
+           a.start_time === dto.start_time &&
+           a.end_time === dto.end_time &&
+           a.slot_type === dto.slot_type
+    ));
+    if (dtos.length === 0) return;
     this.executeBulkRequest(dtos);
   }
 

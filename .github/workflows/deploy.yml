@@ -28,6 +28,6 @@ jobs:
       - name: Build and push Frontend
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./bookurtrim-front
           push: true
           tags: ghcr.io/bookurtrim/bookurtrim-front:latest

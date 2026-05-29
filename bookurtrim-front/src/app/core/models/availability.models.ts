@@ -4,7 +4,7 @@ export interface AvailabilityResponseDTO {
   day_date: string;
   start_time: string;
   end_time: string;
-  slot_type: 'work' | 'break';
+  slot_type: 'work' | 'break' | 'booked';
 }
 
 export interface AvailabilityCreateDTO {

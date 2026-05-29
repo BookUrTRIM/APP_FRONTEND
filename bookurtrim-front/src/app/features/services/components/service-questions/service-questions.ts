@@ -50,13 +50,13 @@ export class ServiceQuestionsComponent implements OnInit {
 
   startEdit(q: ServiceQuestionModel): void {
     this.editingId.set(q.id);
+    this.form.setControl('options', this.fb.array(
+      q.options.map(o => this.fb.nonNullable.group({
+        label:         [o.label,        Validators.required],
+        extra_minutes: [o.extraMinutes, [Validators.required, Validators.min(0)]],
+      }))
+    ));
     this.form.patchValue({ question: q.question });
-    this.optionsArray.clear();
-    q.options.forEach(o => {
-      const g = this.newOptionGroup();
-      g.patchValue({ label: o.label, extra_minutes: o.extraMinutes });
-      this.optionsArray.push(g);
-    });
   }
 
   cancelEdit(): void {

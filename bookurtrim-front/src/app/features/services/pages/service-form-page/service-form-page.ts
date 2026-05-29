@@ -2,13 +2,14 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceService } from '../../services/service.service';
 import { ServiceFormComponent } from '../../components/service-form/service-form';
+import { ServiceQuestionsComponent } from '../../components/service-questions/service-questions';
 import type { ServiceModel } from '../../models';
 import type { ServiceCreateDTO, ServiceUpdateDTO } from '../../dtos';
 
 @Component({
   selector: 'app-service-form-page',
   standalone: true,
-  imports: [ServiceFormComponent],
+  imports: [ServiceFormComponent, ServiceQuestionsComponent],
   templateUrl: './service-form-page.html',
 })
 export class ServiceFormPage implements OnInit {
@@ -48,7 +49,13 @@ export class ServiceFormPage implements OnInit {
       : this.serviceService.create(dto as ServiceCreateDTO);
 
     request$.subscribe({
-      next: () => this.router.navigate(['/pro/services']),
+      next: (saved) => {
+        if (this.isEdit) {
+          this.router.navigate(['/pro/services']);
+        } else {
+          this.router.navigate(['/pro/services', saved.id]);
+        }
+      },
       error: () => {
         this.isLoading.set(false);
         this.errorMessage.set('Une erreur est survenue. Veuillez réessayer.');

@@ -20,6 +20,8 @@ import { AppointmentApiContract } from './features/appointments/services/appoint
 import { AppointmentApiService } from './features/appointments/services/appointment.api.service';
 import { PaymentApiContract } from './features/payments/services/payment.api.contract';
 import { PaymentApiService } from './features/payments/services/payment.api.service';
+import { ServiceQuestionApiContract } from './features/services/services/service-question.api.contract';
+import { ServiceQuestionApiService } from './features/services/services/service-question.api.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,6 +35,7 @@ export const appConfig: ApplicationConfig = {
     { provide: ClientProfileApiContract, useClass: ClientProfileApiService },
     { provide: AppointmentApiContract, useClass: AppointmentApiService },
     { provide: PaymentApiContract, useClass: PaymentApiService },
+    { provide: ServiceQuestionApiContract, useClass: ServiceQuestionApiService },
     { provide: LOCALE_ID, useValue: 'fr' },
   ],
 };

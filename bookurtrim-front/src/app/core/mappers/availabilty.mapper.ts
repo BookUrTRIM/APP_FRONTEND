@@ -4,7 +4,8 @@ export class AvailabilityMapper {
 
   static toBulkCreateDTOs(formValue: PlanningFormValue): AvailabilityCreateDTO[] {
     const dtos: AvailabilityCreateDTO[] = [];
-    const startDate = new Date(formValue.start_date);
+    const [y, m, d] = formValue.start_date.split('-').map(Number);
+    const startDate = new Date(y, m - 1, d);
     const totalDaysToScan = (formValue.recurring_weeks || 1) * 7;
     for (let i = 0; i < totalDaysToScan; i++) {
       const currentDate = new Date(startDate.getTime());

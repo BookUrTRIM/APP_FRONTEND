@@ -35,10 +35,11 @@ export class ClientProfileFormComponent implements OnInit {
   ];
 
   readonly hairTypeOptions = [
-    { value: HairType.LISSE,  label: 'Lisse' },
-    { value: HairType.ONDULE, label: 'Ondulé' },
-    { value: HairType.BOUCLE, label: 'Bouclé' },
-    { value: HairType.CREPU,  label: 'Crépu' },
+    { value: HairType.LISSE,       label: 'Lisse' },
+    { value: HairType.ONDULE,      label: 'Ondulé' },
+    { value: HairType.BOUCLE,      label: 'Bouclé' },
+    { value: HairType.CREPU_FIN,   label: 'Crépu fin' },
+    { value: HairType.CREPU_EPAIS, label: 'Crépu épais' },
   ];
 
   readonly form = this.fb.nonNullable.group({

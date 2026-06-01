@@ -64,7 +64,7 @@ export class BookingPage implements OnInit {
 
   readonly availableDates = computed(() => {
     const workDates = this.availabilities()
-      .filter(a => a.slot_type === 'work' && a.day_date >= this.today.toISOString().split('T')[0])
+      .filter(a => a.slot_type === 'work' && a.day_date >= this._dateStr(this.today))
       .map(a => a.day_date);
     return new Set(workDates);
   });
@@ -74,7 +74,7 @@ export class BookingPage implements OnInit {
     const duration = this.calculatedDuration() > 0
       ? this.calculatedDuration()
       : (this.service()?.defaultDuration ?? 30);
-    if (!date) return [];
+    if (!date) return [] as { time: string; available: boolean }[];
     return this._generateSlots(date, duration);
   });
 
@@ -162,7 +162,7 @@ export class BookingPage implements OnInit {
   }
 
   selectDate(date: Date): void {
-    const str = date.toISOString().split('T')[0];
+    const str = this._dateStr(date);
     if (!this.availableDates().has(str)) return;
     this.selectedDate.set(str);
     this.selectedSlot.set('');
@@ -171,20 +171,19 @@ export class BookingPage implements OnInit {
   selectSlot(slot: string): void { this.selectedSlot.set(slot); }
 
   isToday(date: Date): boolean {
-    return date.toISOString().split('T')[0] === this.today.toISOString().split('T')[0];
+    return this._dateStr(date) === this._dateStr(this.today);
   }
 
   isSelected(date: Date): boolean {
-    return date.toISOString().split('T')[0] === this.selectedDate();
+    return this._dateStr(date) === this.selectedDate();
   }
 
   isAvailable(date: Date): boolean {
-    return this.availableDates().has(date.toISOString().split('T')[0]);
+    return this.availableDates().has(this._dateStr(date));
   }
 
   getSlotsForCalendar(date: Date): AvailabilityResponseDTO[] {
-    const str = date.toISOString().split('T')[0];
-    return this.availabilities().filter(a => a.day_date === str);
+    return this.availabilities().filter(a => a.day_date === this._dateStr(date));
   }
 
   confirmBooking(): void {
@@ -195,6 +194,12 @@ export class BookingPage implements OnInit {
       : (this.service()?.defaultDuration ?? 30);
     const endISO   = this._addMinutes(startISO, duration);
 
+    const answersPayload = Object.entries(this.answers()).map(([qId, optIdx]) => {
+      const q   = this.questions().find(q => q.id === Number(qId));
+      const opt = q?.options[optIdx as number];
+      return { question: q?.question ?? '', answer: opt?.label ?? '', extra_minutes: opt?.extraMinutes ?? 0 };
+    });
+
     this.isBooking.set(true);
     this.errorMessage.set('');
 
@@ -203,6 +208,7 @@ export class BookingPage implements OnInit {
       start_at:         startISO,
       end_at:           endISO,
       specific_request: this.specificRequest() || null,
+      answers:          answersPayload.length > 0 ? answersPayload : undefined,
     }).subscribe({
       next: (appointment) => {
         this.isBooking.set(false);
@@ -220,28 +226,30 @@ export class BookingPage implements OnInit {
   goBack(): void { this.router.navigate(['/client/providers', this.providerId]); }
 
   /* ── helpers ── */
-  private _generateSlots(date: string, duration: number): string[] {
+  private _generateSlots(date: string, duration: number): { time: string; available: boolean }[] {
     const daySlots  = this.availabilities().filter(a => a.day_date === date);
     const workSlots = daySlots.filter(a => a.slot_type === 'work');
     const breaks    = daySlots.filter(a => a.slot_type === 'break');
     const booked    = daySlots.filter(a => a.slot_type === 'booked');
-    const result: string[] = [];
-    const todayStr  = this.today.toISOString().split('T')[0];
+    const result: { time: string; available: boolean }[] = [];
+    const todayStr  = this._dateStr(this.today);
     const nowMins   = date === todayStr ? this.today.getHours() * 60 + this.today.getMinutes() : 0;
 
     for (const work of workSlots) {
       let cur = this._timeToMins(work.start_time);
       const end = this._timeToMins(work.end_time);
       while (cur + duration <= end) {
-        const slotEnd = cur + duration;
-        const inPast  = date === todayStr && cur <= nowMins;
+        const slotEnd  = cur + duration;
+        const inPast   = date === todayStr && cur <= nowMins;
         const inBreak  = breaks.some(b => cur < this._timeToMins(b.end_time) && slotEnd > this._timeToMins(b.start_time));
-        const inBooked = booked.some(b => cur < this._timeToMins(b.end_time) && slotEnd > this._timeToMins(b.start_time));
-        if (!inPast && !inBreak && !inBooked) result.push(this._minsToTime(cur));
+        const inBooked = booked.some(b => cur <= this._timeToMins(b.end_time) && slotEnd > this._timeToMins(b.start_time));
+        if (!inPast && !inBreak) {
+          result.push({ time: this._minsToTime(cur), available: !inBooked });
+        }
         cur += 30;
       }
     }
-    return result.sort();
+    return result.sort((a, b) => a.time.localeCompare(b.time));
   }
 
   private _timeToMins(t: string): number {
@@ -273,5 +281,12 @@ export class BookingPage implements OnInit {
       d.setDate(d.getDate() + i);
       return d;
     });
+  }
+
+  private _dateStr(date: Date): string {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
   }
 }

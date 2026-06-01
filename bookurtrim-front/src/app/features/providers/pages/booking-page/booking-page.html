@@ -223,15 +223,20 @@
               <p class="text-sm text-gray-400 text-center py-4">Aucun créneau disponible ce jour.</p>
             } @else {
               <div class="grid grid-cols-3 gap-2">
-                @for (slot of slotsForDay(); track slot) {
+                @for (slot of slotsForDay(); track slot.time) {
                   <button type="button"
-                    (click)="selectSlot(slot)"
+                    (click)="slot.available && selectSlot(slot.time)"
+                    [disabled]="!slot.available"
                     class="py-2 px-1 text-sm font-medium rounded-xl border transition-all"
                     [ngClass]="{
-                      'bg-indigo-600 border-indigo-600 text-white shadow-md': selectedSlot() === slot,
-                      'bg-white border-gray-200 text-gray-700 hover:border-indigo-400 hover:text-indigo-600': selectedSlot() !== slot
+                      'bg-indigo-600 border-indigo-600 text-white shadow-md': selectedSlot() === slot.time,
+                      'bg-white border-gray-200 text-gray-700 hover:border-indigo-400 hover:text-indigo-600': selectedSlot() !== slot.time && slot.available,
+                      'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed line-through': !slot.available
                     }">
-                    {{ slot }}
+                    {{ slot.time }}
+                    @if (!slot.available) {
+                      <span class="block text-xs">RDV</span>
+                    }
                   </button>
                 }
               </div>

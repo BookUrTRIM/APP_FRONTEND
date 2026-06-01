@@ -1,0 +1,30 @@
+<div class="max-w-md mx-auto mt-20 text-center space-y-6">
+
+  @if (mode === 'return') {
+    <div class="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center mx-auto">
+      <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+    <div>
+      <h1 class="text-xl font-bold text-gray-900">Configuration terminée</h1>
+      <p class="text-sm text-gray-500 mt-1">Votre compte Stripe a été configuré. Vous pouvez maintenant recevoir des paiements.</p>
+    </div>
+  } @else {
+    <div class="h-16 w-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto">
+      <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+      </svg>
+    </div>
+    <div>
+      <h1 class="text-xl font-bold text-gray-900">Lien expiré</h1>
+      <p class="text-sm text-gray-500 mt-1">Le lien de configuration a expiré. Retournez sur la page paiements pour en générer un nouveau.</p>
+    </div>
+  }
+
+  <a routerLink="/pro/stripe-connect"
+    class="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition-colors">
+    {{ mode === 'return' ? 'Retour au tableau de bord' : 'Recommencer la configuration' }}
+  </a>
+
+</div>

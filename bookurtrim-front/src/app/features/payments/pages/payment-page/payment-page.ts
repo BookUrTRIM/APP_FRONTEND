@@ -6,6 +6,7 @@ import { PaymentService } from '../../services/payment.service';
 import { PaymentCardComponent } from '../../components/payment-card/payment-card';
 import { PaymentStatus, PaymentType } from '../../enums';
 import { environment } from '../../../../../environments/environment';
+import { AuthService } from '../../../auth/services/auth.service';
 
 type PageStep = 'init' | 'stripe' | 'polling' | 'done' | 'failed';
 
@@ -19,6 +20,7 @@ export class PaymentPage implements OnInit, AfterViewInit {
   @ViewChild('cardElement') cardElementRef!: ElementRef<HTMLDivElement>;
 
   private readonly paymentService = inject(PaymentService);
+  private readonly authService    = inject(AuthService);
   private readonly route          = inject(ActivatedRoute);
   private readonly router         = inject(Router);
   private readonly ngZone         = inject(NgZone);
@@ -115,8 +117,13 @@ export class PaymentPage implements OnInit, AfterViewInit {
     this.submitting.set(true);
     this.errorMessage.set('');
 
+    const email = this.authService.email();
     const { error, paymentIntent } = await this.stripe.confirmCardPayment(this.clientSecret, {
-      payment_method: { card: this.cardElement },
+      payment_method: {
+        card: this.cardElement,
+        ...(email ? { billing_details: { email } } : {}),
+      },
+      ...(email ? { receipt_email: email } : {}),
     });
 
     if (error) {

@@ -1,0 +1,89 @@
+<div class="max-w-2xl mx-auto space-y-6">
+
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Paiements</h1>
+    <p class="text-sm text-gray-500 mt-1">Configurez votre compte Stripe pour recevoir les paiements de vos clients.</p>
+  </div>
+
+  @if (errorMessage()) {
+    <div role="alert" class="bg-red-50 text-red-700 p-4 rounded-xl text-sm">{{ errorMessage() }}</div>
+  }
+
+  @if (isLoading()) {
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex justify-center">
+      <svg class="animate-spin h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+      </svg>
+    </div>
+  } @else {
+
+    <!-- Statut -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-start gap-4">
+      @if (isConfigured) {
+        <div class="flex-shrink-0 h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+          <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <p class="font-semibold text-gray-900">Compte Stripe configuré</p>
+          <p class="text-sm text-gray-500 mt-0.5">Vous recevez automatiquement les paiements de vos clients sur votre compte bancaire.</p>
+          <p class="text-xs text-gray-400 mt-1 font-mono">{{ provider()!.stripeAccountId }}</p>
+        </div>
+      } @else {
+        <div class="flex-shrink-0 h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center">
+          <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <p class="font-semibold text-gray-900">Compte non configuré</p>
+          <p class="text-sm text-gray-500 mt-0.5">Vous devez compléter votre vérification Stripe pour recevoir des paiements. Les paiements en attente seront conservés sur la plateforme.</p>
+        </div>
+      }
+    </div>
+
+    <!-- Action -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+      <div>
+        <p class="font-semibold text-gray-900">
+          {{ isConfigured ? 'Mettre à jour vos informations' : 'Activer les paiements' }}
+        </p>
+        <p class="text-sm text-gray-500 mt-0.5">
+          {{ isConfigured
+            ? 'Accédez au tableau de bord Stripe pour modifier vos coordonnées bancaires ou vos informations personnelles.'
+            : 'Complétez votre vérification d\'identité et renseignez votre IBAN pour recevoir vos paiements directement.' }}
+        </p>
+      </div>
+
+      <button type="button" (click)="setup()" [disabled]="isActing()"
+        class="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl disabled:opacity-60 transition-colors">
+        @if (isActing()) {
+          <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+          </svg>
+          Redirection vers Stripe...
+        } @else {
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          </svg>
+          {{ isConfigured ? 'Accéder au tableau de bord Stripe' : 'Configurer les paiements' }}
+        }
+      </button>
+    </div>
+
+    <!-- Info -->
+    <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-700 space-y-1">
+      <p class="font-medium">Comment ça fonctionne ?</p>
+      <ul class="list-disc list-inside space-y-0.5 text-blue-600 text-xs">
+        <li>Vous serez redirigé vers Stripe pour compléter votre vérification (identité, IBAN)</li>
+        <li>Une fois validé, chaque paiement client vous est reversé automatiquement</li>
+        <li>Vos données bancaires sont gérées directement par Stripe, en toute sécurité</li>
+      </ul>
+    </div>
+
+  }
+
+</div>

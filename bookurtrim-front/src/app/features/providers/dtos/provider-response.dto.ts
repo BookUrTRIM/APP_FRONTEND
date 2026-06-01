@@ -4,6 +4,7 @@ export interface ProviderResponseDTO {
   first_name: string;
   last_name: string;
   phone: string | null;
+  stripe_account_id: string | null;
   created_at: string;
   updated_at: string;
 }

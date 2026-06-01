@@ -27,4 +27,21 @@ export const PROVIDER_ROUTES: Routes = [
     loadComponent: () =>
       import('../services/pages/service-form-page/service-form-page').then(m => m.ServiceFormPage),
   },
+  {
+    path: 'stripe-connect',
+    loadComponent: () =>
+      import('./pages/stripe-connect-page/stripe-connect-page').then(m => m.StripeConnectPage),
+  },
+  {
+    path: 'stripe/return',
+    loadComponent: () =>
+      import('./pages/stripe-return-page/stripe-return-page').then(m => m.StripeReturnPage),
+    data: { mode: 'return' },
+  },
+  {
+    path: 'stripe/refresh',
+    loadComponent: () =>
+      import('./pages/stripe-return-page/stripe-return-page').then(m => m.StripeReturnPage),
+    data: { mode: 'refresh' },
+  },
 ];

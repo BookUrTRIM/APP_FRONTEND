@@ -6,6 +6,7 @@ export interface AppointmentResponseDTO {
   end_at: string;
   status: string;
   specific_request: string | null;
+  answers: { question: string; answer: string; extra_minutes: number }[] | null;
   created_at: string;
   updated_at: string;
 }

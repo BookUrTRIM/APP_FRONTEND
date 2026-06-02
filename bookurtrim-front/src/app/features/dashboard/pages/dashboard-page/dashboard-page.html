@@ -1,0 +1,73 @@
+<div class="space-y-6 animate-fade-in pb-8"> <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+  <div>
+    <h1 class="text-2xl font-black text-slate-900 tracking-tight">Tableau de bord</h1>
+    <p class="text-xs text-slate-400 font-medium">Pilotez votre activité en temps réel.</p>
+  </div>
+
+  @if (dashboardService.dashboardData(); as data) {
+    <div class="flex items-center gap-3 self-end sm:self-auto">
+      <div class="bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-100 flex items-center gap-2 shadow-sm">
+        <svg class="w-4 midnight h-4 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+        <div class="text-left">
+          <p class="text-[9px] font-bold text-amber-800 uppercase tracking-wider leading-none">Note</p>
+          <p class="text-sm font-black text-amber-600 leading-none mt-0.5">{{ data.averageRating | number:'1.1-1' }}</p>
+        </div>
+      </div>
+
+      <select (change)="onPeriodChange($event)" class="bg-white border border-slate-200 text-slate-700 rounded-xl px-3 py-2 text-xs font-bold shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer hover:bg-slate-50 transition-all">
+        <option value="week" [selected]="currentPeriod === 'week'">Cette semaine</option>
+        <option value="month" [selected]="currentPeriod === 'month'">Ce mois-ci</option>
+        <option value="year" [selected]="currentPeriod === 'year'">Cette année</option>
+        @for (year of availableYears; track year) {
+          <option [value]="year" [selected]="currentPeriod === year">{{ year }}</option>
+        }
+      </select>
+    </div>
+  }
+</div>
+
+  @if (dashboardService.isLoading()) {
+    <div class="h-64 flex flex-col items-center justify-center text-indigo-600 gap-2 text-xs font-bold">
+      <svg class="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <span class="animate-pulse">Chargement de vos statistiques...</span>
+    </div>
+  } @else if (dashboardService.dashboardData(); as data) {
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <app-kpi-card
+        title="CA Réalisé"
+        [value]="(data.realizedRevenue | currency:'EUR':'symbol':'1.2-2') || '0,00 €'"
+        subtext="Sur la période sélectionnée"
+        variant="emerald">
+      </app-kpi-card>
+
+      <app-kpi-card
+        title="CA en attente"
+        [value]="(data.expectedRevenue | currency:'EUR':'symbol':'1.2-2') || '0,00 €'"
+        subtext="Rendez-vous à venir"
+        variant="slate">
+      </app-kpi-card>
+
+      <app-kpi-card
+        title="Prestation Star"
+        [value]="data.topServiceName"
+        subtext="La plus demandée"
+        variant="indigo">
+      </app-kpi-card>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <app-kpi-card title="RDV Réservés" [value]="data.bookedAppointments" subtext="Total sécurisé" icon="📅"></app-kpi-card>
+      <app-kpi-card title="Réalisés" [value]="data.completedAppointments" subtext="Prestations honorées" icon="✂️"></app-kpi-card>
+      <app-kpi-card title="Taux d'annulation" [value]="data.cancellationRate + '%'" subtext="Annulations globales" icon="📉"></app-kpi-card>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <app-revenue-chart [stats]="data.monthlyStats"></app-revenue-chart>
+      <app-stats-chart [stats]="data.monthlyStats"></app-stats-chart>
+    </div>
+  }
+</div>

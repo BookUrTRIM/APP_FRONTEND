@@ -13,6 +13,11 @@ export const PROVIDER_ROUTES: Routes = [
       import('./pages/planning-page/planning-page').then(m => m.PlanningPage),
   },
   {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('../dashboard/pages/dashboard-page/dashboard-page').then(m => m.DashboardPageComponent),
+  },
+  {
     path: 'services',
     loadComponent: () =>
       import('../services/pages/service-list-page/service-list-page').then(m => m.ServiceListPage),

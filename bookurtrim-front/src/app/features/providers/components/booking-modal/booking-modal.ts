@@ -55,8 +55,9 @@ export class BookingModalComponent implements OnInit {
 
     this.appointmentApi.create({
       provider_id: this.providerId(),
-      start_at:  startISO,
-      end_at:    endISO,
+      service_id:  this.service().id,
+      start_at:    startISO,
+      end_at:      endISO,
     }).subscribe({
       next: () => {
         this.isLoading.set(false);

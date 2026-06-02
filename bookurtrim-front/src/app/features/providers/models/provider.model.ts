@@ -4,6 +4,9 @@ export interface ProviderModel {
   firstName: string;
   lastName: string;
   phone: string | null;
+  businessName: string | null;
+  address: string | null;
+  stripeAccountId: string | null;
   createdAt: string;
   updatedAt: string;
 }

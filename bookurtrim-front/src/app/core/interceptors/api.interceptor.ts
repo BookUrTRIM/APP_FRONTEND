@@ -1,8 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
+import {inject, isDevMode} from '@angular/core';
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
-  const API_URL = 'http://localhost:8000';
+  const isExternal = req.url.startsWith('http://') || req.url.startsWith('https://');
+  if (isExternal) return next(req);
+
+  const API_URL = isDevMode() ? 'http://localhost:8000' : "/api";
   const token = localStorage.getItem('access_token');
 
   const apiReq = req.clone({

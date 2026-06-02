@@ -19,6 +19,16 @@ export class AuthService {
   readonly currentRole = computed(() => this._auth()?.role ?? null);
   readonly isClient = computed(() => this._auth()?.role === UserRole.CLIENT);
   readonly isProvider = computed(() => this._auth()?.role === UserRole.PROVIDER);
+  readonly email = computed(() => {
+    const token = this._auth()?.token;
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return (payload.email ?? null) as string | null;
+    } catch {
+      return null;
+    }
+  });
 
   login(dto: LoginDTO): Observable<AuthModel> {
     return this.api.login(dto).pipe(

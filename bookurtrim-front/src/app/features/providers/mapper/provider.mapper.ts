@@ -8,6 +8,9 @@ export function mapProviderDTOToModel(dto: ProviderResponseDTO): ProviderModel {
     firstName: dto.first_name,
     lastName: dto.last_name,
     phone: dto.phone,
+    businessName: dto.business_name ?? null,
+    address: dto.address ?? null,
+    stripeAccountId: dto.stripe_account_id ?? null,
     createdAt: dto.created_at,
     updatedAt: dto.updated_at,
   };

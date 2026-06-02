@@ -1,0 +1,86 @@
+<div class="max-w-2xl mx-auto space-y-6">
+
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Mon profil</h1>
+    <p class="text-sm text-gray-500 mt-1">Complétez votre profil pour que vos clients vous trouvent plus facilement.</p>
+  </div>
+
+  @if (errorMessage()) {
+    <div role="alert" class="bg-red-50 text-red-700 p-4 rounded-xl text-sm">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div role="status" class="bg-green-50 text-green-700 p-4 rounded-xl text-sm font-medium">{{ successMessage() }}</div>
+  }
+
+  @if (isLoading()) {
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex justify-center">
+      <svg class="animate-spin h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+      </svg>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="save()" class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-5">
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">Téléphone</label>
+        <input type="tel" formControlName="phone"
+          placeholder="06 12 34 56 78"
+          class="block w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">
+          Nom du salon / entreprise
+          <span class="text-gray-400 font-normal">(optionnel)</span>
+        </label>
+        <input type="text" formControlName="business_name"
+          placeholder="Ex : Salon Dupont"
+          class="block w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+      </div>
+
+      <!-- Adresse avec autocomplete -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">
+          Adresse
+          <span class="text-gray-400 font-normal">(optionnel)</span>
+        </label>
+        <div class="relative">
+          <input type="text"
+            [value]="form.controls.address.value"
+            (input)="onAddressInput($any($event.target).value)"
+            (blur)="hideSuggestions()"
+            placeholder="12 rue de la Paix, 75001 Paris"
+            class="block w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+
+          @if (showSuggestions() && suggestions().length > 0) {
+            <ul class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+              @for (suggestion of suggestions(); track suggestion) {
+                <li>
+                  <button type="button"
+                    (mousedown)="selectSuggestion(suggestion)"
+                    class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors flex items-center gap-2">
+                    <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    {{ suggestion }}
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+        <p class="text-xs text-gray-400 mt-1">Visible sur votre page publique.</p>
+      </div>
+
+      <button type="submit" [disabled]="form.invalid || isSaving()"
+        class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl disabled:opacity-50 transition-colors">
+        {{ isSaving() ? 'Enregistrement...' : 'Enregistrer les modifications' }}
+      </button>
+
+    </form>
+  }
+
+</div>

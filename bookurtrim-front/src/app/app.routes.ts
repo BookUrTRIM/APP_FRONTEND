@@ -33,6 +33,17 @@ export const routes: Routes = [
           import('./features/client-profile/pages/client-profile-page/client-profile-page')
             .then(m => m.ClientProfilePage),
       },
+      {
+        path: 'appointments',
+        loadComponent: () =>
+          import('./features/appointments/pages/appointment-list-page/appointment-list-page')
+            .then(m => m.AppointmentListPage),
+      },
+      {
+        path: 'payments',
+        loadChildren: () =>
+          import('./features/payments/payments.routes').then(m => m.PAYMENT_ROUTES),
+      },
       { path: '', redirectTo: 'providers', pathMatch: 'full' },
     ],
   },

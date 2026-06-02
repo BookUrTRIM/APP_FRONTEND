@@ -1,0 +1,96 @@
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-4"
+  [class.opacity-60]="appointment().status === AppointmentStatus.CANCELLED || appointment().status === AppointmentStatus.EXPIRED">
+
+  <!-- Date + statut -->
+  <div class="flex items-start justify-between gap-3">
+    <div>
+      <p class="font-semibold text-gray-900 capitalize">
+        {{ formatDate(appointment().startAt) }}
+      </p>
+      <p class="text-indigo-600 font-bold text-lg mt-0.5">
+        {{ formatTime(appointment().startAt) }}
+        <span class="text-gray-400 text-sm font-normal">
+          → {{ formatTime(appointment().endAt) }}
+        </span>
+      </p>
+      <p class="text-xs text-gray-400 mt-1">Client #{{ appointment().clientId }}</p>
+    </div>
+    <span class="shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold"
+      [class]="statusClass[appointment().status]">
+      {{ statusLabel[appointment().status] }}
+    </span>
+  </div>
+
+  <!-- Indicateur paiement -->
+  @if (appointment().status === AppointmentStatus.PENDING) {
+    <div class="flex items-center gap-2 bg-yellow-50 rounded-xl px-3 py-2 text-sm text-yellow-700">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      En attente de paiement du client
+    </div>
+  }
+
+  @if (appointment().status === AppointmentStatus.CONFIRMED) {
+    <div class="flex items-center gap-2 bg-green-50 rounded-xl px-3 py-2 text-sm text-green-700">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      Acompte reçu
+    </div>
+  }
+
+  @if (appointment().status === AppointmentStatus.EXPIRED) {
+    <div class="flex items-center gap-2 bg-orange-50 rounded-xl px-3 py-2 text-sm text-orange-700">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      Réservation expirée — paiement non effectué
+    </div>
+  }
+
+  <!-- Demande spécifique -->
+  @if (appointment().specificRequest) {
+    <div class="bg-slate-50 rounded-xl px-3 py-2 text-sm text-gray-600 flex items-start gap-2">
+      <svg class="w-4 h-4 text-gray-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+      </svg>
+      <span>{{ appointment().specificRequest }}</span>
+    </div>
+  }
+
+  <!-- Actions RDV actifs -->
+  @if (appointment().status === AppointmentStatus.CONFIRMED || appointment().status === AppointmentStatus.PENDING) {
+    <div class="flex gap-2 pt-1">
+      <button type="button"
+        [disabled]="isActing()"
+        (click)="onComplete.emit(appointment().id)"
+        class="flex-1 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-medium transition-colors disabled:opacity-50">
+        ✓ Marquer terminé
+      </button>
+      <button type="button"
+        [disabled]="isActing()"
+        (click)="onCancel.emit(appointment().id)"
+        class="py-2 px-3 rounded-xl border border-red-200 text-red-600 text-sm font-medium hover:bg-red-50 transition-colors disabled:opacity-50">
+        Annuler
+      </button>
+    </div>
+  }
+
+  <!-- Remboursement force majeure (RDV confirmé ou terminé) -->
+  @if (appointment().status === AppointmentStatus.CONFIRMED || appointment().status === AppointmentStatus.COMPLETED) {
+    <div class="pt-1 border-t border-gray-100">
+      <button type="button"
+        [disabled]="isActing()"
+        (click)="onRefund.emit(appointment().id)"
+        class="w-full py-1.5 rounded-xl text-xs font-medium text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 transition-colors disabled:opacity-50">
+        Rembourser le client (force majeure)
+      </button>
+    </div>
+  }
+
+</div>

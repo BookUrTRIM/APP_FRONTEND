@@ -205,6 +205,7 @@ export class BookingPage implements OnInit {
 
     this.appointmentApi.create({
       provider_id:      this.providerId,
+      service_id:       this.serviceId,
       start_at:         startISO,
       end_at:           endISO,
       specific_request: this.specificRequest() || null,

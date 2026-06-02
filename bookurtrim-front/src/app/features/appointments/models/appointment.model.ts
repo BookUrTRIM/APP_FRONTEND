@@ -7,6 +7,7 @@ export interface AppointmentModel {
   startAt: string;
   endAt: string;
   status: AppointmentStatus;
+  serviceName: string | null;
   specificRequest: string | null;
   createdAt: string;
   updatedAt: string;

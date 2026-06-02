@@ -15,7 +15,7 @@ export const PROVIDER_ROUTES: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
-      import('../dashboard/components/dashboard-component/dashboard-component').then(m => m.DashboardComponent),
+      import('../dashboard/pages/dashboard-page/dashboard-page').then(m => m.DashboardPageComponent),
   },
   {
     path: 'services',

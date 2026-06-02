@@ -32,6 +32,8 @@ export class StripeConnectPage implements OnInit {
           firstName:       data.first_name,
           lastName:        data.last_name,
           phone:           data.phone,
+          businessName:    data.business_name ?? null,
+          address:         data.address ?? null,
           stripeAccountId: data.stripe_account_id ?? null,
           createdAt:       data.created_at,
           updatedAt:       data.updated_at,

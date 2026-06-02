@@ -28,6 +28,11 @@ export const PROVIDER_ROUTES: Routes = [
       import('../services/pages/service-form-page/service-form-page').then(m => m.ServiceFormPage),
   },
   {
+    path: 'profile',
+    loadComponent: () =>
+      import('./pages/profile-page/profile-page').then(m => m.ProfilePage),
+  },
+  {
     path: 'stripe-connect',
     loadComponent: () =>
       import('./pages/stripe-connect-page/stripe-connect-page').then(m => m.StripeConnectPage),

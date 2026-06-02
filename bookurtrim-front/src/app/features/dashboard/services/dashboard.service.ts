@@ -9,9 +9,9 @@ export class DashboardService {
   public dashboardData = signal<DashboardResponseDTO | null>(null);
   public isLoading = signal<boolean>(false);
 
-  loadDashboard(): void {
+  loadDashboard(period: string = 'month'): void {
     this.isLoading.set(true);
-    this.http.get<DashboardResponseDTO>('/dashboard/provider').subscribe({
+    this.http.get<DashboardResponseDTO>(`/dashboard/provider?period=${period}`).subscribe({
       next: (data) => {
         this.dashboardData.set(data);
         this.isLoading.set(false);

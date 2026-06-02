@@ -16,11 +16,13 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild('revenueChart') revenueChartRef!: ElementRef;
   @ViewChild('statsChart') statsChartRef!: ElementRef;
-
   private revChartInstance: any;
   private statsChartInstance: any;
+  public availableYears: string[] = [];
+  public currentPeriod = 'month';
 
   constructor() {
+    this.generateYears();
     effect(() => {
       const data = this.dashboardService.dashboardData();
       if (data) {
@@ -34,7 +36,21 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dashboardService.loadDashboard();
+    this.dashboardService.loadDashboard(this.currentPeriod);
+  }
+
+  onPeriodChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.currentPeriod = selectElement.value;
+    this.dashboardService.loadDashboard(this.currentPeriod);
+  }
+
+  private generateYears() {
+    const startYear = 2026;
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear - 1; i >= startYear; i--) {
+      this.availableYears.push(i.toString());
+    }
   }
 
   private renderCharts(data: any) {
@@ -74,8 +90,8 @@ export class DashboardComponent implements OnInit {
             borderRadius: 6
           },
           {
-            label: "Taux d'annulation (%)",
-            data: data.monthly_stats.map((m: any) => m.cancellation_rate),
+            label: "Annulations",
+            data: data.monthly_stats.map((m: any) => m.cancelled_appointments),
             backgroundColor: '#f43f5e',
             borderRadius: 6
           }
@@ -83,7 +99,15 @@ export class DashboardComponent implements OnInit {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
       }
     });
   }

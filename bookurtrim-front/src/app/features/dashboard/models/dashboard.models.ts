@@ -2,7 +2,7 @@ export interface MonthlyStatDTO {
   month: string;
   realized_revenue: number;
   completed_appointments: number;
-  cancellation_rate: number;
+  cancelled_appointments: number;
 }
 
 export interface DashboardResponseDTO {

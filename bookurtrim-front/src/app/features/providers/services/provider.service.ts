@@ -17,7 +17,6 @@ export class ProviderService {
   loadAll(): Observable<ProviderModel[]> {
     this._isLoading.set(true);
     return this.api.list().pipe(
-      tap(raw => console.log('[ProviderService] raw response:', raw)),
       map(raw => {
         const list = Array.isArray(raw) ? raw : (raw as { items?: typeof raw })?.items ?? [];
         return list.map(mapProviderDTOToModel);
@@ -28,7 +27,6 @@ export class ProviderService {
       }),
       catchError(err => {
         this._isLoading.set(false);
-        console.error('[ProviderService] loadAll error:', err);
         return throwError(() => err);
       })
     );

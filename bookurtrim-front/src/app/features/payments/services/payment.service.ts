@@ -46,7 +46,7 @@ export class PaymentService {
     return this.api.refundByAppointment(appointmentId).pipe(
       map(mapPaymentDTOToModel),
       tap(refunded =>
-        this._payments.update(list => list.map(p => p.appointmentId === appointmentId ? refunded : p))
+        this._payments.update(list => list.map(p => p.id === refunded.id ? refunded : p))
       )
     );
   }

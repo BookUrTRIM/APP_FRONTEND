@@ -15,4 +15,8 @@ export class AuthApiService extends AuthApiContract {
   signup(dto: SignupDTO): Observable<void> {
     return this.http.post<void>('/auth/signup', dto);
   }
+
+  verifyEmail(token: string): Observable<{ message: string }> {
+    return this.http.get<{ message: string }>(`/auth/verify-email?token=${token}`);
+  }
 }

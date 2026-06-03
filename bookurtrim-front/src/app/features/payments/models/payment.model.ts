@@ -11,4 +11,5 @@ export interface PaymentModel {
   stripePaymentIntentId: string | null;
   stripeChargeId: string | null;
   stripeMetadata: Record<string, unknown> | null;
+  stripeReceiptUrl: string | null;
 }

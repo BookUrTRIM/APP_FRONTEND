@@ -14,5 +14,6 @@ export function mapPaymentDTOToModel(dto: PaymentResponseDTO): PaymentModel {
     stripePaymentIntentId:  dto.stripe_payment_intent_id,
     stripeChargeId:         dto.stripe_charge_id,
     stripeMetadata:         dto.stripe_metadata,
+    stripeReceiptUrl:       dto.stripe_receipt_url ?? null,
   };
 }

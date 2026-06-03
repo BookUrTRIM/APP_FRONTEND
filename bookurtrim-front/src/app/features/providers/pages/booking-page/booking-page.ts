@@ -219,7 +219,12 @@ export class BookingPage implements OnInit {
       },
       error: (err) => {
         this.isBooking.set(false);
-        this.errorMessage.set(err?.error?.detail ?? 'Une erreur est survenue.');
+        if (err?.status === 409) {
+          this.errorMessage.set('Ce créneau vient d\'être réservé. Veuillez en choisir un autre.');
+          this.selectedSlot.set('');
+        } else {
+          this.errorMessage.set(err?.error?.detail ?? 'Une erreur est survenue.');
+        }
       },
     });
   }

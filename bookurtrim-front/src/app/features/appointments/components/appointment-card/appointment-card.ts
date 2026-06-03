@@ -5,7 +5,9 @@ import { AppointmentStatus } from '../../enums';
 import { formatAppointmentDate, formatAppointmentTime, isCancellable } from '../../mapper';
 import type { AppointmentModel } from '../../models';
 import type { ReviewModel } from '../../models/review.model';
+import type { InvoiceModel } from '../../models/invoice.model';
 import type { ReviewResponseDTO } from '../../dtos/review.dto';
+import type { InvoiceResponseDTO } from '../../dtos/invoice.dto';
 
 @Component({
   selector: 'app-appointment-card',
@@ -26,6 +28,7 @@ export class AppointmentCardComponent implements OnInit {
   readonly isCancellable = isCancellable;
 
   readonly review       = signal<ReviewModel | null>(null);
+  readonly invoice      = signal<InvoiceModel | null>(null);
   readonly showForm     = signal(false);
   readonly rating       = signal(0);
   readonly comment      = signal('');
@@ -53,7 +56,11 @@ export class AppointmentCardComponent implements OnInit {
   ngOnInit(): void {
     if (this.appointment().status === AppointmentStatus.COMPLETED) {
       this.http.get<ReviewResponseDTO>(`/appointments/${this.appointment().id}/review`).subscribe({
-        next: (dto) => this.review.set(this._map(dto)),
+        next: (dto) => this.review.set(this._mapReview(dto)),
+        error: () => {},
+      });
+      this.http.get<InvoiceResponseDTO>(`/appointments/${this.appointment().id}/invoice`).subscribe({
+        next: (dto) => this.invoice.set({ id: dto.id, appointmentId: dto.appointment_id, totalAmount: dto.total_amount, issuedAt: dto.issued_at, pdfUrl: dto.pdf_url }),
         error: () => {},
       });
     }
@@ -76,7 +83,7 @@ export class AppointmentCardComponent implements OnInit {
 
     this.http.post<ReviewResponseDTO>(`/appointments/${this.appointment().id}/review`, body).subscribe({
       next: (dto) => {
-        this.review.set(this._map(dto));
+        this.review.set(this._mapReview(dto));
         this.showForm.set(false);
         this.isSubmitting.set(false);
       },
@@ -84,7 +91,7 @@ export class AppointmentCardComponent implements OnInit {
         this.isSubmitting.set(false);
         if (err?.status === 409) {
           this.http.get<ReviewResponseDTO>(`/appointments/${this.appointment().id}/review`).subscribe({
-            next: (dto) => { this.review.set(this._map(dto)); this.showForm.set(false); },
+            next: (dto) => { this.review.set(this._mapReview(dto)); this.showForm.set(false); },
           });
         } else {
           this.reviewError.set('Une erreur est survenue.');
@@ -93,7 +100,7 @@ export class AppointmentCardComponent implements OnInit {
     });
   }
 
-  private _map(dto: ReviewResponseDTO): ReviewModel {
+  private _mapReview(dto: ReviewResponseDTO): ReviewModel {
     return { id: dto.id, appointmentId: dto.appointment_id, rating: dto.rating, comment: dto.comment, reviewedAt: dto.reviewed_at };
   }
 }

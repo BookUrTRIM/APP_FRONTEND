@@ -214,7 +214,7 @@ export class BookingPage implements OnInit {
       next: (appointment) => {
         this.isBooking.set(false);
         this.router.navigate(['/client/payments', appointment.id], {
-          queryParams: { amount: this.service()!.basePrice },
+          queryParams: { amount: this.service()!.depositAmount ?? this.service()!.basePrice ?? 0 },
         });
       },
       error: (err) => {

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AppointmentApiContract } from './appointment.api.contract';
 import type { AppointmentCreateDTO, AppointmentResponseDTO } from '../dtos';
 import type { InvoiceResponseDTO } from '../dtos/invoice.dto';
+import type { ReceiptResponseDTO } from '../dtos/receipt.dto';
 
 @Injectable()
 export class AppointmentApiService extends AppointmentApiContract {
@@ -39,5 +40,9 @@ export class AppointmentApiService extends AppointmentApiContract {
 
   getInvoice(id: number): Observable<InvoiceResponseDTO> {
     return this.http.get<InvoiceResponseDTO>(`/appointments/${id}/invoice`);
+  }
+
+  getReceipts(id: number): Observable<ReceiptResponseDTO[]> {
+    return this.http.get<ReceiptResponseDTO[]>(`/appointments/${id}/receipts`);
   }
 }

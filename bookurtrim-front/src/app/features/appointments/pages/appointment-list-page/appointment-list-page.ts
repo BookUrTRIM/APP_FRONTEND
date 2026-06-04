@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentCardComponent } from '../../components/appointment-card/appointment-card';
+import type { AppointmentModel } from '../../models';
 
 @Component({
   selector: 'app-appointment-list-page',
@@ -31,8 +32,17 @@ export class AppointmentListPage implements OnInit {
     });
   }
 
-  onPay(id: number): void {
-    this.router.navigate(['/client/payments', id]);
+  onPay(appointment: AppointmentModel): void {
+    const amount = appointment.depositAmount ?? appointment.serviceBasePrice ?? 0;
+    this.router.navigate(['/client/payments', appointment.id], {
+      queryParams: amount ? { amount } : {},
+    });
+  }
+
+  onPayBalance(appointment: AppointmentModel): void {
+    const balance = (appointment.serviceBasePrice ?? 0) - (appointment.depositAmount ?? 0);
+    if (balance <= 0) return;
+    this.router.navigate(['/client/payments', appointment.id], { queryParams: { amount: balance } });
   }
 
   onCancel(id: number): void {

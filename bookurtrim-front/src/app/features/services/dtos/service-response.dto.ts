@@ -4,6 +4,7 @@ export interface ServiceResponseDTO {
   name: string;
   description: string | null;
   base_price: number;
+  deposit_amount: number | null;
   default_duration: number;
   created_at: string;
   updated_at: string;

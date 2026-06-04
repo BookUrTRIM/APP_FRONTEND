@@ -9,8 +9,7 @@ import type { PaymentModel } from '../../models';
   templateUrl: './payment-card.html',
 })
 export class PaymentCardComponent {
-  readonly payment = input.required<PaymentModel>();
-
+  readonly payment     = input.required<PaymentModel>();
   readonly PaymentStatus = PaymentStatus;
 
   readonly typeLabel: Record<PaymentType, string> = {

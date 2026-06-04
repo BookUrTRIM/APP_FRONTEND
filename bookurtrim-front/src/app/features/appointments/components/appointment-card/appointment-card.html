@@ -52,22 +52,62 @@
     </div>
   }
 
+  <!-- Choix paiement du solde (rendez-vous terminé, solde restant) -->
+  @if (showBalanceChoice()) {
+    <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 space-y-3">
+      <p class="text-sm font-semibold text-indigo-900">
+        Solde restant : {{ appointment().serviceBasePrice! - appointment().depositAmount! }} €
+      </p>
+      <p class="text-xs text-indigo-600">Comment souhaitez-vous régler le solde ?</p>
+      <div class="flex gap-2">
+        <button type="button"
+          (click)="onPayBalance.emit(appointment())"
+          class="flex-1 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition-colors">
+          💳 Payer sur l'app
+        </button>
+        <button type="button"
+          (click)="settleLocally()"
+          class="flex-1 py-2 rounded-xl border border-indigo-300 text-indigo-700 text-sm font-medium hover:bg-indigo-100 transition-colors">
+          🏪 Je règle en caisse
+        </button>
+      </div>
+    </div>
+  }
+
   <!-- Facture (rendez-vous terminé) -->
   @if (appointment().status === AppointmentStatus.COMPLETED && invoice()) {
-    <div class="flex items-center justify-between bg-gray-50 rounded-xl px-3 py-2">
-      <span class="text-sm text-gray-600">Facture · {{ invoice()!.totalAmount }} €</span>
-      @if (invoice()!.pdfUrl) {
-        <a [href]="invoice()!.pdfUrl" target="_blank"
-          class="text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition-colors">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-          </svg>
-          Voir le reçu
-        </a>
-      } @else {
-        <span class="text-xs text-gray-400">Reçu non disponible</span>
-      }
+    <div class="bg-gray-50 rounded-xl px-3 py-3 space-y-1.5">
+      <div class="flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-700">Facture</span>
+        @if (invoice()!.pdfUrl) {
+          <a [href]="invoice()!.pdfUrl" target="_blank"
+            class="text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            Voir le reçu
+          </a>
+        } @else {
+          <span class="text-xs text-gray-400">Reçu non disponible</span>
+        }
+      </div>
+      <div class="text-xs text-gray-500 space-y-0.5">
+        <div class="flex justify-between">
+          <span>Total</span>
+          <span class="font-medium text-gray-700">{{ invoice()!.totalAmount }} €</span>
+        </div>
+        @if (appointment().depositAmount) {
+          <div class="flex justify-between">
+            <span>Acompte payé</span>
+            <span class="font-medium text-green-600">- {{ appointment().depositAmount }} €</span>
+          </div>
+          <div class="flex justify-between border-t border-gray-200 pt-1">
+            <span>Solde</span>
+            <span class="font-medium text-gray-700">{{ invoice()!.totalAmount - appointment().depositAmount! }} €</span>
+          </div>
+        }
+      </div>
     </div>
   }
 
@@ -147,12 +187,13 @@
   }
 
   <!-- Actions -->
-  <div class="flex gap-2">
+  <div class="flex gap-2 flex-wrap">
     @if (appointment().status === AppointmentStatus.PENDING) {
       <button type="button"
-        (click)="onPay.emit(appointment().id)"
+        (click)="onPay.emit(appointment())"
         class="flex-1 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition-colors">
         Payer l'acompte
+        @if (appointment().depositAmount) { ({{ appointment().depositAmount }} €) }
       </button>
     }
     @if (isCancellable(appointment().status)) {

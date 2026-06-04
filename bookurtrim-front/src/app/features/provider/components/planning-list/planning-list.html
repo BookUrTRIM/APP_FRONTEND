@@ -1,6 +1,6 @@
-<div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col h-full">
-  <div class="px-6 py-4 border-b border-slate-200 bg-slate-50 shrink-0">
-    <h3 class="text-lg font-semibold text-slate-900">Vos horaires enregistrés</h3>
+<div class="bg-cream rounded-xl shadow-sm border card-lift border-slate-200 overflow-hidden flex flex-col h-full">
+  <div class="px-6 py-4 border-b border-slate-200 bg-cream shrink-0">
+    <h3 class="font-display text-lg font-semibold text-slate-900">Vos horaires enregistrés</h3>
   </div>
 
   <div class="flex-1 overflow-auto">
@@ -11,7 +11,7 @@
     } @else {
       <ul class="divide-y divide-slate-100">
         @for (slot of paginatedAvailabilities; track slot.id) {
-          <li class="px-6 py-4 flex items-center justify-between hover:bg-slate-50">
+          <li class="px-6 py-4 flex items-center justify-between hover:bg-cream">
             <div class="flex items-center gap-4">
               <div class="w-2 h-10 rounded-full" [ngClass]="{'bg-green-500': slot.slot_type === 'work', 'bg-red-500': slot.slot_type === 'break'}"></div>
               <div>
@@ -25,7 +25,7 @@
             </div>
 
             <div class="flex items-center gap-3">
-              <span class="px-2.5 py-1 text-xs font-medium rounded-full" [ngClass]="{'bg-green-100 text-green-800': slot.slot_type === 'work', 'bg-red-100 text-red-800': slot.slot_type === 'break'}">
+              <span class="px-2.5 py-1 text-xs font-medium rounded-full" [ngClass]="{'bg-rose/15 text-rose': slot.slot_type === 'work', 'bg-red-100 text-red-800': slot.slot_type === 'break'}">
                 {{ slot.slot_type === 'work' ? 'Travail' : 'Absent' }}
               </span>
               <button (click)="onDelete(slot.id)" class="text-slate-400 hover:text-red-600 transition-colors">
@@ -39,17 +39,17 @@
   </div>
 
   @if (availabilities.length > 0) {
-    <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between shrink-0">
+    <div class="px-6 py-4 border-t border-slate-200 bg-cream flex items-center justify-between shrink-0">
       <p class="text-sm text-slate-600">
         Affichage de <span class="font-medium">{{ (currentPage - 1) * itemsPerPage + 1 }}</span> à
         <span class="font-medium">{{ Math.min(currentPage * itemsPerPage, availabilities.length) }}</span> sur
         <span class="font-medium">{{ availabilities.length }}</span>
       </p>
       <div class="flex gap-2">
-        <button (click)="prevPage()" [disabled]="currentPage === 1" class="px-3 py-1 text-sm bg-white border border-slate-300 rounded-md hover:bg-slate-50 disabled:opacity-50">
+        <button (click)="prevPage()" [disabled]="currentPage === 1" class="px-3 py-1 text-sm bg-cream border border-slate-300 rounded-md hover:bg-cream disabled:opacity-50">
           Précédent
         </button>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="px-3 py-1 text-sm bg-white border border-slate-300 rounded-md hover:bg-slate-50 disabled:opacity-50">
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="px-3 py-1 text-sm bg-cream border border-slate-300 rounded-md hover:bg-cream disabled:opacity-50">
           Suivant
         </button>
       </div>

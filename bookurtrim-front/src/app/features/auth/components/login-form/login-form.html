@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5" novalidate>
 
   @if (errorMessage) {
-    <div role="alert" class="bg-red-50 text-red-700 p-3 rounded-lg text-sm text-center font-medium">
+    <div role="alert" class="bg-bordeaux/10 text-bordeaux p-3 rounded-lg text-sm text-center font-medium">
       {{ errorMessage }}
     </div>
   }
@@ -19,7 +19,7 @@
       placeholder="jean@exemple.com"
       [class.border-red-400]="email.invalid && email.touched"
       [class.border-slate-300]="!(email.invalid && email.touched)"
-      class="block w-full px-3 py-2 border rounded-lg placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all"
+      class="block w-full px-3 py-2 border rounded-lg placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-chocolate/40 focus:border-chocolate sm:text-sm transition-all"
     />
     @if (email.touched && email.hasError('required')) {
       <p class="mt-1 text-xs text-red-600">L'email est requis.</p>
@@ -42,7 +42,7 @@
         placeholder="••••••••"
         [class.border-red-400]="password.invalid && password.touched"
         [class.border-slate-300]="!(password.invalid && password.touched)"
-        class="block w-full px-3 py-2 pr-10 border rounded-lg placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all"
+        class="block w-full px-3 py-2 pr-10 border rounded-lg placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-chocolate/40 focus:border-chocolate sm:text-sm transition-all"
       />
       <button
         type="button"
@@ -76,7 +76,7 @@
   <button
     type="submit"
     [disabled]="isLoading"
-    class="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+    class="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-chocolate hover:bg-espresso focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-chocolate/40 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
   >
     @if (isLoading) {
       <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">

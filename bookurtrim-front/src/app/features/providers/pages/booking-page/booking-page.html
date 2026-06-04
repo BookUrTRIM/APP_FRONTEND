@@ -10,10 +10,10 @@
   </button>
 
   @if (errorMessage()) {
-    <div role="alert" class="bg-red-50 text-red-700 p-4 rounded-xl text-sm">{{ errorMessage() }}</div>
+    <div role="alert" class="bg-bordeaux/10 text-bordeaux p-4 rounded-xl text-sm">{{ errorMessage() }}</div>
   }
   @if (successMessage()) {
-    <div role="status" class="bg-green-50 text-green-700 p-4 rounded-xl text-sm font-medium">{{ successMessage() }}</div>
+    <div role="status" class="bg-rose/10 text-rose p-4 rounded-xl text-sm font-medium">{{ successMessage() }}</div>
   }
 
   @if (isLoading()) {
@@ -28,10 +28,10 @@
   @if (!isLoading() && provider() && service()) {
 
     <!-- En-tête -->
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center justify-between">
+    <div class="bg-cream rounded-2xl border border-beige/40 shadow-sm p-5 flex items-center justify-between">
       <div>
         <p class="text-sm text-gray-400">Réservation chez</p>
-        <h1 class="text-xl font-bold text-gray-900">{{ getFullName(provider()!) }}</h1>
+        <h1 class="font-display text-xl font-semibold text-gray-900">{{ getFullName(provider()!) }}</h1>
       </div>
       <div class="text-right">
         <p class="font-semibold text-gray-900">{{ service()!.name }}</p>
@@ -41,7 +41,7 @@
 
     <!-- ── Questionnaire ── -->
     @if (showQuestionnaire()) {
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-6">
+      <div class="bg-cream rounded-2xl shadow-sm border card-lift border-beige/40 p-6 space-y-6">
         <div>
           <h2 class="text-base font-semibold text-gray-900">Quelques questions avant de réserver</h2>
           <p class="text-sm text-gray-500 mt-0.5">Vos réponses permettent d'ajuster la durée du rendez-vous.</p>
@@ -57,7 +57,7 @@
                   class="px-4 py-2 rounded-xl text-sm font-medium border transition-all"
                   [ngClass]="{
                     'bg-indigo-600 border-indigo-600 text-white shadow-sm': isOptionSelected(q.id, $index),
-                    'bg-white border-gray-200 text-gray-700 hover:border-indigo-400 hover:text-indigo-600': !isOptionSelected(q.id, $index)
+                    'bg-cream border-beige text-gray-700 hover:border-indigo-400 hover:text-indigo-600': !isOptionSelected(q.id, $index)
                   }">
                   {{ opt.label }}
                   @if (opt.extraMinutes > 0) {
@@ -90,7 +90,7 @@
         <div class="flex flex-wrap gap-2">
           @for (q of questions(); track q.id) {
             @if (answers()[q.id] !== undefined) {
-              <span class="text-xs text-indigo-700 bg-white border border-indigo-200 rounded-full px-2.5 py-1 font-medium">
+              <span class="text-xs text-indigo-700 bg-cream border border-indigo-200 rounded-full px-2.5 py-1 font-medium">
                 {{ q.options[answers()[q.id]].label }}
               </span>
             }
@@ -108,16 +108,16 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
       <!-- ── Calendrier (2/3) ── -->
-      <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="lg:col-span-2 bg-cream rounded-2xl shadow-sm border border-beige/40 overflow-hidden">
 
         <!-- Nav semaine -->
-        <div class="px-5 py-4 border-b border-gray-100 bg-slate-50 flex items-center justify-between">
+        <div class="px-5 py-4 border-b border-beige/40 bg-cream flex items-center justify-between">
           <div class="flex items-center gap-2">
             <button (click)="resetWeek()"
-              class="px-3 py-1.5 text-sm font-medium bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+              class="px-3 py-1.5 text-sm font-medium bg-cream border border-slate-300 rounded-lg hover:bg-cream transition-colors">
               Aujourd'hui
             </button>
-            <div class="flex items-center gap-1 bg-white border border-slate-300 rounded-lg p-1">
+            <div class="flex items-center gap-1 bg-cream border border-slate-300 rounded-lg p-1">
               <button (click)="previousWeek()" class="p-1 hover:bg-slate-100 rounded-md">
                 <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -174,7 +174,7 @@
                       [ngClass]="{
                         'bg-indigo-50 border-indigo-200 text-indigo-800': slot.slot_type === 'work',
                         'bg-red-50 border-red-200 text-red-700': slot.slot_type === 'break',
-                        'bg-amber-50 border-amber-200 text-amber-700': slot.slot_type === 'booked'
+                        'bg-bordeaux/10 border-amber-200 text-amber-700': slot.slot_type === 'booked'
                       }">
                       {{ slot.start_time.slice(0,5) }}–{{ slot.end_time.slice(0,5) }}
                       <span class="block text-xs opacity-70">
@@ -199,7 +199,7 @@
       <div class="space-y-4">
 
         @if (!selectedDate()) {
-          <div class="bg-white rounded-2xl border border-dashed border-indigo-200 p-6 text-center">
+          <div class="bg-cream rounded-2xl border border-dashed border-indigo-200 p-6 text-center">
             <svg class="w-10 h-10 text-indigo-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -216,7 +216,7 @@
           </div>
 
           <!-- Créneaux horaires -->
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+          <div class="bg-cream rounded-2xl border border-beige/40 shadow-sm p-4 space-y-3">
             <p class="text-sm font-semibold text-gray-700">Choisissez un créneau</p>
 
             @if (slotsForDay().length === 0) {
@@ -229,9 +229,9 @@
                     [disabled]="!slot.available"
                     class="py-2 px-1 text-sm font-medium rounded-xl border transition-all"
                     [ngClass]="{
-                      'bg-indigo-600 border-indigo-600 text-white shadow-md': selectedSlot() === slot.time,
-                      'bg-white border-gray-200 text-gray-700 hover:border-indigo-400 hover:text-indigo-600': selectedSlot() !== slot.time && slot.available,
-                      'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed line-through': !slot.available
+                      'bg-indigo-600 border-indigo-600 text-white shadow': selectedSlot() === slot.time,
+                      'bg-cream border-beige text-gray-700 hover:border-indigo-400 hover:text-indigo-600': selectedSlot() !== slot.time && slot.available,
+                      'bg-beige/30 border-beige text-gray-400 cursor-not-allowed line-through': !slot.available
                     }">
                     {{ slot.time }}
                     @if (!slot.available) {
@@ -245,7 +245,7 @@
 
           <!-- Demande spécifique -->
           @if (selectedSlot()) {
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-2">
+            <div class="bg-cream rounded-2xl border border-beige/40 shadow-sm p-4 space-y-2">
               <label for="specific-request" class="block text-sm font-semibold text-gray-700">
                 Demande particulière
                 <span class="text-gray-400 font-normal">(optionnelle)</span>
@@ -256,14 +256,14 @@
                 [value]="specificRequest()"
                 (input)="specificRequest.set($any($event.target).value)"
                 placeholder="Ex : allergie aux colorants, coupe spécifique..."
-                class="block w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none"
+                class="block w-full px-3 py-2 border border-beige rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none"
               ></textarea>
             </div>
           }
 
           <!-- Récap + confirmation -->
           @if (selectedSlot()) {
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+            <div class="bg-cream rounded-2xl border border-beige/40 shadow-sm p-4 space-y-3">
               <p class="text-sm font-semibold text-gray-700">Récapitulatif</p>
               <div class="text-sm text-gray-600 space-y-1">
                 <p>📅 {{ selectedDate() | date:'dd/MM/yyyy' }} à {{ selectedSlot() }}</p>

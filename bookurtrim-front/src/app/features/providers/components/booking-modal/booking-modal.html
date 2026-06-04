@@ -3,7 +3,7 @@
   (click)="onClose()">
 
   <!-- Carte modal -->
-  <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-6"
+  <div class="bg-cream rounded-2xl shadow-lg w-full max-w-md p-6 space-y-6"
     (click)="$event.stopPropagation()">
 
     <!-- En-tête -->
@@ -28,7 +28,7 @@
 
     <!-- Erreur -->
     @if (errorMessage()) {
-      <div role="alert" class="bg-red-50 text-red-700 p-3 rounded-lg text-sm">
+      <div role="alert" class="bg-bordeaux/10 text-bordeaux p-3 rounded-lg text-sm">
         {{ errorMessage() }}
       </div>
     }
@@ -42,7 +42,7 @@
         </label>
         <input id="bk-date" type="date" formControlName="date"
           [min]="today"
-          class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"/>
+          class="block w-full px-3 py-2 border border-beige rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"/>
       </div>
 
       <div>
@@ -50,12 +50,12 @@
           Heure de début <span class="text-red-500">*</span>
         </label>
         <input id="bk-time" type="time" formControlName="start_time"
-          class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"/>
+          class="block w-full px-3 py-2 border border-beige rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"/>
       </div>
 
       <div class="flex gap-3 pt-2">
         <button type="button" (click)="onClose()"
-          class="flex-1 py-2.5 border border-gray-300 text-sm font-medium rounded-xl text-gray-700 hover:bg-gray-50 transition-colors">
+          class="flex-1 py-2.5 border border-beige text-sm font-medium rounded-xl text-gray-700 hover:bg-cream transition-colors">
           Annuler
         </button>
         <button type="submit" [disabled]="isLoading()"

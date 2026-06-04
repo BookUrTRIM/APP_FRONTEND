@@ -2,27 +2,27 @@
 
   <!-- En-tête -->
   <div>
-    <h1 class="text-2xl font-bold text-gray-900">Mes rendez-vous</h1>
+    <h1 class="font-display text-2xl font-semibold text-gray-900">Mes rendez-vous</h1>
     <p class="text-sm text-gray-500 mt-1">Retrouvez et gérez l'ensemble de vos réservations.</p>
   </div>
 
   @if (errorMessage()) {
-    <div role="alert" class="bg-red-50 text-red-700 p-3 rounded-xl text-sm">{{ errorMessage() }}</div>
+    <div role="alert" class="bg-bordeaux/10 text-bordeaux p-3 rounded-xl text-sm">{{ errorMessage() }}</div>
   }
 
   <!-- Skeleton -->
   @if (isLoading()) {
     <div class="space-y-4">
       @for (_ of [1,2,3]; track $index) {
-        <div class="bg-white rounded-2xl border border-gray-100 p-5 animate-pulse space-y-3">
+        <div class="bg-cream rounded-2xl border border-beige/40 p-5 animate-pulse space-y-3">
           <div class="flex justify-between">
             <div class="space-y-2">
               <div class="h-4 bg-gray-200 rounded w-48"></div>
-              <div class="h-5 bg-gray-100 rounded w-32"></div>
+              <div class="h-5 bg-beige/30 rounded w-32"></div>
             </div>
             <div class="h-6 bg-gray-200 rounded-full w-20"></div>
           </div>
-          <div class="h-9 bg-gray-100 rounded-xl"></div>
+          <div class="h-9 bg-beige/30 rounded-xl"></div>
         </div>
       }
     </div>
@@ -52,11 +52,11 @@
     }
 
     <!-- Onglets -->
-    <div class="flex gap-1 bg-gray-100 p-1 rounded-xl w-fit">
+    <div class="flex gap-1 bg-beige/30 p-1 rounded-xl w-fit">
       <button type="button"
         (click)="activeTab = 'upcoming'"
         class="px-4 py-2 text-sm font-medium rounded-lg transition-all"
-        [class.bg-white]="activeTab === 'upcoming'"
+        [class.bg-cream]="activeTab === 'upcoming'"
         [class.shadow-sm]="activeTab === 'upcoming'"
         [class.text-gray-900]="activeTab === 'upcoming'"
         [class.text-gray-500]="activeTab !== 'upcoming'">
@@ -70,7 +70,7 @@
       <button type="button"
         (click)="activeTab = 'past'"
         class="px-4 py-2 text-sm font-medium rounded-lg transition-all"
-        [class.bg-white]="activeTab === 'past'"
+        [class.bg-cream]="activeTab === 'past'"
         [class.shadow-sm]="activeTab === 'past'"
         [class.text-gray-900]="activeTab === 'past'"
         [class.text-gray-500]="activeTab !== 'past'">

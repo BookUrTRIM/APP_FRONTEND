@@ -6,15 +6,15 @@
 
   @if (dashboardService.dashboardData(); as data) {
     <div class="flex items-center gap-3 self-end sm:self-auto">
-      <div class="bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-100 flex items-center gap-2 shadow-sm">
-        <svg class="w-4 midnight h-4 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+      <div class="bg-bordeaux/10 px-3 py-1.5 rounded-xl border border-amber-100 flex items-center gap-2 shadow-sm">
+        <svg class="w-4 midnight h-4 text-gold fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
         <div class="text-left">
           <p class="text-[9px] font-bold text-amber-800 uppercase tracking-wider leading-none">Note</p>
-          <p class="text-sm font-black text-amber-600 leading-none mt-0.5">{{ data.averageRating | number:'1.1-1' }}</p>
+          <p class="text-sm font-black text-bordeaux leading-none mt-0.5">{{ data.averageRating | number:'1.1-1' }}</p>
         </div>
       </div>
 
-      <select (change)="onPeriodChange($event)" class="bg-white border border-slate-200 text-slate-700 rounded-xl px-3 py-2 text-xs font-bold shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer hover:bg-slate-50 transition-all">
+      <select (change)="onPeriodChange($event)" class="bg-cream border border-slate-200 text-slate-700 rounded-xl px-3 py-2 text-xs font-bold shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer hover:bg-cream transition-all">
         <option value="week" [selected]="currentPeriod === 'week'">Cette semaine</option>
         <option value="month" [selected]="currentPeriod === 'month'">Ce mois-ci</option>
         <option value="year" [selected]="currentPeriod === 'year'">Cette année</option>

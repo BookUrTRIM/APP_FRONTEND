@@ -1,9 +1,9 @@
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
+<div class="bg-cream rounded-2xl shadow-sm border card-lift border-beige/40 p-5 space-y-3">
 
   <div class="flex items-center justify-between gap-3">
     <div>
       <p class="font-semibold text-gray-900">{{ typeLabel[payment().paymentType] }}</p>
-      <p class="text-2xl font-bold text-indigo-600 mt-0.5">{{ formatAmount(payment().amount) }}</p>
+      <p class="font-display text-2xl font-semibold text-gold font-mono mt-0.5">{{ formatAmount(payment().amount) }}</p>
     </div>
     <span class="shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold"
       [class]="statusClass[payment().status]">

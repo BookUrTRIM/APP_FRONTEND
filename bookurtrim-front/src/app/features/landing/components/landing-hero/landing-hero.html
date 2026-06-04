@@ -1,27 +1,50 @@
-<div class="relative isolate px-6 pt-14 lg:px-8">
-  <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
-    <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div>
-  </div>
+<div class="relative bg-espresso overflow-hidden">
+  <!-- Blobs animés -->
+  <div class="absolute top-0 right-0 w-[40rem] h-[40rem] bg-chocolate/30 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/4 animate-float"></div>
+  <div class="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-bordeaux/20 rounded-full blur-3xl pointer-events-none translate-y-1/2 -translate-x-1/4 animate-float delay-300"></div>
+  <div class="absolute top-1/2 left-1/2 w-[20rem] h-[20rem] bg-gold/5 rounded-full blur-3xl pointer-events-none -translate-x-1/2 -translate-y-1/2 animate-float delay-200"></div>
 
-  <div class="mx-auto max-w-3xl py-32 sm:py-48 lg:py-56 text-center">
-    <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-      <div class="relative rounded-full px-3 py-1 text-sm leading-6 text-slate-600 ring-1 ring-slate-900/10 hover:ring-slate-900/20">
-        La plateforme conçue pour tous les pros de l'esthétique. <a href="#" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>En savoir plus <span aria-hidden="true">&rarr;</span></a>
+  <div class="relative mx-auto max-w-4xl px-6 py-32 sm:py-48 lg:py-56 text-center">
+
+    <p class="animate-fade-in-up text-xs font-medium tracking-widest uppercase text-beige/60 mb-6">
+      La plateforme des professionnelles de la beauté
+    </p>
+
+    <h1 class="animate-fade-in-up delay-100 font-display text-5xl sm:text-7xl font-semibold text-cream leading-tight italic">
+      Votre activité beauté,<br>
+      <span class="text-gold">sublimée.</span>
+    </h1>
+
+    <p class="animate-fade-in-up delay-200 mt-8 text-lg leading-8 text-cream/60 max-w-2xl mx-auto">
+      BookUrTrim centralise votre planning, sécurise vos revenus avec des acomptes et automatise votre facturation. Concentrez-vous sur votre art.
+    </p>
+
+    <div class="animate-fade-in-up delay-300 mt-12 flex items-center justify-center gap-4">
+      <a routerLink="/auth/signup"
+        class="rounded-full btn-shimmer glow-gold px-8 py-3.5 text-sm font-semibold text-espresso shadow-lg hover:scale-105 transition-transform">
+        Commencer gratuitement
+      </a>
+      <a routerLink="/auth/login"
+        class="text-sm font-medium text-cream/60 hover:text-cream transition-colors">
+        Se connecter →
+      </a>
+    </div>
+
+    <!-- Stats avec fade-in décalé -->
+    <div class="mt-20 grid grid-cols-3 gap-8 border-t border-cream/10 pt-12">
+      <div class="animate-fade-in-up delay-400">
+        <p class="font-display text-3xl font-semibold text-gold italic">0 €</p>
+        <p class="mt-1 text-xs text-cream/40 uppercase tracking-widest">Frais fixes</p>
+      </div>
+      <div class="animate-fade-in-up delay-400">
+        <p class="font-display text-3xl font-semibold text-gold italic">100%</p>
+        <p class="mt-1 text-xs text-cream/40 uppercase tracking-widest">Sécurisé Stripe</p>
+      </div>
+      <div class="animate-fade-in-up delay-500">
+        <p class="font-display text-3xl font-semibold text-gold italic">24/7</p>
+        <p class="mt-1 text-xs text-cream/40 uppercase tracking-widest">Réservations</p>
       </div>
     </div>
-    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl">
-      Gérez votre salon d'une main de maître.
-    </h1>
-    <p class="mt-6 text-lg leading-8 text-slate-600">
-      Fini les rendez-vous manqués et la paperasse interminable. BookUrTrim centralise votre planning, sécurise vos revenus avec des acomptes, et automatise votre facturation.
-    </p>
-    <div class="mt-10 flex items-center justify-center gap-x-6">
-      <a routerLink="/auth/signup" class="rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-transform hover:scale-105">
-        Créer mon compte Pro
-      </a>
-      <a href="#" class="text-sm font-semibold leading-6 text-slate-900 flex items-center gap-1">
-        Voir une démo
-      </a>
-    </div>
+
   </div>
 </div>

@@ -1,18 +1,20 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentCardComponent } from '../../components/appointment-card/appointment-card';
+import { ConfirmModalService } from '../../../../core/services/confirm-modal.service';
 import type { AppointmentModel } from '../../models';
 
 @Component({
   selector: 'app-appointment-list-page',
   standalone: true,
-  imports: [AppointmentCardComponent],
+  imports: [AppointmentCardComponent, RouterLink],
   templateUrl: './appointment-list-page.html',
 })
 export class AppointmentListPage implements OnInit {
   private readonly appointmentService = inject(AppointmentService);
   private readonly router             = inject(Router);
+  private readonly confirmModal       = inject(ConfirmModalService);
 
   readonly isLoading       = this.appointmentService.isLoading;
   readonly awaitingPayment = this.appointmentService.awaitingPayment;
@@ -45,8 +47,15 @@ export class AppointmentListPage implements OnInit {
     this.router.navigate(['/client/payments', appointment.id], { queryParams: { amount: balance } });
   }
 
-  onCancel(id: number): void {
-    if (!confirm('Confirmer l\'annulation de ce rendez-vous ?')) return;
+  async onCancel(id: number): Promise<void> {
+    const confirmed = await this.confirmModal.confirm({
+      title: 'Annuler le rendez-vous',
+      message: 'Cette action est irréversible. L\'annulation ne donnera pas lieu à un remboursement.',
+      confirmText: 'Oui, annuler',
+      cancelText: 'Retour',
+      variant: 'danger',
+    });
+    if (!confirmed) return;
     this.cancellingId.set(id);
     this.appointmentService.cancel(id).subscribe({
       next: () => this.cancellingId.set(null),

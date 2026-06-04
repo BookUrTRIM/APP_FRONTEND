@@ -44,11 +44,19 @@ export class PaymentPage implements OnInit, AfterViewInit {
   amount = 0;
 
   get hasDeposit(): boolean {
-    return this.payments().some(p => p.paymentType === PaymentType.DEPOSIT);
+    return this.payments().some(p =>
+      p.paymentType === PaymentType.DEPOSIT && p.status === PaymentStatus.VALIDATED
+    );
+  }
+
+  get activeReceiptUrl(): string | null {
+    return this.payments().find(p => p.id === this.activePaymentId)?.stripeReceiptUrl ?? null;
   }
 
   get hasBalance(): boolean {
-    return this.payments().some(p => p.paymentType === PaymentType.BALANCE);
+    return this.payments().some(p =>
+      p.paymentType === PaymentType.BALANCE && p.status === PaymentStatus.VALIDATED
+    );
   }
 
   get selectedType(): PaymentType {

@@ -45,7 +45,7 @@
           <app-appointment-card
             [appointment]="appt"
             (onCancel)="onCancel($event)"
-            (onPay)="onPay($event)"
+            (onPay)="onPay($event)" (onPayBalance)="onPayBalance($event)"
           />
         }
       </section>
@@ -95,7 +95,7 @@
             <app-appointment-card
               [appointment]="appt"
               (onCancel)="onCancel($event)"
-              (onPay)="onPay($event)"
+              (onPay)="onPay($event)" (onPayBalance)="onPayBalance($event)"
             />
           }
         </div>
@@ -114,7 +114,7 @@
             <app-appointment-card
               [appointment]="appt"
               (onCancel)="onCancel($event)"
-              (onPay)="onPay($event)"
+              (onPay)="onPay($event)" (onPayBalance)="onPayBalance($event)"
             />
           }
         </div>

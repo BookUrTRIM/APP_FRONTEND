@@ -81,6 +81,24 @@
 
   </div>
 
+  <!-- Acompte -->
+  <div>
+    <label for="svc-deposit" class="block text-sm font-medium text-gray-700 mb-1">
+      Acompte à la réservation (€)
+      <span class="text-gray-400 font-normal">(optionnel)</span>
+    </label>
+    <input
+      id="svc-deposit"
+      type="number"
+      formControlName="deposit_amount"
+      min="0"
+      step="0.01"
+      placeholder="0.00"
+      class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+    />
+    <p class="mt-1 text-xs text-gray-400">Montant prélevé lors de la réservation. Le reste sera réglé après le rendez-vous.</p>
+  </div>
+
   <!-- Actions -->
   <div class="flex gap-3 pt-2">
     <button

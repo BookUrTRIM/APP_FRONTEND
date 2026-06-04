@@ -138,8 +138,8 @@
         </div>
 
         <!-- Jours -->
-        <div class="p-4 overflow-x-auto">
-          <div class="grid grid-cols-7 gap-3 min-w-[600px]">
+        <div class="p-4">
+          <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2 md:gap-3">
             @for (day of weekDays; track day.toISOString()) {
               <div class="flex flex-col gap-2"
                 [class.opacity-40]="!isAvailable(day) && !isToday(day)">
@@ -168,7 +168,7 @@
                 </button>
 
                 <!-- Créneaux du jour -->
-                <div class="flex flex-col gap-1.5 min-h-[160px]">
+                <div class="flex flex-col gap-1 min-h-[80px] md:min-h-[160px]">
                   @for (slot of getSlotsForCalendar(day); track slot.id) {
                     <div class="p-2 rounded-lg border text-xs font-medium"
                       [ngClass]="{

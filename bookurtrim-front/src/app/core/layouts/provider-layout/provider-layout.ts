@@ -1,13 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal';
 import { AuthService } from '../../../features/auth/services/auth.service';
 import type { ProviderModel } from './models';
 
 @Component({
   selector: 'app-provider-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, ConfirmModalComponent],
   templateUrl: './provider-layout.html',
 })
 export class ProviderLayout implements OnInit {

@@ -29,10 +29,10 @@ export class AppointmentProviderCardComponent {
   };
 
   readonly statusClass: Record<AppointmentStatus, string> = {
-    [AppointmentStatus.PENDING]:   'bg-yellow-100 text-yellow-800',
-    [AppointmentStatus.CONFIRMED]: 'bg-blue-100 text-blue-800',
-    [AppointmentStatus.COMPLETED]: 'bg-green-100 text-green-800',
-    [AppointmentStatus.CANCELLED]: 'bg-red-100 text-red-700',
-    [AppointmentStatus.EXPIRED]:   'bg-orange-100 text-orange-700',
+    [AppointmentStatus.PENDING]:   'bg-gold/10 text-chocolate border border-gold/20',
+    [AppointmentStatus.CONFIRMED]: 'bg-rose/15 text-rose',
+    [AppointmentStatus.COMPLETED]: 'bg-rose/15 text-rose',
+    [AppointmentStatus.CANCELLED]: 'bg-bordeaux/15 text-bordeaux',
+    [AppointmentStatus.EXPIRED]:   'bg-bordeaux/10 text-bordeaux',
   };
 }

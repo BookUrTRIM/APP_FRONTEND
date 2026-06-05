@@ -1,19 +1,19 @@
-<div class="min-h-screen flex items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
-  <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-xl">
+<div class="min-h-screen flex items-center justify-center bg-espresso py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-96 h-96 bg-bordeaux/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 left-0 w-64 h-64 bg-chocolate/20 rounded-full blur-3xl pointer-events-none"></div>
 
-    <div>
-      <h2 class="mt-2 text-center text-3xl font-extrabold text-slate-900 tracking-tight">
-        Bon retour parmi nous
-      </h2>
-      <p class="mt-2 text-center text-sm text-slate-600">
-        Ou
-        <a routerLink="/auth/signup" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
-          créez votre compte gratuitement
+  <div class="max-w-md w-full space-y-8 bg-cream p-10 rounded-3xl shadow-2xl relative z-10">
+    <div class="text-center">
+      <h1 class="font-display text-4xl font-semibold text-espresso italic">BookUr<span class="text-gold">TRIM</span></h1>
+      <p class="mt-1 text-xs text-taupe tracking-widest uppercase">Plateforme beauté</p>
+      <h2 class="mt-6 text-xl font-semibold text-espresso">Bon retour</h2>
+      <p class="mt-1 text-sm text-taupe">
+        Pas encore de compte ?
+        <a routerLink="/auth/signup" class="font-semibold text-chocolate hover:text-bordeaux transition-colors ml-1">
+          Créer un compte
         </a>
       </p>
     </div>
-
     <app-login-form />
-
   </div>
 </div>

@@ -1,9 +1,9 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentProviderCardComponent } from '../../components/appointment-provider-card/appointment-provider-card';
 import { PaymentService } from '../../../payments/services/payment.service';
+import { ConfirmModalService } from '../../../../core/services/confirm-modal.service';
 import { AppointmentStatus } from '../../enums';
-import { computed } from '@angular/core';
 
 type Tab = 'upcoming' | 'history';
 
@@ -16,6 +16,7 @@ type Tab = 'upcoming' | 'history';
 export class ProviderAppointmentListPage implements OnInit {
   private readonly appointmentService = inject(AppointmentService);
   private readonly paymentService     = inject(PaymentService);
+  private readonly confirmModal       = inject(ConfirmModalService);
 
   readonly isLoading = this.appointmentService.providerIsLoading;
 
@@ -53,8 +54,15 @@ export class ProviderAppointmentListPage implements OnInit {
     });
   }
 
-  onCancel(id: number): void {
-    if (!confirm('Annuler ce rendez-vous ?')) return;
+  async onCancel(id: number): Promise<void> {
+    const confirmed = await this.confirmModal.confirm({
+      title: 'Annuler le rendez-vous',
+      message: 'Le client sera remboursé automatiquement si un acompte a été versé.',
+      confirmText: 'Annuler le rendez-vous',
+      cancelText: 'Retour',
+      variant: 'warning',
+    });
+    if (!confirmed) return;
     this.actingId.set(id);
     this.appointmentService.cancelAsProvider(id).subscribe({
       next: () => this.actingId.set(null),
@@ -62,8 +70,15 @@ export class ProviderAppointmentListPage implements OnInit {
     });
   }
 
-  onRefund(appointmentId: number): void {
-    if (!confirm('Rembourser le client pour ce rendez-vous ?')) return;
+  async onRefund(appointmentId: number): Promise<void> {
+    const confirmed = await this.confirmModal.confirm({
+      title: 'Rembourser le client',
+      message: 'Le montant de l\'acompte sera remboursé intégralement sur la carte du client.',
+      confirmText: 'Confirmer le remboursement',
+      cancelText: 'Annuler',
+      variant: 'warning',
+    });
+    if (!confirmed) return;
     this.actingId.set(appointmentId);
     this.paymentService.refundByAppointment(appointmentId).subscribe({
       next: () => {

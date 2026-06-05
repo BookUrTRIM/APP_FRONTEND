@@ -21,6 +21,7 @@ export class ServiceFormComponent implements OnInit {
     name:             ['', [Validators.required, Validators.maxLength(100)]],
     description:      [''],
     base_price:       [0, [Validators.required, Validators.min(0)]],
+    deposit_amount:   [0, [Validators.min(0)]],
     default_duration: [30, [Validators.required, Validators.min(1), Validators.max(480)]],
   });
 
@@ -36,6 +37,7 @@ export class ServiceFormComponent implements OnInit {
         name:             s.name,
         description:      s.description ?? '',
         base_price:       s.basePrice,
+        deposit_amount:   s.depositAmount ?? 0,
         default_duration: s.defaultDuration,
       });
     }
@@ -48,6 +50,7 @@ export class ServiceFormComponent implements OnInit {
       name:             raw.name,
       description:      raw.description || null,
       base_price:       raw.base_price,
+      deposit_amount:   raw.deposit_amount > 0 ? raw.deposit_amount : null,
       default_duration: raw.default_duration,
     });
   }

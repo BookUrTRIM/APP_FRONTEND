@@ -8,6 +8,8 @@ export interface AppointmentModel {
   endAt: string;
   status: AppointmentStatus;
   serviceName: string | null;
+  serviceBasePrice: number | null;
+  depositAmount: number | null;
   specificRequest: string | null;
   createdAt: string;
   updatedAt: string;

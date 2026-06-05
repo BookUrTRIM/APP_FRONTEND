@@ -9,8 +9,7 @@ import type { PaymentModel } from '../../models';
   templateUrl: './payment-card.html',
 })
 export class PaymentCardComponent {
-  readonly payment = input.required<PaymentModel>();
-
+  readonly payment     = input.required<PaymentModel>();
   readonly PaymentStatus = PaymentStatus;
 
   readonly typeLabel: Record<PaymentType, string> = {
@@ -26,10 +25,10 @@ export class PaymentCardComponent {
   };
 
   readonly statusClass: Record<PaymentStatus, string> = {
-    [PaymentStatus.PENDING]:   'bg-yellow-100 text-yellow-800',
-    [PaymentStatus.VALIDATED]: 'bg-green-100 text-green-800',
-    [PaymentStatus.FAILED]:    'bg-red-100 text-red-700',
-    [PaymentStatus.REFUNDED]:  'bg-gray-100 text-gray-600',
+    [PaymentStatus.PENDING]:   'bg-gold/10 text-chocolate border border-gold/20',
+    [PaymentStatus.VALIDATED]: 'bg-rose/15 text-rose',
+    [PaymentStatus.FAILED]:    'bg-bordeaux/15 text-bordeaux',
+    [PaymentStatus.REFUNDED]:  'bg-beige/40 text-taupe',
   };
 
   formatAmount(amount: number): string {

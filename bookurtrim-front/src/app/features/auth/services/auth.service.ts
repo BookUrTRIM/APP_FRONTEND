@@ -69,6 +69,6 @@ export class AuthService {
   }
 
   private _redirectByRole(role: UserRole): void {
-    this.router.navigate([role === UserRole.PROVIDER ? '/pro' : '/client']);
+    this.router.navigate([role === UserRole.PROVIDER ? '/pro/dashboard' : '/client']);
   }
 }

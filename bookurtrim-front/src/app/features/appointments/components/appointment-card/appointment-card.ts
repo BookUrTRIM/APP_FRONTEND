@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgClass } from '@angular/common';
 import { AppointmentStatus } from '../../enums';
@@ -19,17 +19,31 @@ export class AppointmentCardComponent implements OnInit {
   private readonly http = inject(HttpClient);
 
   readonly appointment = input.required<AppointmentModel>();
-  readonly onCancel    = output<number>();
-  readonly onPay       = output<number>();
+  readonly onCancel     = output<number>();
+  readonly onPay        = output<AppointmentModel>();
+  readonly onPayBalance = output<AppointmentModel>();
 
   readonly AppointmentStatus = AppointmentStatus;
   readonly formatDate    = formatAppointmentDate;
   readonly formatTime    = formatAppointmentTime;
   readonly isCancellable = isCancellable;
 
-  readonly review       = signal<ReviewModel | null>(null);
-  readonly invoice      = signal<InvoiceModel | null>(null);
-  readonly showForm     = signal(false);
+  readonly review           = signal<ReviewModel | null>(null);
+  readonly invoice          = signal<InvoiceModel | null>(null);
+  readonly balancePaid      = signal(false);
+  readonly balanceSettled   = signal(false);
+  readonly showForm         = signal(false);
+
+  readonly showBalanceChoice = computed(() => {
+    const a = this.appointment();
+    return (
+      a.status === AppointmentStatus.COMPLETED &&
+      a.depositAmount !== null && a.depositAmount > 0 &&
+      a.serviceBasePrice !== null && a.serviceBasePrice > a.depositAmount &&
+      !this.balancePaid() &&
+      !this.balanceSettled()
+    );
+  });
   readonly rating       = signal(0);
   readonly comment      = signal('');
   readonly isSubmitting = signal(false);
@@ -44,11 +58,11 @@ export class AppointmentCardComponent implements OnInit {
   };
 
   readonly statusClass: Record<AppointmentStatus, string> = {
-    [AppointmentStatus.PENDING]:   'bg-yellow-100 text-yellow-800',
-    [AppointmentStatus.CONFIRMED]: 'bg-green-100 text-green-800',
-    [AppointmentStatus.COMPLETED]: 'bg-gray-100 text-gray-700',
-    [AppointmentStatus.CANCELLED]: 'bg-red-100 text-red-700',
-    [AppointmentStatus.EXPIRED]:   'bg-orange-100 text-orange-700',
+    [AppointmentStatus.PENDING]:   'bg-gold/10 text-chocolate border border-gold/20',
+    [AppointmentStatus.CONFIRMED]: 'bg-rose/15 text-rose',
+    [AppointmentStatus.COMPLETED]: 'bg-beige/40 text-taupe',
+    [AppointmentStatus.CANCELLED]: 'bg-bordeaux/15 text-bordeaux',
+    [AppointmentStatus.EXPIRED]:   'bg-bordeaux/10 text-bordeaux',
   };
 
   readonly stars = [1, 2, 3, 4, 5];
@@ -63,8 +77,21 @@ export class AppointmentCardComponent implements OnInit {
         next: (dto) => this.invoice.set({ id: dto.id, appointmentId: dto.appointment_id, totalAmount: dto.total_amount, issuedAt: dto.issued_at, pdfUrl: dto.pdf_url }),
         error: () => {},
       });
+      if (this.appointment().depositAmount && this.appointment().serviceBasePrice) {
+        this.http.get<any[]>(`/payments/appointment/${this.appointment().id}`).subscribe({
+          next: (payments) => {
+            const hasValidatedBalance = payments.some(
+              p => p.payment_type === 'balance' && p.status === 'validated'
+            );
+            this.balancePaid.set(hasValidatedBalance);
+          },
+          error: () => {},
+        });
+      }
     }
   }
+
+  settleLocally(): void { this.balanceSettled.set(true); }
 
   openForm(): void { this.showForm.set(true); }
   cancelForm(): void { this.showForm.set(false); this.rating.set(0); this.comment.set(''); this.reviewError.set(''); }

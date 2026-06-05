@@ -11,7 +11,7 @@
       formControlName="name"
       placeholder="ex : Coupe homme, Soin barbe..."
       [class.border-red-400]="name.invalid && name.touched"
-      [class.border-gray-300]="!(name.invalid && name.touched)"
+      [class.border-beige]="!(name.invalid && name.touched)"
       class="block w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
     />
     @if (name.touched && name.hasError('required')) {
@@ -31,7 +31,7 @@
       formControlName="description"
       rows="3"
       placeholder="Décrivez votre prestation..."
-      class="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none"
+      class="block w-full px-3 py-2 border border-beige rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none"
     ></textarea>
   </div>
 
@@ -50,7 +50,7 @@
         step="0.01"
         placeholder="0.00"
         [class.border-red-400]="basePrice.invalid && basePrice.touched"
-        [class.border-gray-300]="!(basePrice.invalid && basePrice.touched)"
+        [class.border-beige]="!(basePrice.invalid && basePrice.touched)"
         class="block w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
       />
       @if (basePrice.touched && (basePrice.hasError('required') || basePrice.hasError('min'))) {
@@ -71,7 +71,7 @@
         step="5"
         placeholder="30"
         [class.border-red-400]="defaultDuration.invalid && defaultDuration.touched"
-        [class.border-gray-300]="!(defaultDuration.invalid && defaultDuration.touched)"
+        [class.border-beige]="!(defaultDuration.invalid && defaultDuration.touched)"
         class="block w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
       />
       @if (defaultDuration.touched && (defaultDuration.hasError('required') || defaultDuration.hasError('min'))) {
@@ -81,12 +81,30 @@
 
   </div>
 
+  <!-- Acompte -->
+  <div>
+    <label for="svc-deposit" class="block text-sm font-medium text-gray-700 mb-1">
+      Acompte à la réservation (€)
+      <span class="text-gray-400 font-normal">(optionnel)</span>
+    </label>
+    <input
+      id="svc-deposit"
+      type="number"
+      formControlName="deposit_amount"
+      min="0"
+      step="0.01"
+      placeholder="0.00"
+      class="block w-full px-3 py-2 border border-beige rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+    />
+    <p class="mt-1 text-xs text-gray-400">Montant prélevé lors de la réservation. Le reste sera réglé après le rendez-vous.</p>
+  </div>
+
   <!-- Actions -->
   <div class="flex gap-3 pt-2">
     <button
       type="button"
       (click)="cancelled.emit()"
-      class="flex-1 py-2.5 px-4 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+      class="flex-1 py-2.5 px-4 border border-beige text-sm font-medium rounded-lg text-gray-700 hover:bg-cream transition-colors"
     >
       Annuler
     </button>

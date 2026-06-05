@@ -1,6 +1,7 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ServiceQuestionService } from '../../services/service-question.service';
+import { ConfirmModalService } from '../../../../core/services/confirm-modal.service';
 import type { ServiceQuestionModel } from '../../models';
 
 @Component({
@@ -12,6 +13,7 @@ import type { ServiceQuestionModel } from '../../models';
 export class ServiceQuestionsComponent implements OnInit {
   private readonly fb              = inject(FormBuilder);
   private readonly questionService = inject(ServiceQuestionService);
+  private readonly confirmModal    = inject(ConfirmModalService);
 
   readonly serviceId    = input.required<number>();
   readonly questions    = this.questionService.questions;
@@ -84,8 +86,15 @@ export class ServiceQuestionsComponent implements OnInit {
     });
   }
 
-  delete(id: number): void {
-    if (!confirm('Supprimer cette question ?')) return;
+  async delete(id: number): Promise<void> {
+    const confirmed = await this.confirmModal.confirm({
+      title: 'Supprimer la question',
+      message: 'Cette question sera définitivement supprimée.',
+      confirmText: 'Supprimer',
+      cancelText: 'Annuler',
+      variant: 'danger',
+    });
+    if (!confirmed) return;
     this.questionService.delete(id).subscribe({
       error: () => this.errorMessage.set('Erreur lors de la suppression.'),
     });

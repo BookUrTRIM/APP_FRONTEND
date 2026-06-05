@@ -1,1 +1,173 @@
 @import "tailwindcss";
+
+@theme {
+  /* ── VELOURA Palette ── */
+  --color-cream:     #F5F0EA;
+  --color-beige:     #D9C7B8;
+  --color-taupe:     #A48774;
+  --color-chocolate: #5A3827;
+  --color-espresso:  #241915;
+  --color-bordeaux:  #9B1C2E;  /* plus visible */
+
+  /* ── Nouvelles couleurs V1.1 ── */
+  --color-gold:  #C9A055;   /* or chaud — prix, actifs, étoiles */
+  --color-rose:  #D4919B;   /* rose poudré — confirmé, beauté */
+
+  /* Override indigo → Chocolate Brown (CTA principal) */
+  --color-indigo-50:  #faf6f3;
+  --color-indigo-100: #f0e6dc;
+  --color-indigo-200: #ddc4b3;
+  --color-indigo-300: #c49a80;
+  --color-indigo-400: #a87055;
+  --color-indigo-500: #7a4d38;
+  --color-indigo-600: #5A3827;
+  --color-indigo-700: #4a2d1e;
+  --color-indigo-800: #3a2217;
+  --color-indigo-900: #2d1a11;
+  --color-indigo-950: #1e110b;
+
+  /* Override slate → Deep Espresso */
+  --color-slate-900: #241915;
+  --color-slate-800: #2e2018;
+  --color-slate-700: #3e2b22;
+  --color-slate-600: #5a3e32;
+  --color-slate-500: #7a5545;
+  --color-slate-400: #a48774;
+  --color-slate-300: #c4a898;
+  --color-slate-200: #ddc9bc;
+  --color-slate-100: #ede2d8;
+  --color-slate-50:  #f5f0ea;
+
+  /* Override gray → tons chauds neutres */
+  --color-gray-50:  #f5f0ea;
+  --color-gray-100: #ece4da;
+  --color-gray-200: #ddd0c4;
+  --color-gray-300: #c8b8a9;
+  --color-gray-400: #a89080;
+  --color-gray-500: #8a7060;
+  --color-gray-600: #6e5848;
+  --color-gray-700: #534038;
+  --color-gray-800: #3a2c26;
+  --color-gray-900: #241915;
+
+  /* Typographies */
+  --font-family-sans:    'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-family-display: 'Cormorant Garamond', Georgia, serif;
+  --font-family-mono:    ui-monospace, 'Fira Code', monospace;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  background-color: #F5F0EA;
+  color: #241915;
+}
+
+/* Titres avec Cormorant Garamond */
+h1, h2, h3 {
+  font-family: var(--font-family-display);
+}
+
+/* ── Animations VELOURA ── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+/* Classes utilitaires */
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out both;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Délais d'animation */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Effet shimmer sur boutons gold */
+.btn-shimmer {
+  background-size: 200% auto;
+  background-image: linear-gradient(
+    110deg,
+    #C9A055 0%,
+    #e8c47a 40%,
+    #C9A055 60%,
+    #a07a30 100%
+  );
+  transition: background-position 0.5s ease;
+}
+.btn-shimmer:hover {
+  background-position: right center;
+}
+
+/* Glass morphism */
+.glass {
+  background: rgba(245, 240, 234, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(217, 199, 184, 0.4);
+}
+
+.glass-dark {
+  background: rgba(36, 25, 21, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 160, 85, 0.15);
+}
+
+/* Glow or sur éléments actifs */
+.glow-gold {
+  box-shadow: 0 0 20px rgba(201, 160, 85, 0.25);
+}
+
+/* Glow rose sur éléments rose */
+.glow-rose {
+  box-shadow: 0 0 20px rgba(212, 145, 155, 0.25);
+}
+
+/* Card lift générique */
+.card-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(36, 25, 21, 0.12);
+}
+
+/* Input focus élégant */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(201, 160, 85, 0.3);
+  border-color: #C9A055 !important;
+}
+

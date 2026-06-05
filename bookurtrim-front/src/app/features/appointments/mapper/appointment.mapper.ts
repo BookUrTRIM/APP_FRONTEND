@@ -10,8 +10,10 @@ export function mapAppointmentDTOToModel(dto: AppointmentResponseDTO): Appointme
     startAt:         dto.start_at,
     endAt:           dto.end_at,
     status:          dto.status as AppointmentStatus,
-    serviceName:     dto.service_name ?? null,
-    specificRequest: dto.specific_request,
+    serviceName:      dto.service_name ?? null,
+    serviceBasePrice: dto.service_base_price ?? null,
+    depositAmount:    dto.deposit_amount ?? null,
+    specificRequest:  dto.specific_request,
     createdAt:       dto.created_at,
     updatedAt:       dto.updated_at,
   };

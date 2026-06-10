@@ -45,6 +45,10 @@ export class AuthService {
     return this.api.signup(dto);
   }
 
+  verifyEmail(token: string): Observable<{ message: string }> {
+    return this.api.verifyEmail(token);
+  }
+
   logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_role');

@@ -12,6 +12,11 @@ export const AUTH_ROUTES: Routes = [
       import('./pages/signup-page/signup-page').then(m => m.SignupPage),
   },
   {
+    path: 'verify-email',
+    loadComponent: () =>
+      import('./pages/verify-email/verify-email').then(m => m.VerifyEmailComponent),
+  },
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',

@@ -59,8 +59,7 @@ export class SignupFormComponent {
     }).subscribe({
       next: () => {
         this.isLoading = false;
-        this.successMessage = 'Compte créé avec succès ! Redirection vers la connexion...';
-        setTimeout(() => this.router.navigate(['/auth/login']), 2000);
+        this.router.navigate(['/auth/verify-email'], {queryParams: { state: 'check-inbox' }});
       },
       error: (err) => {
         this.isLoading = false;

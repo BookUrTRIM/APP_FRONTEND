@@ -1,11 +1,12 @@
 import { Component, input } from '@angular/core';
 import { PaymentStatus, PaymentType } from '../../enums';
 import type { PaymentModel } from '../../models';
+import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge';
 
 @Component({
   selector: 'app-payment-card',
   standalone: true,
-  imports: [],
+  imports: [StatusBadgeComponent],
   templateUrl: './payment-card.html',
 })
 export class PaymentCardComponent {

@@ -15,10 +15,7 @@
       </p>
       <p class="text-xs text-gray-400 mt-1">Client #{{ appointment().clientId }}</p>
     </div>
-    <span class="shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold"
-      [class]="statusClass[appointment().status]">
-      {{ statusLabel[appointment().status] }}
-    </span>
+    <app-status-badge [colorClass]="statusClass[appointment().status]" [label]="statusLabel[appointment().status]" />
   </div>
 
   <!-- Indicateur paiement -->

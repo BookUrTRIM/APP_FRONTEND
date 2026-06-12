@@ -8,11 +8,12 @@ import type { ReviewModel } from '../../models/review.model';
 import type { InvoiceModel } from '../../models/invoice.model';
 import type { ReviewResponseDTO } from '../../dtos/review.dto';
 import type { InvoiceResponseDTO } from '../../dtos/invoice.dto';
+import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge';
 
 @Component({
   selector: 'app-appointment-card',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, StatusBadgeComponent],
   templateUrl: './appointment-card.html',
 })
 export class AppointmentCardComponent implements OnInit {

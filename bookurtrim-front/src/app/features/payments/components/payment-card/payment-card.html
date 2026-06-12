@@ -5,10 +5,7 @@
       <p class="font-semibold text-gray-900">{{ typeLabel[payment().paymentType] }}</p>
       <p class="font-display text-2xl font-semibold text-gold font-mono mt-0.5">{{ formatAmount(payment().amount) }}</p>
     </div>
-    <span class="shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold"
-      [class]="statusClass[payment().status]">
-      {{ statusLabel[payment().status] }}
-    </span>
+    <app-status-badge [colorClass]="statusClass[payment().status]" [label]="statusLabel[payment().status]" />
   </div>
 
   @if (payment().paidAt) {

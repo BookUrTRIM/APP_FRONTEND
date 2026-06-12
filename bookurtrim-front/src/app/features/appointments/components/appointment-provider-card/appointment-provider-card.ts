@@ -2,11 +2,12 @@ import { Component, input, output } from '@angular/core';
 import { AppointmentStatus } from '../../enums';
 import { formatAppointmentDate, formatAppointmentTime } from '../../mapper';
 import type { AppointmentModel } from '../../models';
+import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge';
 
 @Component({
   selector: 'app-appointment-provider-card',
   standalone: true,
-  imports: [],
+  imports: [StatusBadgeComponent],
   templateUrl: './appointment-provider-card.html',
 })
 export class AppointmentProviderCardComponent {

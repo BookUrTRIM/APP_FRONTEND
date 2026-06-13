@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgClass, DatePipe } from '@angular/common';
-import {AvailabilityResponseDTO} from '../../../../core/models/availability.models';
+import {AvailabilityResponseDTO} from '../../models/availability.model';
 
 @Component({
   selector: 'app-planning-list',

@@ -1,5 +1,5 @@
-import { AvailabilityMapper } from './availabilty.mapper';
-import type { PlanningFormValue } from '../models/availability.models';
+import { AvailabilityMapper } from './availability.mapper';
+import type { PlanningFormValue } from '../models/availability.model';
 
 // 2099-06-02 = dimanche (0) — vérifié par le test
 const BASE_FORM: PlanningFormValue = {

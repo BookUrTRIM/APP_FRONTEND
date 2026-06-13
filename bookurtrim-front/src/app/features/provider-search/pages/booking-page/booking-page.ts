@@ -9,7 +9,7 @@ import { mapProviderDTOToModel, getProviderFullName } from '../../mapper';
 import { mapServiceDTOToModel, mapServiceQuestionDTOToModel } from '../../../prestations/mapper';
 import type { ProviderModel } from '../../models';
 import type { ServiceModel, ServiceQuestionModel } from '../../../prestations/models';
-import type { AvailabilityResponseDTO } from '../../../../core/models/availability.models';
+import type { AvailabilityResponseDTO } from '../../../planning/models/availability.model';
 import type { ProviderResponseDTO } from '../../dtos';
 import type { ServiceResponseDTO, ServiceQuestionResponseDTO } from '../../../prestations/dtos';
 

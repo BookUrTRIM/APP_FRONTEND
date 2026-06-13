@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
-import {AvailabilityResponseDTO} from '../../../../core/models/availability.models';
+import {AvailabilityResponseDTO} from '../../models/availability.model';
 
 
 @Component({

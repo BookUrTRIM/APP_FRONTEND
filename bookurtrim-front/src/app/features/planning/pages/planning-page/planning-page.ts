@@ -7,8 +7,8 @@ import {
   AvailabilityCreateDTO,
   AvailabilityResponseDTO,
   PlanningFormValue
-} from '../../../../core/models/availability.models';
-import {AvailabilityMapper} from '../../../../core/mappers/availabilty.mapper';
+} from '../../models/availability.model';
+import {AvailabilityMapper} from '../../mapper/availability.mapper';
 import {PlanningCalendarComponent} from '../../components/planning-calendar/planning-calendar';
 
 @Component({

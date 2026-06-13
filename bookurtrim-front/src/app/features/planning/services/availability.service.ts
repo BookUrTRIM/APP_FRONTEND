@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AvailabilityCreateDTO, AvailabilityResponseDTO } from '../../../core/models/availability.models';
+import { AvailabilityCreateDTO, AvailabilityResponseDTO } from '../models/availability.model';
 
 @Injectable({
   providedIn: 'root'

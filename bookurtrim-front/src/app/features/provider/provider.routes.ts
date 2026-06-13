@@ -10,7 +10,7 @@ export const PROVIDER_ROUTES: Routes = [
   {
     path: 'planning',
     loadComponent: () =>
-      import('./pages/planning-page/planning-page').then(m => m.PlanningPage),
+      import('../planning/pages/planning-page/planning-page').then(m => m.PlanningPage),
   },
   {
     path: 'dashboard',

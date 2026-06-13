@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import {PlanningFormValue} from '../../../../core/models/availability.models';
+import {PlanningFormValue} from '../../models/availability.model';
 
 
 @Component({

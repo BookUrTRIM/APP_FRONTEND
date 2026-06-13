@@ -1,4 +1,4 @@
-import { AvailabilityCreateDTO, PlanningFormValue } from '../models/availability.models';
+import { AvailabilityCreateDTO, PlanningFormValue } from '../models/availability.model';
 
 export class AvailabilityMapper {
 

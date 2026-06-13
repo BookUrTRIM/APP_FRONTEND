@@ -25,7 +25,7 @@ export const routes: Routes = [
       {
         path: 'providers',
         loadChildren: () =>
-          import('./features/providers/provider.routes').then(m => m.PROVIDER_ROUTES),
+          import('./features/provider-search/provider.routes').then(m => m.PROVIDER_ROUTES),
       },
       {
         path: 'profile',

@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { StripeConnectService } from '../../services/stripe-connect.service';
-import type { ProviderModel } from '../../../providers/models';
+import type { ProviderModel } from '../../../provider-search/models';
 
 @Component({
   selector: 'app-stripe-connect-page',

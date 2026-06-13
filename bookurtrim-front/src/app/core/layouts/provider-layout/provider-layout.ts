@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal';
 import { AuthService } from '../../../features/auth/services/auth.service';
-import type { ProviderModel } from './models';
+import type { ProviderAccountModel } from '../../../features/provider/models';
 
 @Component({
   selector: 'app-provider-layout',
@@ -15,7 +15,7 @@ export class ProviderLayout implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly http = inject(HttpClient);
 
-  readonly provider = signal<ProviderModel | null>(null);
+  readonly provider = signal<ProviderAccountModel | null>(null);
 
   get initials(): string {
     const p = this.provider();
@@ -30,7 +30,7 @@ export class ProviderLayout implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<ProviderModel>('/providers/me').subscribe({
+    this.http.get<ProviderAccountModel>('/providers/me').subscribe({
       next: data => this.provider.set(data),
     });
   }

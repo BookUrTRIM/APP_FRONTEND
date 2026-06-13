@@ -1,4 +1,4 @@
-export interface ProviderModel {
+export interface ProviderAccountModel {
   id: number;
   user_account_id: number;
   first_name: string;

@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 import { BookingModalComponent } from './booking-modal';
 import { AppointmentApiContract } from '../../../appointments/services/appointment.api.contract';
-import type { ServiceModel } from '../../../services/models';
+import type { ServiceModel } from '../../../prestations/models';
 
 const mockService: ServiceModel = {
   id: 1, providerId: 1, name: 'Coupe', description: null,

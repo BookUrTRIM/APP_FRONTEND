@@ -2,7 +2,7 @@ import { Component, inject, input, output, signal, OnInit } from '@angular/core'
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppointmentApiContract } from '../../../appointments/services/appointment.api.contract';
-import type { ServiceModel } from '../../../services/models';
+import type { ServiceModel } from '../../../prestations/models';
 
 @Component({
   selector: 'app-booking-modal',

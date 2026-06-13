@@ -6,12 +6,12 @@ import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppointmentApiContract } from '../../../appointments/services/appointment.api.contract';
 import { mapProviderDTOToModel, getProviderFullName } from '../../mapper';
-import { mapServiceDTOToModel, mapServiceQuestionDTOToModel } from '../../../services/mapper';
+import { mapServiceDTOToModel, mapServiceQuestionDTOToModel } from '../../../prestations/mapper';
 import type { ProviderModel } from '../../models';
-import type { ServiceModel, ServiceQuestionModel } from '../../../services/models';
+import type { ServiceModel, ServiceQuestionModel } from '../../../prestations/models';
 import type { AvailabilityResponseDTO } from '../../../../core/models/availability.models';
 import type { ProviderResponseDTO } from '../../dtos';
-import type { ServiceResponseDTO, ServiceQuestionResponseDTO } from '../../../services/dtos';
+import type { ServiceResponseDTO, ServiceQuestionResponseDTO } from '../../../prestations/dtos';
 
 @Component({
   selector: 'app-booking-page',

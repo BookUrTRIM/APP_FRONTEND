@@ -1,0 +1,13 @@
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-espresso border-t border-cream/10 z-50">
+  <div class="flex justify-around items-center h-16 px-1">
+    @for (item of navItems; track item.path) {
+      <a [routerLink]="item.path" routerLinkActive="text-gold"
+        class="flex flex-col items-center gap-0.5 text-cream/50 hover:text-cream transition-colors px-2 py-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="item.icon"/>
+        </svg>
+        <span class="text-xs font-medium">{{ item.label }}</span>
+      </a>
+    }
+  </div>
+</nav>

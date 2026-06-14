@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentCardComponent } from '../../components/appointment-card/appointment-card';
-import { ConfirmModalService } from '../../../../core/services/confirm-modal.service';
+import { ConfirmModalService } from '../../../../shared/components/confirm-modal/confirm-modal.service';
 import type { AppointmentModel } from '../../models';
 
 @Component({

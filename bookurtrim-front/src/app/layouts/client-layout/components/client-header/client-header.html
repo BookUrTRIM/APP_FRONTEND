@@ -1,0 +1,27 @@
+<header class="bg-espresso sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+
+      <a routerLink="/client" class="flex-shrink-0 flex items-center cursor-pointer">
+        <span class="font-display text-2xl font-semibold text-cream tracking-wide italic">
+          BookUr<span class="text-gold">TRIM</span>
+        </span>
+      </a>
+
+      <nav class="hidden md:flex space-x-1">
+        @for (item of navItems; track item.path) {
+          <a [routerLink]="item.path" routerLinkActive="text-gold bg-gold/10"
+            class="text-cream/60 hover:text-cream hover:bg-cream/10 px-4 py-2 rounded-full text-sm font-medium transition-colors">
+            {{ item.label }}
+          </a>
+        }
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <app-logout-button theme="cream" />
+        <app-logout-button theme="cream" [iconOnly]="true" />
+      </div>
+
+    </div>
+  </div>
+</header>

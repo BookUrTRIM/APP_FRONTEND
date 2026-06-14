@@ -1,0 +1,20 @@
+<div class="min-h-screen flex flex-col bg-cream font-sans text-espresso pb-16 md:pb-0">
+
+  <app-client-header />
+
+  <main class="flex-grow w-full">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="hidden md:block bg-espresso mt-auto">
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <p class="text-center font-display italic text-cream/40 text-sm">
+        &copy; 2026 BookUrTrim. Tous droits réservés.
+      </p>
+    </div>
+  </footer>
+
+  <app-client-bottom-nav />
+
+  <app-confirm-modal />
+</div>

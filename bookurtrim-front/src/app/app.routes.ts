@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LandingPage } from './features/landing/pages/landing-page/landing-page';
-import { ProviderLayout } from './core/layouts/provider-layout/provider-layout';
-import { ClientLayout } from './core/layouts/client-layout/client-layout';
+import { ProviderLayout } from './layouts/provider-layout/pages/provider-layout/provider-layout';
+import { ClientLayout } from './layouts/client-layout/pages/client-layout/client-layout';
 import { authGuard } from './features/auth/guard';
 import { clientGuard } from './features/auth/guard';
 import { providerGuard } from './features/auth/guard';
@@ -25,7 +25,7 @@ export const routes: Routes = [
       {
         path: 'providers',
         loadChildren: () =>
-          import('./features/providers/provider.routes').then(m => m.PROVIDER_ROUTES),
+          import('./features/provider-search/provider.routes').then(m => m.PROVIDER_ROUTES),
       },
       {
         path: 'profile',

@@ -2,7 +2,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentProviderCardComponent } from '../../components/appointment-provider-card/appointment-provider-card';
 import { PaymentService } from '../../../payments/services/payment.service';
-import { ConfirmModalService } from '../../../../core/services/confirm-modal.service';
+import { ConfirmModalService } from '../../../../shared/components/confirm-modal/confirm-modal.service';
 import { AppointmentStatus } from '../../enums';
 
 type Tab = 'upcoming' | 'history';

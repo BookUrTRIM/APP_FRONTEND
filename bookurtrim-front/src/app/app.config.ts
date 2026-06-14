@@ -10,18 +10,18 @@ import { routes } from './app.routes';
 import { apiInterceptor } from './core/interceptors/api.interceptor';
 import { AuthApiContract } from './features/auth/services/auth.api.contract';
 import { AuthApiService } from './features/auth/services/auth.api.service';
-import { ServiceApiContract } from './features/services/services/service.api.contract';
-import { ServiceApiService } from './features/services/services/service.api.service';
-import { ProviderApiContract } from './features/providers/services/provider.api.contract';
-import { ProviderApiService } from './features/providers/services/provider.api.service';
+import { ServiceApiContract } from './features/prestations/services/service.api.contract';
+import { ServiceApiService } from './features/prestations/services/service.api.service';
+import { ProviderApiContract } from './features/provider-search/services/provider.api.contract';
+import { ProviderApiService } from './features/provider-search/services/provider.api.service';
 import { ClientProfileApiContract } from './features/client-profile/services/client-profile.api.contract';
 import { ClientProfileApiService } from './features/client-profile/services/client-profile.api.service';
 import { AppointmentApiContract } from './features/appointments/services/appointment.api.contract';
 import { AppointmentApiService } from './features/appointments/services/appointment.api.service';
 import { PaymentApiContract } from './features/payments/services/payment.api.contract';
 import { PaymentApiService } from './features/payments/services/payment.api.service';
-import { ServiceQuestionApiContract } from './features/services/services/service-question.api.contract';
-import { ServiceQuestionApiService } from './features/services/services/service-question.api.service';
+import { ServiceQuestionApiContract } from './features/prestations/services/service-question.api.contract';
+import { ServiceQuestionApiService } from './features/prestations/services/service-question.api.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [

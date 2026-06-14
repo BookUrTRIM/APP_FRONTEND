@@ -1,0 +1,19 @@
+<div class="flex h-screen bg-cream font-sans text-espresso overflow-hidden pb-16 md:pb-0">
+
+  <app-provider-sidebar [provider]="provider()" />
+
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+    <app-provider-topbar [provider]="provider()" />
+
+    <main class="flex-1 overflow-x-hidden overflow-y-auto bg-cream p-6">
+      <div class="max-w-7xl mx-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+
+    <app-provider-bottom-nav />
+
+  </div>
+<app-confirm-modal />
+</div>

@@ -1,6 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ProviderAccountService } from '../../services/provider-account.service';
+import type { ProviderAccountUpdateDTO } from '../../dtos';
 
 @Component({
   selector: 'app-profile-page',
@@ -11,6 +13,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 export class ProfilePage implements OnInit {
   private readonly http = inject(HttpClient);
   private readonly fb   = inject(FormBuilder);
+  private readonly providerAccountService = inject(ProviderAccountService);
 
   private debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -28,7 +31,7 @@ export class ProfilePage implements OnInit {
   });
 
   ngOnInit(): void {
-    this.http.get<any>('/providers/me').subscribe({
+    this.providerAccountService.load().subscribe({
       next: (data) => {
         this.form.patchValue({
           phone:         data.phone ?? '',
@@ -82,12 +85,12 @@ export class ProfilePage implements OnInit {
     this.errorMessage.set('');
 
     const raw = this.form.getRawValue();
-    const body: Record<string, string | null> = {};
-    if (raw.phone)         body['phone']         = raw.phone;
-    if (raw.business_name) body['business_name'] = raw.business_name;
-    if (raw.address)       body['address']       = raw.address;
+    const body: ProviderAccountUpdateDTO = {};
+    if (raw.phone)         body.phone         = raw.phone;
+    if (raw.business_name) body.business_name = raw.business_name;
+    if (raw.address)       body.address       = raw.address;
 
-    this.http.patch('/providers/me', body).subscribe({
+    this.providerAccountService.update(body).subscribe({
       next: () => {
         this.isSaving.set(false);
         this.successMessage.set('Profil mis à jour avec succès.');

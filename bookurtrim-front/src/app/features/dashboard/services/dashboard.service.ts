@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DashboardResponseDTO } from '../dtos/dashboard-response.dto';
 import { DashboardModel } from '../models/dashboard.model';
-import {mapDashboardDTOToModel} from '../mappers/dashbboard.mapper';
+import { mapDashboardDTOToModel } from '../mapper/dashboard.mapper';
 
 
 @Injectable({ providedIn: 'root' })

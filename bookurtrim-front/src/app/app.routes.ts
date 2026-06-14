@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LandingPage } from './features/landing/pages/landing-page/landing-page';
 import { ProviderLayout } from './layouts/provider-layout/provider-layout';
-import { ClientLayout } from './layouts/client-layout/client-layout';
+import { ClientLayout } from './layouts/client-layout/pages/client-layout/client-layout';
 import { authGuard } from './features/auth/guard';
 import { clientGuard } from './features/auth/guard';
 import { providerGuard } from './features/auth/guard';

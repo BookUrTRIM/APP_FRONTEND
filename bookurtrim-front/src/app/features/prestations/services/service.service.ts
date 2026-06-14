@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap, map, tap, catchError, throwError } from 'rxjs';
 import { ServiceApiContract } from './service.api.contract';
+import { ProviderAccountApiContract } from '../../provider/services/provider-account.api.contract';
 import { mapServiceDTOToModel } from '../mapper';
 import type { ServiceCreateDTO, ServiceUpdateDTO } from '../dtos';
 import type { ServiceModel } from '../models';
@@ -9,7 +9,7 @@ import type { ServiceModel } from '../models';
 @Injectable({ providedIn: 'root' })
 export class ServiceService {
   private readonly api = inject(ServiceApiContract);
-  private readonly http = inject(HttpClient);
+  private readonly providerAccountApi = inject(ProviderAccountApiContract);
 
   private readonly _services = signal<ServiceModel[]>([]);
   private readonly _isLoading = signal(false);
@@ -18,7 +18,7 @@ export class ServiceService {
   readonly isLoading = computed(() => this._isLoading());
 
   private _getProviderId(): Observable<number> {
-    return this.http.get<{ id: number }>('/providers/me').pipe(
+    return this.providerAccountApi.getMe().pipe(
       map(p => p.id)
     );
   }

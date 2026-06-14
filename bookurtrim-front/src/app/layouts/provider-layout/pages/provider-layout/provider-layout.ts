@@ -1,11 +1,10 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal/confirm-modal';
 import { ProviderSidebar } from '../../components/provider-sidebar/provider-sidebar';
 import { ProviderTopbar } from '../../components/provider-topbar/provider-topbar';
 import { ProviderBottomNav } from '../../components/provider-bottom-nav/provider-bottom-nav';
-import type { ProviderAccountModel } from '../../../../features/provider/models';
+import { ProviderAccountService } from '../../../../features/provider/services/provider-account.service';
 
 @Component({
   selector: 'app-provider-layout',
@@ -14,13 +13,11 @@ import type { ProviderAccountModel } from '../../../../features/provider/models'
   templateUrl: './provider-layout.html',
 })
 export class ProviderLayout implements OnInit {
-  private readonly http = inject(HttpClient);
+  private readonly providerAccountService = inject(ProviderAccountService);
 
-  readonly provider = signal<ProviderAccountModel | null>(null);
+  readonly provider = this.providerAccountService.provider;
 
   ngOnInit(): void {
-    this.http.get<ProviderAccountModel>('/providers/me').subscribe({
-      next: data => this.provider.set(data),
-    });
+    this.providerAccountService.load().subscribe();
   }
 }

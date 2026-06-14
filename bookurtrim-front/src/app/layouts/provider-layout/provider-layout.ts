@@ -1,9 +1,9 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal';
-import { AuthService } from '../../../features/auth/services/auth.service';
-import type { ProviderAccountModel } from '../../../features/provider/models';
+import { ConfirmModalComponent } from '../../shared/components/confirm-modal/confirm-modal';
+import { AuthService } from '../../features/auth/services/auth.service';
+import type { ProviderAccountModel } from '../../features/provider/models';
 
 @Component({
   selector: 'app-provider-layout',

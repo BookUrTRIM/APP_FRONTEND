@@ -1,7 +1,7 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ServiceQuestionService } from '../../services/service-question.service';
-import { ConfirmModalService } from '../../../../core/services/confirm-modal.service';
+import { ConfirmModalService } from '../../../../shared/components/confirm-modal/confirm-modal.service';
 import type { ServiceQuestionModel } from '../../models';
 
 @Component({

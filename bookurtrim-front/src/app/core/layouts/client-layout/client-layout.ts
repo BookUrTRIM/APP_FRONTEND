@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal';
+import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal';
 import { AuthService } from '../../../features/auth/services/auth.service';
 
 @Component({

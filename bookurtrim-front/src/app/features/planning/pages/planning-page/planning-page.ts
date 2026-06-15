@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AvailabilityService } from '../../services/availability.service';
+import { ProviderAccountService } from '../../../provider/services/provider-account.service';
 
 import { PlanningFormComponent } from '../../components/planning-form/planning-form';
 import { PlanningListComponent } from '../../components/planning-list/planning-list';
@@ -19,19 +20,29 @@ import {PlanningCalendarComponent} from '../../components/planning-calendar/plan
 })
 export class PlanningPage implements OnInit {
   private availabilityService = inject(AvailabilityService);
+  private providerAccountService = inject(ProviderAccountService);
 
-  // TODO: Récupérer l'ID dynamiquement via le profil utilisateur connecté
-  private currentProviderId = 1;
+  private currentProviderId: number | null = null;
   viewMode: 'list' | 'calendar' = 'calendar';
   availabilities: AvailabilityResponseDTO[] = [];
   isLoading = false;
   currentPage = 1;
 
   ngOnInit(): void {
-    this.loadAvailabilities();
+    const provider = this.providerAccountService.provider();
+    if (provider) {
+      this.currentProviderId = provider.id;
+      this.loadAvailabilities();
+    } else {
+      this.providerAccountService.load().subscribe(p => {
+        this.currentProviderId = p.id;
+        this.loadAvailabilities();
+      });
+    }
   }
 
   loadAvailabilities(): void {
+    if (this.currentProviderId === null) return;
     this.availabilityService.getAvailabilities(this.currentProviderId).subscribe({
       next: (data) => {
         this.availabilities = data;

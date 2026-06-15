@@ -18,7 +18,7 @@ class MockAppointmentApi extends AppointmentApiContract {
 
 const MOCK_SERVICE = {
   id: 1, providerId: 1, name: 'Test', description: null,
-  basePrice: 20, defaultDuration: 30, createdAt: '', updatedAt: '',
+  basePrice: 20, depositAmount: null, defaultDuration: 30, createdAt: '', updatedAt: '',
 };
 
 const FUTURE_DATE = '2099-01-01';

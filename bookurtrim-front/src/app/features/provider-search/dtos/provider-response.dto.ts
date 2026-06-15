@@ -7,6 +7,7 @@ export interface ProviderResponseDTO {
   business_name: string | null;
   address: string | null;
   stripe_account_id: string | null;
+  is_single_tenant: boolean;
   created_at: string;
   updated_at: string;
 }

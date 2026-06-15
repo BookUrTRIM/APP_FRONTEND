@@ -11,6 +11,7 @@ export function mapProviderDTOToModel(dto: ProviderResponseDTO): ProviderModel {
     businessName: dto.business_name ?? null,
     address: dto.address ?? null,
     stripeAccountId: dto.stripe_account_id ?? null,
+    isSingleTenant: dto.is_single_tenant ?? false,
     createdAt: dto.created_at,
     updatedAt: dto.updated_at,
   };

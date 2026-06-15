@@ -14,6 +14,7 @@ const makeProvider = (overrides: Partial<ProviderAccountModel> = {}): ProviderAc
   address: null,
   stripe_account_id: null,
   google_calendar_token_enc: null,
+  is_single_tenant: false,
   created_at: '',
   updated_at: '',
   ...overrides,

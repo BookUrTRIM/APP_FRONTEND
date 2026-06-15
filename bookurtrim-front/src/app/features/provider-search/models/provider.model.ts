@@ -7,6 +7,7 @@ export interface ProviderModel {
   businessName: string | null;
   address: string | null;
   stripeAccountId: string | null;
+  isSingleTenant: boolean;
   createdAt: string;
   updatedAt: string;
 }

@@ -10,6 +10,7 @@ const MOCK_DTO: ProviderResponseDTO = {
   business_name: 'Salon Marie',
   address: '12 rue de la Paix, Paris',
   stripe_account_id: 'acct_123',
+  is_single_tenant: false,
   created_at: '2026-01-01T00:00:00Z',
   updated_at: '2026-01-01T00:00:00Z',
 };

@@ -9,7 +9,7 @@
       <h2 class="mt-6 text-xl font-semibold text-espresso">Créer un compte</h2>
       <p class="mt-1 text-sm text-taupe">
         Déjà inscrit ?
-        <a routerLink="/auth/login" class="font-semibold text-chocolate hover:text-bordeaux transition-colors ml-1">
+        <a routerLink="/auth/login" [queryParams]="returnUrl ? { returnUrl } : {}" class="font-semibold text-chocolate hover:text-bordeaux transition-colors ml-1">
           Se connecter
         </a>
       </p>

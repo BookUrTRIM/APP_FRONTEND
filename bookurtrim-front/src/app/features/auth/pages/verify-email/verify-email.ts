@@ -15,8 +15,10 @@ export class VerifyEmailComponent implements OnInit {
   private authService = inject(AuthService);
   status = signal<VerifyStatus>('loading');
   errorMessage = signal<string>('');
+  returnUrl = signal<string | null>(null);
 
   ngOnInit() {
+    this.returnUrl.set(this.route.snapshot.queryParamMap.get('returnUrl'));
     const state = this.route.snapshot.queryParamMap.get('state');
     if (state === 'check-inbox') {
       this.status.set('check-inbox');

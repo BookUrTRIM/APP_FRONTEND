@@ -1,0 +1,52 @@
+<div class="p-5 rounded-2xl border card-lift flex flex-col justify-between relative overflow-hidden h-full"
+     [ngClass]="{
+       'bg-cream border-beige/40': variant() === 'slate',
+       'bg-espresso border-espresso text-cream': variant() === 'indigo',
+       'bg-chocolate border-chocolate text-cream': variant() === 'emerald'
+     }">
+
+  <!-- Décoration fond pour les cartes sombres -->
+  @if (variant() === 'indigo' || variant() === 'emerald') {
+    <div class="absolute top-0 right-0 -mr-6 -mt-6 opacity-10">
+      <svg class="w-28 h-28" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+      </svg>
+    </div>
+  }
+
+  <div class="flex items-center justify-between gap-2">
+    <p class="text-xs font-semibold uppercase tracking-widest"
+       [ngClass]="{
+         'text-taupe': variant() === 'slate',
+         'text-cream/60': variant() === 'indigo' || variant() === 'emerald'
+       }">
+      {{ title() }}
+    </p>
+    @if (icon()) {
+      <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm"
+           [ngClass]="{
+             'bg-beige': variant() === 'slate',
+             'bg-cream/10': variant() === 'indigo' || variant() === 'emerald'
+           }">
+        {{ icon() }}
+      </div>
+    }
+  </div>
+
+  <div class="mt-4">
+    <p class="font-display text-2xl lg:text-3xl font-semibold italic leading-none"
+       [ngClass]="{
+         'text-gold': variant() === 'slate',
+         'text-cream': variant() === 'indigo' || variant() === 'emerald'
+       }">
+      {{ value() }}
+    </p>
+    <p class="text-xs mt-2 font-medium"
+       [ngClass]="{
+         'text-taupe': variant() === 'slate',
+         'text-cream/50': variant() === 'indigo' || variant() === 'emerald'
+       }">
+      {{ subtext() }}
+    </p>
+  </div>
+</div>

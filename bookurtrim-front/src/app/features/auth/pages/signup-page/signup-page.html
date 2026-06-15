@@ -1,0 +1,19 @@
+<div class="min-h-screen flex items-center justify-center bg-espresso py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+  <div class="absolute top-0 left-0 w-96 h-96 bg-chocolate/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 right-0 w-64 h-64 bg-bordeaux/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-md w-full space-y-8 bg-cream p-10 rounded-3xl shadow-2xl relative z-10">
+    <div class="text-center">
+      <h1 class="font-display text-4xl font-semibold text-espresso italic">BookUr<span class="text-gold">TRIM</span></h1>
+      <p class="mt-1 text-xs text-taupe tracking-widest uppercase">Plateforme beauté</p>
+      <h2 class="mt-6 text-xl font-semibold text-espresso">Créer un compte</h2>
+      <p class="mt-1 text-sm text-taupe">
+        Déjà inscrit ?
+        <a routerLink="/auth/login" [queryParams]="returnUrl ? { returnUrl } : {}" class="font-semibold text-chocolate hover:text-bordeaux transition-colors ml-1">
+          Se connecter
+        </a>
+      </p>
+    </div>
+    <app-signup-form />
+  </div>
+</div>

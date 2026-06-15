@@ -1,0 +1,59 @@
+@if (modal.isOpen()) {
+  <!-- Overlay -->
+  <div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
+    (click)="modal.cancel()">
+
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-espresso/60 backdrop-blur-sm animate-fade-in"></div>
+
+    <!-- Card -->
+    <div class="relative bg-cream rounded-3xl shadow-2xl w-full max-w-sm p-6 space-y-5 animate-fade-in-up"
+      (click)="$event.stopPropagation()">
+
+      <!-- Icône -->
+      <div class="flex justify-center">
+        @if (modal.config()?.variant === 'danger') {
+          <div class="h-14 w-14 rounded-full bg-bordeaux/10 flex items-center justify-center">
+            <svg class="w-7 h-7 text-bordeaux" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </div>
+        } @else {
+          <div class="h-14 w-14 rounded-full bg-gold/10 flex items-center justify-center">
+            <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+            </svg>
+          </div>
+        }
+      </div>
+
+      <!-- Texte -->
+      <div class="text-center">
+        <h3 class="font-display text-xl font-semibold text-espresso italic">
+          {{ modal.config()?.title }}
+        </h3>
+        <p class="mt-2 text-sm text-taupe leading-relaxed">
+          {{ modal.config()?.message }}
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col gap-2">
+        <button type="button" (click)="modal.accept()"
+          class="w-full py-3 rounded-full text-sm font-semibold transition-opacity hover:opacity-90"
+          [class]="modal.config()?.variant === 'danger'
+            ? 'bg-bordeaux text-white'
+            : 'bg-chocolate text-cream'">
+          {{ modal.config()?.confirmText || 'Confirmer' }}
+        </button>
+        <button type="button" (click)="modal.cancel()"
+          class="w-full py-3 rounded-full text-sm font-medium text-taupe hover:text-espresso hover:bg-beige/40 transition-colors">
+          {{ modal.config()?.cancelText || 'Annuler' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+}

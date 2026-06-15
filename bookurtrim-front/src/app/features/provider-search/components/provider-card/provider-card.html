@@ -1,0 +1,32 @@
+<div class="bg-cream rounded-2xl border border-beige/40 p-6 flex flex-col gap-5 card-lift cursor-pointer group"
+  [routerLink]="['/providers', provider().id]">
+
+  <div class="flex items-center gap-4">
+    <div class="h-14 w-14 rounded-full bg-espresso flex items-center justify-center text-cream text-lg font-semibold shrink-0 group-hover:bg-chocolate transition-colors duration-300">
+      {{ getInitials(provider()) }}
+    </div>
+    <div class="min-w-0">
+      <h3 class="font-semibold text-espresso text-base truncate">{{ getFullName(provider()) }}</h3>
+      @if (provider().businessName) {
+        <p class="text-xs text-gold font-medium mt-0.5 italic truncate">{{ provider().businessName }}</p>
+      } @else if (provider().phone) {
+        <p class="text-xs text-taupe mt-0.5">{{ provider().phone }}</p>
+      }
+      @if (provider().address) {
+        <p class="text-xs text-taupe mt-0.5 flex items-center gap-1 truncate">
+          <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          {{ provider().address }}
+        </p>
+      }
+    </div>
+  </div>
+
+  <button type="button"
+    class="w-full mt-auto py-2.5 px-4 rounded-full bg-espresso group-hover:bg-chocolate text-cream text-sm font-medium transition-colors duration-300">
+    Voir les prestations →
+  </button>
+
+</div>

@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ProviderService } from '../../services/provider.service';
 import { ProviderCardComponent } from '../../components/provider-card/provider-card';
+import { AppHeader } from '../../../../shared/components/app-header/app-header';
 
 @Component({
   selector: 'app-provider-list-page',
   standalone: true,
-  imports: [ProviderCardComponent],
+  imports: [ProviderCardComponent, AppHeader],
   templateUrl: './provider-list-page.html',
 })
 export class ProviderListPage implements OnInit {

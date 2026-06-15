@@ -229,7 +229,7 @@ export class BookingPage implements OnInit {
     });
   }
 
-  goBack(): void { this.router.navigate(['/client/providers', this.providerId]); }
+  goBack(): void { this.router.navigate(['/providers', this.providerId]); }
 
   /* ── helpers ── */
   private _generateSlots(date: string, duration: number): { time: string; available: boolean }[] {

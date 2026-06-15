@@ -1,0 +1,24 @@
+<aside class="hidden w-64 h-full bg-espresso text-cream/70 md:flex md:flex-col shadow-lg z-20">
+  <div class="flex items-center justify-center h-20 border-b border-cream/10">
+    <span class="font-display text-2xl font-semibold text-cream tracking-wide italic">BookUrTRIM Pro</span>
+  </div>
+
+  <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+    @for (item of navItems; track item.path) {
+      <a [routerLink]="item.path" routerLinkActive="bg-gold/20 text-gold border-l-2 border-gold"
+        class="flex items-center gap-3 px-4 py-3 hover:bg-cream/10 hover:text-cream rounded-xl transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="item.icon"/>
+        </svg>
+        <span class="text-sm font-medium">{{ item.label }}</span>
+        @if (item.path === stripeConnectPath && showStripeBadge()) {
+          <span class="ml-auto h-2 w-2 rounded-full bg-bordeaux"></span>
+        }
+      </a>
+    }
+  </nav>
+
+  <div class="p-4 border-t border-cream/10">
+    <app-logout-button theme="sidebar" />
+  </div>
+</aside>

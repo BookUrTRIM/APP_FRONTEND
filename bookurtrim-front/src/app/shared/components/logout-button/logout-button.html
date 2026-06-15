@@ -1,0 +1,8 @@
+<button type="button" (click)="onClick()" [class]="buttonClass()">
+  <svg [class]="iconClass()" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="iconPath()"/>
+  </svg>
+  @if (showLabel()) {
+    {{ label() }}
+  }
+</button>

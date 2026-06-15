@@ -1,0 +1,134 @@
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+
+  <!-- En-tête -->
+  <div>
+    <h1 class="font-display text-2xl font-semibold text-gray-900">Mes rendez-vous</h1>
+    <p class="text-sm text-gray-500 mt-1">Retrouvez et gérez l'ensemble de vos réservations.</p>
+  </div>
+
+  @if (errorMessage()) {
+    <div role="alert" class="bg-bordeaux/10 text-bordeaux p-3 rounded-xl text-sm">{{ errorMessage() }}</div>
+  }
+
+  <!-- Skeleton -->
+  @if (isLoading()) {
+    <div class="space-y-4">
+      @for (_ of [1,2,3]; track $index) {
+        <div class="bg-cream rounded-2xl border border-beige/40 p-5 animate-pulse space-y-3">
+          <div class="flex justify-between">
+            <div class="space-y-2">
+              <div class="h-4 bg-gray-200 rounded w-48"></div>
+              <div class="h-5 bg-beige/30 rounded w-32"></div>
+            </div>
+            <div class="h-6 bg-gray-200 rounded-full w-20"></div>
+          </div>
+          <div class="h-9 bg-beige/30 rounded-xl"></div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (!isLoading()) {
+
+    <!-- Section : En attente de paiement -->
+    @if (awaitingPayment().length > 0) {
+      <section class="space-y-3">
+        <div class="flex items-center gap-2">
+          <h2 class="text-sm font-semibold text-yellow-700 uppercase tracking-wide">
+            En attente de paiement
+          </h2>
+          <span class="bg-yellow-100 text-yellow-700 text-xs font-semibold rounded-full px-2 py-0.5">
+            {{ awaitingPayment().length }}
+          </span>
+        </div>
+        @for (appt of awaitingPayment(); track appt.id) {
+          <app-appointment-card
+            [appointment]="appt"
+            (onCancel)="onCancel($event)"
+            (onPay)="onPay($event)" (onPayBalance)="onPayBalance($event)"
+          />
+        }
+      </section>
+    }
+
+    <!-- Onglets -->
+    <div class="flex gap-1 bg-beige/30 p-1 rounded-xl w-fit">
+      <button type="button"
+        (click)="activeTab = 'upcoming'"
+        class="px-4 py-2 text-sm font-medium rounded-lg transition-all"
+        [class.bg-cream]="activeTab === 'upcoming'"
+        [class.shadow-sm]="activeTab === 'upcoming'"
+        [class.text-gray-900]="activeTab === 'upcoming'"
+        [class.text-gray-500]="activeTab !== 'upcoming'">
+        À venir
+        @if (upcoming().length > 0) {
+          <span class="ml-1.5 bg-indigo-600 text-white text-xs rounded-full px-1.5 py-0.5">
+            {{ upcoming().length }}
+          </span>
+        }
+      </button>
+      <button type="button"
+        (click)="activeTab = 'past'"
+        class="px-4 py-2 text-sm font-medium rounded-lg transition-all"
+        [class.bg-cream]="activeTab === 'past'"
+        [class.shadow-sm]="activeTab === 'past'"
+        [class.text-gray-900]="activeTab === 'past'"
+        [class.text-gray-500]="activeTab !== 'past'">
+        Historique
+      </button>
+    </div>
+
+    <!-- À venir (CONFIRMED uniquement) -->
+    @if (activeTab === 'upcoming') {
+      @if (upcoming().length === 0) {
+        <div class="flex flex-col items-center justify-center py-16 text-center animate-fade-in-up">
+          <div class="w-20 h-20 rounded-full bg-beige flex items-center justify-center mb-5">
+            <svg class="w-9 h-9 text-taupe" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3 class="font-display text-xl font-semibold text-espresso italic mb-2">Aucun rendez-vous à venir</h3>
+          <p class="text-taupe text-sm max-w-xs mb-6">Réservez votre prochain rendez-vous beauté depuis la page de votre prestataire.</p>
+        </div>
+      } @else {
+        <div class="space-y-4">
+          @for (appt of upcoming(); track appt.id) {
+            <app-appointment-card
+              [appointment]="appt"
+              (onCancel)="onCancel($event)"
+              (onPay)="onPay($event)" (onPayBalance)="onPayBalance($event)"
+            />
+          }
+        </div>
+      }
+    }
+
+    <!-- Historique -->
+    @if (activeTab === 'past') {
+      @if (past().length === 0) {
+        <div class="flex flex-col items-center justify-center py-16 text-center animate-fade-in-up">
+          <div class="w-20 h-20 rounded-full bg-beige flex items-center justify-center mb-5">
+            <svg class="w-9 h-9 text-taupe" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-display text-xl font-semibold text-espresso italic mb-2">Aucun historique</h3>
+          <p class="text-taupe text-sm">Vos rendez-vous passés apparaîtront ici.</p>
+        </div>
+      } @else {
+        <div class="space-y-4">
+          @for (appt of past(); track appt.id) {
+            <app-appointment-card
+              [appointment]="appt"
+              (onCancel)="onCancel($event)"
+              (onPay)="onPay($event)" (onPayBalance)="onPayBalance($event)"
+            />
+          }
+        </div>
+      }
+    }
+
+  }
+
+</div>

@@ -1,0 +1,70 @@
+<div class="space-y-6 animate-fade-in">
+
+  <!-- En-tête -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h2 class="font-display text-2xl font-semibold text-gray-900">Catalogue de prestations</h2>
+      <p class="text-sm text-gray-500 mt-1">Gérez les services que vous proposez à vos clients.</p>
+    </div>
+    <button
+      type="button"
+      (click)="goToCreate()"
+      class="flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Nouvelle prestation
+    </button>
+  </div>
+
+  <!-- Erreur -->
+  @if (errorMessage()) {
+    <div class="bg-bordeaux/10 text-bordeaux p-3 rounded-lg text-sm">{{ errorMessage() }}</div>
+  }
+
+  <!-- Chargement -->
+  @if (isLoading()) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for (_ of [1,2,3]; track $index) {
+        <div class="bg-cream rounded-xl border border-beige/40 p-5 animate-pulse space-y-3">
+          <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+          <div class="h-3 bg-beige/30 rounded w-1/2"></div>
+          <div class="h-8 bg-beige/30 rounded"></div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Liste -->
+  @if (!isLoading()) {
+    @if (services().length === 0) {
+      <div class="flex flex-col items-center justify-center py-20 text-center">
+        <svg class="w-14 h-14 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+        </svg>
+        <p class="text-gray-500 font-medium">Aucune prestation pour le moment.</p>
+        <p class="text-gray-400 text-sm mt-1">Créez votre première prestation pour commencer.</p>
+        <button
+          type="button"
+          (click)="goToCreate()"
+          class="mt-4 px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors"
+        >
+          Créer une prestation
+        </button>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        @for (service of services(); track service.id) {
+          <app-service-card
+            [service]="service"
+            (onEdit)="onEdit($event)"
+            (onDelete)="onDelete($event)"
+          />
+        }
+      </div>
+    }
+  }
+
+</div>

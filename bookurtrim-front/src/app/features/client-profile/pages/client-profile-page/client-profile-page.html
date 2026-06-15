@@ -1,0 +1,46 @@
+<div class="max-w-2xl mx-auto px-4 py-10 space-y-6">
+
+  <div>
+    <h1 class="font-display text-2xl font-semibold text-gray-900">Mon profil</h1>
+    <p class="mt-1 text-sm text-gray-500">
+      Ces informations aident les prestataires à mieux préparer votre rendez-vous.
+    </p>
+  </div>
+
+  @if (successMessage()) {
+    <div role="status" class="bg-rose/10 text-rose p-3 rounded-lg text-sm font-medium">
+      {{ successMessage() }}
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div role="alert" class="bg-bordeaux/10 text-bordeaux p-3 rounded-lg text-sm">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <div class="bg-cream rounded-2xl shadow-sm border card-lift border-beige/40 p-6">
+    @if (isLoading() && !profile()) {
+      <div class="space-y-4 animate-pulse">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="h-10 bg-beige/30 rounded-lg"></div>
+          <div class="h-10 bg-beige/30 rounded-lg"></div>
+        </div>
+        <div class="h-10 bg-beige/30 rounded-lg"></div>
+        <div class="h-10 bg-beige/30 rounded-lg"></div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="h-10 bg-beige/30 rounded-lg"></div>
+          <div class="h-10 bg-beige/30 rounded-lg"></div>
+        </div>
+        <div class="h-24 bg-beige/30 rounded-lg"></div>
+      </div>
+    } @else if (profile()) {
+      <app-client-profile-form
+        [profile]="profile()!"
+        [isLoading]="isLoading()"
+        (submitted)="onSubmit($event)"
+      />
+    }
+  </div>
+
+</div>

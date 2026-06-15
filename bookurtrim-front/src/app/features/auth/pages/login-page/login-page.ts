@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { LoginFormComponent } from '../../components/login-form/login-form';
 
 @Component({
@@ -8,4 +8,8 @@ import { LoginFormComponent } from '../../components/login-form/login-form';
   imports: [RouterLink, LoginFormComponent],
   templateUrl: './login-page.html',
 })
-export class LoginPage {}
+export class LoginPage {
+  private readonly route = inject(ActivatedRoute);
+
+  readonly returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+}

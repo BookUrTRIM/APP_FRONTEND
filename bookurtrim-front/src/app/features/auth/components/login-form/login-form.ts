@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 export class LoginFormComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly route = inject(ActivatedRoute);
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -38,7 +40,8 @@ export class LoginFormComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.authService.login(this.form.getRawValue()).subscribe({
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    this.authService.login(this.form.getRawValue(), returnUrl).subscribe({
       next: () => {
         this.isLoading = false;
       },

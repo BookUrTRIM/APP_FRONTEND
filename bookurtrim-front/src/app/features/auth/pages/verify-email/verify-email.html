@@ -43,7 +43,7 @@
         <p class="text-slate-500 mt-3 font-medium">
           Votre compte est désormais actif. Vous pouvez vous connecter et profiter de la plateforme.
         </p>
-        <a routerLink="/auth/login" class="mt-8 block w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-colors shadow-sm">
+        <a routerLink="/auth/login" [queryParams]="returnUrl() ? { returnUrl: returnUrl() } : {}" class="mt-8 block w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-colors shadow-sm">
           Me connecter
         </a>
       </div>

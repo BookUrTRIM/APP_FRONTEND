@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserRole } from '../../enums';
 
@@ -15,6 +15,7 @@ export class SignupFormComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   readonly UserRole = UserRole;
 
@@ -59,7 +60,10 @@ export class SignupFormComponent {
     }).subscribe({
       next: () => {
         this.isLoading = false;
-        this.router.navigate(['/auth/verify-email'], {queryParams: { state: 'check-inbox' }});
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        this.router.navigate(['/auth/verify-email'], {
+          queryParams: { state: 'check-inbox', ...(returnUrl ? { returnUrl } : {}) },
+        });
       },
       error: (err) => {
         this.isLoading = false;

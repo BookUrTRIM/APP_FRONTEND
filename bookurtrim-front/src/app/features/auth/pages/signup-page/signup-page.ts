@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SignupFormComponent } from '../../components/signup-form/signup-form';
 
 @Component({
@@ -8,4 +8,8 @@ import { SignupFormComponent } from '../../components/signup-form/signup-form';
   imports: [RouterLink, SignupFormComponent],
   templateUrl: './signup-page.html',
 })
-export class SignupPage {}
+export class SignupPage {
+  private readonly route = inject(ActivatedRoute);
+
+  readonly returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+}

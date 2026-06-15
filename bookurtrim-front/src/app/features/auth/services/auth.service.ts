@@ -30,13 +30,17 @@ export class AuthService {
     }
   });
 
-  login(dto: LoginDTO): Observable<AuthModel> {
+  login(dto: LoginDTO, returnUrl?: string | null): Observable<AuthModel> {
     return this.api.login(dto).pipe(
       map(responseDTO => mapAuthResponseToModel(responseDTO)),
       tap(model => {
         this._saveToStorage(model);
         this._auth.set(model);
-        this._redirectByRole(model.role);
+        if (returnUrl && model.role === UserRole.CLIENT) {
+          this.router.navigateByUrl(returnUrl);
+        } else {
+          this._redirectByRole(model.role);
+        }
       })
     );
   }

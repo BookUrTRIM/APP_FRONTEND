@@ -10,6 +10,7 @@ const makeDTO = (overrides: Partial<ProviderResponseDTO> = {}): ProviderResponse
   id: 1, user_account_id: 2,
   first_name: 'Marie', last_name: 'Dubois',
   phone: null, business_name: null, address: null, stripe_account_id: null,
+  is_single_tenant: false,
   created_at: '', updated_at: '',
   ...overrides,
 });

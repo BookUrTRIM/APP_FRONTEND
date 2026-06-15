@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProviderAccountService } from '../../services/provider-account.service';
@@ -23,6 +23,16 @@ export class ProfilePage implements OnInit {
   readonly errorMessage   = signal('');
   readonly suggestions    = signal<string[]>([]);
   readonly showSuggestions = signal(false);
+  readonly linkCopied     = signal(false);
+  readonly isTogglingSingleTenant = signal(false);
+
+  readonly shareUrl = computed(() => {
+    const provider = this.providerAccountService.provider();
+    if (!provider) return '';
+    return `${window.location.origin}/providers/${provider.id}`;
+  });
+
+  readonly isSingleTenant = computed(() => this.providerAccountService.provider()?.is_single_tenant ?? false);
 
   readonly form = this.fb.nonNullable.group({
     phone:         [''],
@@ -76,6 +86,26 @@ export class ProfilePage implements OnInit {
 
   hideSuggestions(): void {
     setTimeout(() => this.showSuggestions.set(false), 150);
+  }
+
+  toggleSingleTenant(): void {
+    this.isTogglingSingleTenant.set(true);
+    this.providerAccountService.update({ is_single_tenant: !this.isSingleTenant() }).subscribe({
+      next: () => this.isTogglingSingleTenant.set(false),
+      error: () => {
+        this.isTogglingSingleTenant.set(false);
+        this.errorMessage.set('Erreur lors de la mise à jour.');
+      },
+    });
+  }
+
+  copyShareUrl(): void {
+    const url = this.shareUrl();
+    if (!url) return;
+    navigator.clipboard.writeText(url).then(() => {
+      this.linkCopied.set(true);
+      setTimeout(() => this.linkCopied.set(false), 2000);
+    });
   }
 
   save(): void {

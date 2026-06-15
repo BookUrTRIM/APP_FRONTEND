@@ -5,12 +5,16 @@ import { ClientLayout } from './layouts/client-layout/pages/client-layout/client
 import { authGuard } from './features/auth/guard';
 import { clientGuard } from './features/auth/guard';
 import { providerGuard } from './features/auth/guard';
+import { singleTenantGuard } from './features/provider-search/guards/single-tenant.guard';
 
 export const routes: Routes = [
   {
+    // Si le prestataire configuré (environment.providerId) a activé le mode
+    // "single-tenant", l'accueil redirige vers sa page au lieu de la landing.
     path: '',
-    component: LandingPage,
     pathMatch: 'full',
+    component: LandingPage,
+    canActivate: [singleTenantGuard],
   },
   {
     path: 'auth',

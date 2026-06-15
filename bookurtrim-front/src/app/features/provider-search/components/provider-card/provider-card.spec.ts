@@ -10,6 +10,7 @@ const makeProvider = (overrides: Partial<ProviderModel> = {}): ProviderModel => 
   phone: '06 12 34 56 78',
   businessName: 'Salon Marie', address: '12 rue de la Paix',
   stripeAccountId: null,
+  isSingleTenant: false,
   createdAt: '', updatedAt: '',
   ...overrides,
 });

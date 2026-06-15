@@ -12,6 +12,39 @@
     <div role="status" class="bg-rose/10 text-rose p-4 rounded-xl text-sm font-medium">{{ successMessage() }}</div>
   }
 
+  @if (!isLoading() && shareUrl()) {
+    <div class="bg-cream rounded-2xl border border-beige/40 shadow-sm p-6 space-y-2">
+      <label class="block text-sm font-medium text-gray-700">Lien à partager avec vos clients</label>
+      <p class="text-xs text-gray-400">Vos clients pourront voir vos prestations, avis et infos, et prendre rendez-vous depuis ce lien.</p>
+      <div class="flex gap-2">
+        <input type="text" readonly [value]="shareUrl()"
+          class="block w-full px-3 py-2.5 border border-beige rounded-xl text-sm bg-beige/20 text-gray-600 focus:outline-none"/>
+        <button type="button" (click)="copyShareUrl()"
+          class="shrink-0 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+          [class.bg-indigo-600]="!linkCopied()" [class.hover:bg-indigo-700]="!linkCopied()" [class.text-white]="!linkCopied()"
+          [class.bg-rose-100]="linkCopied()" [class.text-rose-700]="linkCopied()">
+          {{ linkCopied() ? 'Copié !' : 'Copier' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="bg-cream rounded-2xl border border-beige/40 shadow-sm p-6 flex items-start justify-between gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Page d'accueil dédiée</label>
+        <p class="text-xs text-gray-400 mt-1">
+          Si activé, les visiteurs qui arrivent sur votre site sont redirigés directement vers votre page (prestations, avis, à propos) au lieu de la page d'accueil générale.
+        </p>
+      </div>
+      <button type="button" role="switch" [attr.aria-checked]="isSingleTenant()"
+        (click)="toggleSingleTenant()" [disabled]="isTogglingSingleTenant()"
+        class="shrink-0 relative inline-flex h-6 w-11 items-center rounded-full transition-colors disabled:opacity-50"
+        [class.bg-indigo-600]="isSingleTenant()" [class.bg-gray-300]="!isSingleTenant()">
+        <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+          [class.translate-x-6]="isSingleTenant()" [class.translate-x-1]="!isSingleTenant()"></span>
+      </button>
+    </div>
+  }
+
   @if (isLoading()) {
     <div class="bg-cream rounded-2xl border border-beige/40 shadow-sm p-8 flex justify-center">
       <svg class="animate-spin h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24">

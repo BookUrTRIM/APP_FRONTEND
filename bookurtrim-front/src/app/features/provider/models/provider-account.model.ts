@@ -8,6 +8,7 @@ export interface ProviderAccountModel {
   address: string | null;
   stripe_account_id: string | null;
   google_calendar_token_enc: string | null;
+  is_single_tenant: boolean;
   created_at: string;
   updated_at: string;
 }

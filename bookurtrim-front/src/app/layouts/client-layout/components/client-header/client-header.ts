@@ -12,7 +12,7 @@ import type { NavItem } from '../../../../shared/models';
 })
 export class ClientHeader {
   readonly navItems: NavItem[] = [
-    { path: '/client/providers', label: 'Rechercher' },
+    { path: '/providers', label: 'Prestataires' },
     { path: '/client/appointments', label: 'Mes rendez-vous' },
     { path: '/client/profile', label: 'Mon profil' },
   ];

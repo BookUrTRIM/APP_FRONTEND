@@ -18,7 +18,7 @@ describe('ClientBottomNav', () => {
 
   it('expose les liens de navigation mobile', () => {
     expect(component.navItems.map(item => item.path)).toEqual([
-      '/client/providers',
+      '/providers',
       '/client/appointments',
       '/client/profile',
     ]);

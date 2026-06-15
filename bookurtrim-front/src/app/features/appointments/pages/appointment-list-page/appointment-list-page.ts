@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentCardComponent } from '../../components/appointment-card/appointment-card';
 import { ConfirmModalService } from '../../../../shared/components/confirm-modal/confirm-modal.service';
@@ -8,7 +8,7 @@ import type { AppointmentModel } from '../../models';
 @Component({
   selector: 'app-appointment-list-page',
   standalone: true,
-  imports: [AppointmentCardComponent, RouterLink],
+  imports: [AppointmentCardComponent],
   templateUrl: './appointment-list-page.html',
 })
 export class AppointmentListPage implements OnInit {

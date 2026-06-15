@@ -22,15 +22,15 @@ export const routes: Routes = [
       import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES),
   },
   {
+    path: 'providers',
+    loadChildren: () =>
+      import('./features/provider-search/provider.routes').then(m => m.PROVIDER_ROUTES),
+  },
+  {
     path: 'client',
     component: ClientLayout,
     canActivate: [authGuard, clientGuard],
     children: [
-      {
-        path: 'providers',
-        loadChildren: () =>
-          import('./features/provider-search/provider.routes').then(m => m.PROVIDER_ROUTES),
-      },
       {
         path: 'profile',
         loadComponent: () =>
@@ -48,7 +48,7 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/payments/payments.routes').then(m => m.PAYMENT_ROUTES),
       },
-      { path: '', redirectTo: 'providers', pathMatch: 'full' },
+      { path: '', redirectTo: 'appointments', pathMatch: 'full' },
     ],
   },
   {
